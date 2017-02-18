@@ -1,49 +1,49 @@
-[![build status](https://secure.travis-ci.org/survivejs/react-book.svg)](http://travis-ci.org/survivejs/react-book) [![Join the chat at https://gitter.im/survivejs/react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/react)
+[![estado de la compilación](https://secure.travis-ci.org/survivejs/react-book.svg)](http://travis-ci.org/survivejs/react-book) [![Únete al chat en https://gitter.im/survivejs/react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/react)
 
 # SurviveJS - React
 
 <img align="right" width="255" height="329" src="manuscript/images/title_page_small.png" />
 
-> **IMPORTANT!** If you want to support the development of this book, you can [purchase a copy at Leanpub](https://leanpub.com/survivejs-react). There's also [a paperback available through Amazon](http://www.amazon.com/SurviveJS-Webpack-React-apprentice-master/dp/152391050X/) (older book covering both Webpack and React).
+> **¡IMPORTANTE!** Si quieres apoyar el desarrollo de este libro puedes [comprar una copia en Leanpub](https://leanpub.com/survivejs-react). También hay [una versión en papel disponible a través de Amazon](http://www.amazon.com/SurviveJS-Webpack-React-apprentice-master/dp/152391050X/) (se trata de una versión anterior que cubre tanto Webpack como React).
 
-This book shows you how to build a little Kanban application using React. During the process you will learn the basics and will be able to take the skills to your own projects. You can [read the book online](http://survivejs.com/react/introduction/).
+Este libro te muestra cómo construir una pequeña aplicación de tipo Kanban utilizando React. Durante el proceso aprenderás los conceptos básicos y serás capaz de adquirir habilidades con las que desarrollar tus propios proyectos. Puedes [leer el libro online](http://survivejs.com/react/introduction/).
 
-## How to Use This Repository?
+## ¿Cómo Utilizar este Repositorio?
 
-The repository has been split in two main parts: `manuscript` and `project_source`. You can find the freely available chapters under `manuscript` organized per chapter. `project_source` contains source associated to each chapter.
+El repositorio ha sido dividido en dos partes principales: `manuscript` (manuscrito) y `project_source` (código fuente). Puedes encontrar los capítulos gratuitos bajo `manuscript` organizados por capítulos. `project_source` contiene el código fuente asociado a cada capítulo..
 
 <img align="left" width="306" height="149" src="manuscript/images/github.png" />
 
-There is no single right way to approach the book. It depends on your experience level and interest. You can build the project from scratch by following the book or you can start from a specific stage. Just pick the source from previous chapter as your starting point.
+No existe una manera correcta de utilizar este libro. Todo depende de tu experiencia previa y del interés que tengas. Puedes construir el proyecto desde cero siguiendo el libro o puedes comenzar desde un punto específico. Tan sólo utiliza el código fuente del capítulo anterior como punto de salida.
 
-Please note that the repository defaults to the `dev` branch of the book. `master` contains the source of the most recent version. Each version has been tagged so that it's easy for you to find the source matching to the version of the book you are reading.
+Por favor, observa que la rama por defecto del libro en este repositorio es `dev`. `master` contiene el código fuente de la versión más reciente. Cada versión ha sido etiquetada de esta manera, así que es fácil encontrar el código fuente de la versión del libro que estés leyendo.
 
-## Getting Support
+## Cómo Obtener Soporte
 
-As no book is perfect, you will likely come by issues and might have some questions related to the content. There are a couple of options to deal with this:
+Dado de ningún libro es perfecto, puede que quieras presentarme cuestiones y problemas que te hayan surgido relacionadas con el contenido. Hay un par de formas de conseguirlo:
 
-* Contact me through [GitHub Issue Tracker](https://github.com/survivejs/react/issues)
-* Join me at [Gitter Chat](https://gitter.im/survivejs/react)
-* Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
-* Send me email at [info@survivejs.com](mailto:info@survivejs.com)
-* Ask me anything about Webpack or React at [SurviveJS AmA](https://github.com/survivejs/ama/issues)
+* Contacta conmigo a través de [el sistema de incidencias de GitHub](https://github.com/survivejs/react/issues)
+* Súmate [al chat de Gitter](https://gitter.im/survivejs/react)
+* Sigue [@survivejs](https://twitter.com/survivejs) en Twitter para recibir novedades oficiales o dame un codazo directamente a través de [@bebraw](https://twitter.com/bebraw)
+* Mándame un correo a [info@survivejs.com](mailto:info@survivejs.com)
+* Pregúntame cualquier cosa sobre Webpack o React en [SurviveJS AmA](https://github.com/survivejs/ama/issues)
 
-If you post questions to [Stack Overflow](http://stackoverflow.com/search?q=survivejs), tag them using [**survivejs**](https://stackoverflow.com/questions/tagged/survivejs) so I will get notified of them. You can also use the hashtag **#survivejs** at Twitter.
+Si haces preguntas en [Stack Overflow](http://stackoverflow.com/search?q=survivejs), etiquétalas utilizando [**survivejs**](https://stackoverflow.com/questions/tagged/survivejs) para que pueda recibir notificaciones. También puedes utiliza el hashtag **#survivejs** en Twitter.
 
-## Announcements
+## Notificaciones
 
-I announce SurviveJS related news through a couple of channels:
+Notifico noticias relacionadas con SurviveJS en un par de canales:
 
-* [Mailing list](http://eepurl.com/bth1v5)
+* [Lista de Correo](http://eepurl.com/bth1v5)
 * [Twitter](https://twitter.com/survivejs)
-* [Blog RSS](http://survivejs.com/atom.xml)
+* [RSS del Blog](http://survivejs.com/atom.xml)
 
-Feel free to subscribe.
+Siéntete libre de subscribirte.
 
-## Contributing
+## Cómo Contribuir
 
-Feedback and PRs are welcome! See *CONTRIBUTING.md* for more information.
+¡Tanto el feedback como los pull requests son bienvenidos! Echa un vistazo a *CONTRIBUTING.md* para obtener más información.
 
-## License
+## Licencia
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a>
