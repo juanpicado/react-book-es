@@ -1,129 +1,129 @@
-# Introduction
+# Introducción
 
-Front-end development moves forward fast. A good indication of this is the pace at which new technologies appear to the scene. [React](https://facebook.github.io/react/) is one of these recent newcomers. Even though the technology itself is simple, there's a lot going on around it.
+El desarrollo del frontend se mueve muy deprisa. Una buena señal de ello es el ritmo en el que están surgiendo nuevas tecnologías. [React](https://facebook.github.io/react/) es uno de los recién llegados. Incluso cuando la tecnología en sí es sencilla, hay mucho movimiento en torno a ella.
 
-The purpose of this book is to help you get started with React and provide understanding of the surrounding ecosystem so you know where to look.
+El objetivo de este libro es ayudarte a comenzar con React y darte perspectiva del ecosistema que hay en torno a él para que sepas por dónde mirar.
 
-Our development setup is based on Webpack. There's [a separate book](http://survivejs.com/webpack/introduction/) that digs into it, but I don't expect you to understand Webpack well to get through this book.
+Nuestro desarrollo va a utilizar Webpack. Hay [un libro aparte](http://survivejs.com/webpack/introduction/) que bucea en él, pero no espero que conozcas Webpack para poder utiliza este libro.
 
-## What is React?
+## ¿Qué es React?
 
-Facebook's React, a JavaScript library, is a component based view abstraction. A component could be a form input, button, or any other element in your user interface. This provides an interesting contrast to earlier approaches as React isn't bound to the DOM by design. You can use it to implement mobile applications for example.
+React de Facebook, una librería JavaScript, es un componente basado en la abstración de las vistas. Un componente puede ser un formulario de entrada, un botón, o cualquier otra cosa del interfaz de usuario. Esto proporciona un contraste interesante con respecto a enfoques anteriores ya que, por diseño, React no está vinculado al árbol DOM. Puedes utilizarlo por ejemplo para desarrollar aplicaciones móviles.
 
-### React is Only One Part of the Whole
+### React es sólo una Parte del Todo
 
-Given React focuses only on the view, you'll likely have to complement it with other libraries to give you the missing bits. This provides an interesting contrast to framework based approaches as they give you a lot more out of the box. Both approaches have their merits. In this book, we will focus on the library oriented approach.
+Tendrás que complementarlo con otras librerías que te den aquello que te falte, ya que React se centra únicamente en la vista. Esto brinda un contraste interesante con respecto a utilizar frameworks que traen mucho más de serie. Ambos enfoques tienen sus méritos. En este libro nos centraremos en el uso de librerías.
 
-Ideas introduced by React have influenced the development of the frameworks. Most importantly it has helped us to understand how well component based thinking fits web applications.
+Las ideas presentadas por React han tenido su influencia el desarrollo de frameworks, aunque más importante es que nos ha ayudado a entender cómo de bien encaja el pensar en componentes en el desarrollo de aplicaciones web.
 
-## What Will You Learn?
+## ¿Qué Vas a Aprender?
 
 ![Kanban application](images/kanban_05.png)
 
-This book teaches you to build a [Kanban](https://en.wikipedia.org/wiki/Kanban) application. Beyond this, more theoretical aspects of web development are discussed. Completing the project gives you a good idea of how to implement something on your own. During the process you will learn why certain libraries are useful and will be able to justify your technology choices better.
+Este libro te enseña a crear una aplicación de tipo [Kanban](https://en.wikipedia.org/wiki/Kanban). Más allá de esto, debatiremos acerca de aspectos de desarrollo web más teóricos. Completar el proyecto te dará una buena idea de cómo implementar algo por tí mismo. Durante el proceso aprenderás por qué ciertas librerías son útiles y serás capaz de justificar mejor la elección de tus tecnologías.
 
-## How is This Book Organized?
+## ¿Cómo está Organizado este Libro?
 
-To get started, we will develop a small clone of a famous [Todo application](http://todomvc.com/). This leads us to problems of scaling. Sometimes, you need to do things the dumb way to understand why better solutions are needed after all.
+Para comenzar, desarrollaremos un pequeño clon de una famosa [aplicación de TODO](http://todomvc.com/). Esto nos llevará a tener problemas de escalado. A menudo es necesario hacer cosas de la forma sencilla para entender por qué al final es necesario usar mejores soluciones.
 
-We will generalize from there and put [Flux architecture](https://facebook.github.io/flux/docs/overview.html) in place. We will apply some [Drag and Drop (DnD) magic](https://gaearon.github.io/react-dnd/) and start dragging things around. Finally, we will get a production grade build done.
+Empezaremos a generalizar en este punto y comenzaremos a utilizar la [arquitectura Flux](https://facebook.github.io/flux/docs/overview.html). Usaremos la magia del [Drag and Drop (DnD)](https://gaearon.github.io/react-dnd/) (arrastrar y soltar) para comenzar a arrastrar cosas por ahí. Al terminar tendremos hecho algo que podremos poner en producción.
 
-The final, theoretical part of the book covers more advanced topics. If you are reading the commercial edition of this book, there's something extra in it for you. I will show you how to deal with typing in React in order to produce higher quality code. You will also learn to test your components and logic. You will learn to style your React application in emerging ways and have a better idea of how to structure your project.
+La parte final y teórica del libro cubre aspectos más avanzados. Si estás leyendo la versión comercial del libro encontrarás algo extra para tí. Te mostraré cómo mejorar al programar con React para que generes código de mayor calidad. También aprenderás a probar tus componentes y tu lógica mediante tests. Aprenderás a dar estilo a tu aplicación hecha con React de varias formas y tendrás una mejor idea de cómo estructurar tu proyecto.
 
-The appendices at the end are meant to give food for thought and explain aspects, such as language features, in greater detail. If there's a bit of syntax that seems weird to you in the book, you'll likely find more information there.
+Los apéndices del final sirven para darte cosas en las que pensar y explicar conceptos, tales como características del lenguaje, en un mayor detalle. Si hay algo de sintaxis en el libro que te resulte extraño seguramente encuentres más información allí.
 
-## What is Kanban?
+## ¿Qué es Kanban?
 
 ![Kanban by Dennis Hamilton (CC BY)](images/kanban_intro.jpg)
 
-Kanban, originally developed at Toyota, allows you to track the status of tasks. It can be modeled in terms of `Lanes` and `Notes`. `Notes` move through `Lanes` representing stages from left to right as they become completed. `Notes` themselves can contain information about the task itself, its priority, and so on as required.
+Kanban, desarrollado originalmente por Toyota, te permite seguir el estado de las tareas. Puede ser modelado en conceptos como `Carriles` y `Notas`. Las `Notas` se mueven entre `Carriles` que representan etapas que van de izquierda a derecha hasta que se completan. Las `Notas` pueden contener información sobre ellas mismas, su prioridad y toda aquello que sea necesario.
 
-The system can be extended in various ways. One simple way is to apply a Work In Progress (WIP) limit per lane. The effect of this is that you are forced to focus on getting tasks done. That is one of the good consequences of using Kanban. Moving those notes around is satisfying. As a bonus you get visibility and know what is yet to be done.
+Este sistema puede ser extendido de varias formas. Una manera sencilla consiste en aplicar un límite de Trabajo En Proceso (WIP) por carril. El objetivo es obligarte a centrarte en tener tareas terminadas, lo cual es una de las consecuencias positivas de utilizar Kanban. Mover estas notas entre carriles es satisfactorio, ya que puedes ver cómo van las tareas y qué tareas hay que hacer todavía.
 
-### Where to Use Kanban?
+### ¿Dónde Podemos Usar Kanban?
 
-This system can be used for various purposes, including software and life management. You could use it to track your personal projects or life goals for instance. Even though it's a simple tool, it's quite powerful, and you can find use for it in many places.
+Este sistema puede utilizarse en varios escenario, incluyendo el desarrollo del software y la gestión eficaz del tiempo. Puedes utilizarlo para hacer un seguimiento sobre tus proyectos personales o tus metas en la vida, por ejemplo. Aunque sea una herramienta muy sencilla es muy poderosa y puedes encontrarle un uso en muchos escenarios.
 
-### How to Build a Kanban?
+### ¿Cómo Construir un Kanban?
 
-The simplest way to build a Kanban is to get a bunch of Post-it notes and find a wall. After that, you split it up into columns. These `Lanes` could consist of the following stages: Todo, Doing, Done. All `Notes` would go to Todo initially. As you begin working on them, you would move them to Doing, and finally, to Done when completed. This is the simplest way to get started.
+La forma más sencilla de construir un Kanban es conseguir un paquete de Post-its y encontrar una pared. Tras esto, la divides en columnas. Estos `Carriles` pueden ser las siguientes etapas: Por Hacer, Haciendo, Hecho. Todas las `Notas`, inicialmente, irán en Por Hacer. A medida que trabajes en ellas las irás moviendo a Haciendo y, finalmente, a Hecho una vez se hayan terminado. Esta es la forma más sencilla de comenzar.
 
-This is just one example of a lane configuration. The lanes can be configured to match your process. There can be approval steps for instance. If you are modeling a software development process, you could have separate lanes for testing and deployment for instance.
+Pero este es símplemente un ejemplo de cómo configurar los carriles, ya que éstos pueden configurarle para encajar con el proceso que quieras seguir. Por ejemplo, puedes incluir pasos que requieran aprobación. Si estás modelando un proceso de desarrollo de software puedes tener, por ejemplo, carriles separados para la realizacion de pruebas y el despliegue.
 
-### Available Kanban Implementations
+### Implementaciones de Kanban Disponibles
 
-[Trello](https://trello.com/) is perhaps the most known online implementation of Kanban. Sprintly has open sourced their [React implementation of Kanban](https://github.com/sprintly/sprintly-kanban). Meteor based [wekan](https://github.com/wekan/wekan) is another good example. Ours won't be as sophisticated as these, but it will be enough to get started.
+Quizá [Trello](https://trello.com/) sea la implementación online más conocida de Kanban. Sprintly ha liberado su [implementación de React de Kanban](https://github.com/sprintly/sprintly-kanban). Otro buen ejemplo es [wekan](https://github.com/wekan/wekan), basado en Meteor. El nuestro no será tan sotisficado como aquellos, pero será lo suficientemente bueno para comenzar.
 
-## Who is This Book for?
+## ¿Para Quién es Este Libro?
 
-I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about React, or ES6, that's great. By reading this book you will deepen your understanding of these technologies.
+Espero que tengas ciertos conocimientos básicos sobre JavaScript y Node.js. Deberías ser capaz de utilizar npm en un nivel básico. Sería genial que supieras algo sobre React o ES6, leyendo este libro obtendrás un mayor entendimiento de estas tecnologías.
 
-One of the hardest things about writing a book is to write it on the right level. Given the book covers a lot of ground, there are appendices that cover basic topics, such as language details, with greater detail than the main content does. So if you are feeling unsure of something, check them out.
+Una de las cosas más difíciles a la hora de escribir un libro es hacerlo al nivel adecuado. Dado que el libro en sí cubre mucho terreno hay apéndices que cubren aspectos básicos, tales como detalles del lenguaje, con un mayor detalle que el incluido en el contenido principal, así que si te sientes inseguro échale un vistazo.
 
-There's also a [community chat](https://gitter.im/survivejs/react) available. If you want to ask something directly, we are there to help. Any comments you might have will go towards improving the book content. The last thing I want is to have someone struggling with the book.
+Además, hay un [chat para la comunidad](https://gitter.im/survivejs/react) disponible. Estamos allí para ayudar si quieres preguntar algo directamente. Los comentarios que puedas tener ayudarán a mejorar el contenido del libro. Lo último que quiero tener es a alguien que se encuentra en apuros mientras está siguiendo el libro.
 
-## How to Approach the Book?
+## ¿Cómo Abordar el Libro?
 
-Although a natural way to read a book is to start from the first chapter and then read the chapters sequentially, that's not the only way to approach this book. The chapter order is just a reading suggestion. Depending on your background, you could consider skimming through the first part and then digging deeper into the advanced topics.
+Aunque la manera natural de leer un libro es comenzar por el primer capítulo y leer el resto de capítulos de forma secuencial, esta no es la única manera de abordar este libro. El orden de los capítulos es únicamente una sugerencia sobre cómo leerlos. Dependiendo de tus conocimientos previos, puede que ojees la primera parte y profundices en los conceptos avanzados.
 
-The book doesn't cover everything you need to know in order to develop front-end applications. That's simply too much for a single book. I do believe, however, that it might be able to push you in the right direction. The ecosystem around React is fairly large and I've done my best to cover a good chunk of it.
+Este libro no cubre todo lo que necesitas saber para desarrollar aplicaciones frontend, ya que es demasiado para un único libro. Creo, sin embargo, que puede ser capaz de empujarte en la dirección correcta. El ecosistema en torno a React es enorme y lo he hecho lo mejor que he podido para cubrir una parte de él.
 
-Given the book relies on a variety of new language features, I've gathered the most important ones used to a separate *Language Features* appendix that provides a quick look at them. If you want to understand the features in isolation or feel unsure of something, that's a good place to look.
+Dado que el libro se basa en varias características nuevas del lenguaje, he reunido las más importantes en un apéndice aparte llamado *Características del Lenguaje* que te ofrece un rápido resumen a todas ellas. Es un buen lugar que revisar si quieres entender algunas de estas características por separado o no estás seguro de algo.
 
-## Book Versioning
+## Versionado del libro
 
-As this book receives a fair amount of maintenance and improvements due to the pace of innovation, there's a rough versioning scheme in place. I maintain release notes for each new version at the [book blog](http://survivejs.com/blog/) to describe what has changed between versions. Also examining the GitHub repository may be beneficial. I recommend using the GitHub *compare* tool for this purpose. Example:
+Se ha definido un esquema de versionado severo dado que este libro recibe mucho mantenimiento y mejoras debido al ritmo de innovación. Mantengo las notas de cada liberación en el [blog del libro](http://survivejs.com/blog/) para indicar qué ha cambiado entre cada versión. Otra cosa beneficiosa es examinar el repositorio de GitHub, recomiendo utilizar la comparación de GitHub con este fin, por ejemplo:
 
 ```
-https://github.com/survivejs/react/compare/v2.1.0...v2.5.7
+https://github.com/survivejs-translations/react-book-es/compare/v2.1.0...v2.5.7
 ```
 
-The page will show you the individual commits that went to the project between the given version range. You can also see the lines that have changed in the book. This excludes the private chapters, but it's enough to give you a good idea of the major changes made to the book.
+Esta página te mostrará los commits individuales que hay en el rango de versiones indicado. También puedes ver qué lineas han cambiado en el libro. Esto excluye los capítulos privados, pero será suficiente para que te hagas una idea de qué cambios se han hecho en el libro.
 
-The current version of the book is **2.5.7**.
+La versión actual del libro es la **2.5.7**.
 
-## Extra Material
+## Material Extra
 
-The book content and source are available at the [book's repository at GitHub](https://github.com/survivejs/react). Please note that the repository defaults to the `dev` branch of the project as this makes it convenient to contribute. To find source matching the version of the book you are reading, use the tag selector at GitHub's user interface as in the image below:
+El contenido del libro y el código fuente están disponibles en el [repositorio del libro de GitHub](https://github.com/survivejs/react). Por favor, sé consciente de que la rama por defecto es `dev` y que esto facilita que sea posible contribuir. Puedes utilizar el selector de etiquetas de GitHub para encontrar el fuente que encaje con la versión del libro que estás leyendo, tal y como se muestra a continuación:
 
 ![GitHub tag selector](images/github.png)
 
-The book repository contains code per chapter. This means you can start from anywhere you want without having to type it all through yourself. If you are unsure of something, you can always refer to that.
+El repositorio del libro contiene el código de cada capítulo. Esto significa que puedes comenzar desde cualquier punto sin tener que escribirlo todo por tí mismo. Si no estás seguro de algo, siempre puedes usarlo como referencia.
 
-You can find a lot of complementary material at the [survivejs organization](https://github.com/survivejs/). Examples of this are alternative implementations of the application available written in [MobX](https://github.com/survivejs/mobx-demo), [Redux](https://github.com/survivejs/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
+Puedes encontrar mucho más material complementario en el repositorio de [survivejs](https://github.com/survivejs/). Hay implementaciones alternativas disponibles de la aplicación escritas en [MobX](https://github.com/survivejs/mobx-demo), [Redux](https://github.com/survivejs/redux-demo), y [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Estudiarlas puede darte una buena idea sobre cómo funcionan las distintas arquitecturas utilizando el mismo ejemplo.
 
-## Getting Support
+## Cómo Obtener Soporte
 
-As no book is perfect, you will likely come by issues and might have some questions related to the content. There are a couple of options to deal with this:
+Dado de ningún libro es perfecto, puede que quieras presentarme cuestiones y problemas que te hayan surgido relacionadas con el contenido. Hay un par de formas de conseguirlo:
 
-* Contact me through the [GitHub Issue Tracker](https://github.com/survivejs/react/issues)
-* Join me at the [Gitter Chat](https://gitter.im/survivejs/react)
-* Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
-* Send me email to [info@survivejs.com](mailto:info@survivejs.com)
-* Ask me anything about Webpack or React at [SurviveJS AmA](https://github.com/survivejs/ama/issues)
+* Contacta conmigo a través de [el sistema de incidencias de GitHub](https://github.com/survivejs/react/issues)
+* Súmate [al chat de Gitter](https://gitter.im/survivejs/react)
+* Sigue [@survivejs](https://twitter.com/survivejs) en Twitter para recibir novedades oficiales o dame un codazo directamente a través de [@bebraw](https://twitter.com/bebraw)
+* Mándame un correo a [info@survivejs.com](mailto:info@survivejs.com)
+* Pregúntame cualquier cosa sobre Webpack o React en [SurviveJS AmA](https://github.com/survivejs/ama/issues)
 
-If you post questions to Stack Overflow, tag them using **survivejs** so I will get notified of them. You can use the hashtag **#survivejs** at Twitter for same effect.
+Si haces preguntas en [Stack Overflow](http://stackoverflow.com/search?q=survivejs), etiquétalas utilizando [**survivejs**](https://stackoverflow.com/questions/tagged/survivejs) para que pueda recibir notificaciones. También puedes utiliza el hashtag **#survivejs** en Twitter.
 
-I have tried to cover some common issues at the *Troubleshooting* appendix. That will be expanded as common problems are found.
+He tratado de cubrir algunos problemas comunes en el apéndice *Solución de Problemas*, el cual crecerá a medida que se vayan encontrando más problemas comunes.
 
-## Announcements
+## Notificaciones
 
-I announce SurviveJS related news through a couple of channels:
+Notifico noticias relacionadas con SurviveJS en un par de canales:
 
-* [Mailing list](http://eepurl.com/bth1v5)
+* [Lista de Correo](http://eepurl.com/bth1v5)
 * [Twitter](https://twitter.com/survivejs)
-* [Blog RSS](http://survivejs.com/atom.xml)
+* [RSS del Blog](http://survivejs.com/atom.xml)
 
-Feel free to subscribe.
+Siéntete libre de subscribirte.
 
-## Acknowledgments
+## Agradecimientos
 
-An effort like this wouldn't be possible without community support. There are a lot of people to thank as a result!
+No habría sido posible realizar un esfuerzo como este sin el apoyo de la comunidad. Como resultado ¡hay mucha gente a la que dar las gracias!
 
-Big thanks to [Christian Alfoni](http://www.christianalfoni.com/) for starting the [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) with me. That work eventually led to this book and eventually became [a book of its own](http://survivejs.com/webpack/introduction).
+Un enorme agradecimiento a [Christian Alfoni](http://www.christianalfoni.com/) por comenzar el libro [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) conmigo. Aquel trabajo finalmente lideró este libro y finalmente se convirtió en [un libro por sí mismo](http://survivejs.com/webpack/introduction).
 
-The book wouldn't be half as good as it is without patient editing and feedback by my editor [Jesús Rodríguez Rodríguez](https://github.com/Foxandxss). Thank you.
+Este libro no podría ser la mitad de bueno sin la paciencia y el feedback de mi editor [Jesús Rodríguez Rodríguez](https://github.com/Foxandxss). Gracias.
 
-Special thanks to Steve Piercy for numerous contributions. Thanks to [Prospect One](http://prospectone.pl/) and [Dixon & Moe](http://dixonandmoe.com/) for helping with the logo and graphical outlook. Thanks for proofreading to Ava Mallory and EditorNancy from fiverr.com.
+Un agradecimiento especial para Steve Piercy por sus numerosas contribuciones. Gracias a [Prospect One](http://prospectone.pl/) y [Dixon & Moe](http://dixonandmoe.com/) por ayudarme con el logo y el aspecto gráfico. Gracias por las revisiones a Ava Mallory y EditorNancy de fiverr.com.
 
-Numerous individuals have provided support and feedback along the way. Thank you in no particular order Vitaliy Kotov, @af7, Dan Abramov, @dnmd, James Cavanaugh, Josh Perez, Nicholas C. Zakas, Ilya Volodin, Jan Nicklas, Daniel de la Cruz, Robert Smith, Andreas Eldh, Brandon Tilley, Braden Evans, Daniele Zannotti, Partick Forringer, Rafael Xavier de Souza, Dennis Bunskoek, Ross Mackay, Jimmy Jia, Michael Bodnarchuk, Ronald Borman, Guy Ellis, Mark Penner, Cory House, Sander Wapstra, Nick Ostrovsky, Oleg Chiruhin, Matt Brookes, Devin Pastoor, Yoni Weisbrod, Guyon Moree, Wilson Mock, Herryanto Siatono, Héctor Cascos, Erick Bazán, Fabio Bedini, Gunnari Auvinen, Aaron McLeod, John Nguyen, Hasitha Liyanage, Mark Holmes, Brandon Dail, Ahmed Kamal, Jordan Harband, Michel Weststrate, Ives van Hoorne, Luca DeCaprio, @dev4Fun, Fernando Montoya, Hu Ming, @mpr0xy, David "@davegomez" Gómez, Aleksey Guryanov, Elio D'antoni, Yosi Taguri, Ed McPadden, Wayne Maurer, Adam Beck, Omid Hezaveh, Connor Lay, Nathan Grey, Avishay Orpaz, Jax Cavalera, Juan Diego Hernández, Peter Poulsen, Harro van der Klauw, Tyler Anton, Michael Kelley, @xuyuanme, @RogerSep, Jonathan Davis, @snowyplover, Tobias Koppers, Diego Toro, George Hilios, Jim Alateras, @atleb, Andy Klimczak, James Anaipakos, Christian Hettlage, Sergey Lukin, Matthew Toledo, Talha Mansoor, Pawel Chojnacki, @eMerzh, Gary Robinson, Omar van Galen, Jan Van Bruggen, Savio van Hoi, Alex Shepard, Derek Smith, Tetsushi Omi, Maria Fisher, Rory Hunter, Dario Carella, Toni Laukka, Blake Dietz, Felipe Almeida, Greg Kedge, Deepak Kannan, Jake Peyser, Alfred Lau, Tom Byrer, Stefanos Grammenos, Lionel Ringenbach, Hamilton Greene, Daniel Robinson, @karloxyz, Nicolò Ribaudo, Andrew Wooldridge, Francois Constant, Wes Price, Dawid Karabin, @alavkx, Aitor Gómez-Goiri, P.E. Butler III, @TomV, John Korzhuk, @markfox1, Jaime Liz, Richard C. Davis, and many others. If I'm missing your name, I might have forgotten to add it.
+Muchas personas a título individual han dado soporte y feedback a lo largo del camino. Gracias en un order sin nada en particular a Vitaliy Kotov, @af7, Dan Abramov, @dnmd, James Cavanaugh, Josh Perez, Nicholas C. Zakas, Ilya Volodin, Jan Nicklas, Daniel de la Cruz, Robert Smith, Andreas Eldh, Brandon Tilley, Braden Evans, Daniele Zannotti, Partick Forringer, Rafael Xavier de Souza, Dennis Bunskoek, Ross Mackay, Jimmy Jia, Michael Bodnarchuk, Ronald Borman, Guy Ellis, Mark Penner, Cory House, Sander Wapstra, Nick Ostrovsky, Oleg Chiruhin, Matt Brookes, Devin Pastoor, Yoni Weisbrod, Guyon Moree, Wilson Mock, Herryanto Siatono, Héctor Cascos, Erick Bazán, Fabio Bedini, Gunnari Auvinen, Aaron McLeod, John Nguyen, Hasitha Liyanage, Mark Holmes, Brandon Dail, Ahmed Kamal, Jordan Harband, Michel Weststrate, Ives van Hoorne, Luca DeCaprio, @dev4Fun, Fernando Montoya, Hu Ming, @mpr0xy, David "@davegomez" Gómez, Aleksey Guryanov, Elio D'antoni, Yosi Taguri, Ed McPadden, Wayne Maurer, Adam Beck, Omid Hezaveh, Connor Lay, Nathan Grey, Avishay Orpaz, Jax Cavalera, Juan Diego Hernández, Peter Poulsen, Harro van der Klauw, Tyler Anton, Michael Kelley, @xuyuanme, @RogerSep, Jonathan Davis, @snowyplover, Tobias Koppers, Diego Toro, George Hilios, Jim Alateras, @atleb, Andy Klimczak, James Anaipakos, Christian Hettlage, Sergey Lukin, Matthew Toledo, Talha Mansoor, Pawel Chojnacki, @eMerzh, Gary Robinson, Omar van Galen, Jan Van Bruggen, Savio van Hoi, Alex Shepard, Derek Smith, Tetsushi Omi, Maria Fisher, Rory Hunter, Dario Carella, Toni Laukka, Blake Dietz, Felipe Almeida, Greg Kedge, Deepak Kannan, Jake Peyser, Alfred Lau, Tom Byrer, Stefanos Grammenos, Lionel Ringenbach, Hamilton Greene, Daniel Robinson, @karloxyz, Nicolò Ribaudo, Andrew Wooldridge, Francois Constant, Wes Price, Dawid Karabin, @alavkx, Aitor Gómez-Goiri, P.E. Butler III, @TomV, John Korzhuk, @markfox1, Jaime Liz, Richard C. Davis, y muchos otros. Si no he puesto tu nombre puede que haya olvidado incluirlo.
