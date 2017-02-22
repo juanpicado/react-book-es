@@ -1,47 +1,47 @@
-# Setting Up the Project
+# Configurando el Proyecto
 
-To make it easier to get started, I've set up a simple Webpack based boilerplate that allows us to dig into React straight away. The boilerplate includes a development mode with a feature known as *hot loading* enabled.
+Para que comenzar sea más sencillo he configurado una esqueleto basado en Webpack que nos permitirá adentrarnos en React de forma directa. Este esqueleto incluye un modo de desarrollo con una característica conocida como *recarga en caliente*.
 
-Hot loading allows Webpack to patch the code running in the browser without a full refresh. It works the best especially with styling although React supports it fairly well too.
+La recarga en caliente le permite a Webpack a cambiar el código que se está ejecutando en el navegador sin tener que recargarlo todo. Funciona genial, especialmente a la hora de trabajar con estilos, aunque el soporte de React es también bastante bueno.
 
-Unfortunately it's not a fool proof technology and it won't be able to detect all changes made to the code. This means there will be times when you need to force a hard refresh to make the browser to catch the recent changes.
+Por desgracia no es una tecnología a prueba de fallos y no siempre es capaz de detectar todos los cambios que se hayan hecho en el código, lo que significa que habrá veces que tendrás que recargar el navegador a mano para que éste tenga los últimos cambios.
 
-T> Common editors (Sublime Text, Visual Studio Code, vim, emacs, Atom and such) have good support for React. Even IDEs, such as [WebStorm](https://www.jetbrains.com/webstorm/), support it up to an extent. [Nuclide](http://nuclide.io/), an Atom based IDE, has been developed with React in mind. Make sure you have React related plugins installed and enabled.
+T> Los editores de texto más comunes (Sublime Text, Visual Studio Code, vim, emacs, Atom, etc) tienen un buen soporte para React. Incluso los IDEs, como [WebStorm](https://www.jetbrains.com/webstorm/), tienen soporte hasta cierto punto. [Nuclide](http://nuclide.io/), un IDE basado en Atom, ha sido desarrollado con React en mente. Asegúrate de que tienes los plugins de React instalados y funcionando.
 
-W> If you use an IDE, disable a feature known as **safe write**. It is known to cause issues with the setup we'll be using in this book.
+W> Si utilizas un IDE, deshabilita una característica conocida como **escritura segura**. Se sabe que causa problemas con la configuración que vamos a utilizar en este libro.
 
-## Setting Up Node.js and Git
+## Configuración de Node.js y Git
 
-To get started, make sure you have fresh versions of [Node.js](https://nodejs.org) and [Git](https://git-scm.com/) installed. I recommend using at least the LTS version of Node.js. You might run into hard to debug issues with older versions. Same can apply to versions newer than LTS because of their bleeding edge status.
+Antes de comenzar, asegúrate de que tienes instaladas las últimas versiones tanto de  [Node.js](https://nodejs.org) como de [Git](https://git-scm.com/). Te recomiento que utilices, al menos, la última versión LTS de Node.js. Puede que tengas errores difíciles de depurar con versiones anteriores, y lo mismo puede ocurrir con versiones posteriores a la LTS.
 
-T> One interesting option is to manage your environment through [Vagrant](https://www.vagrantup.com/) or a tool like [nvm](https://www.npmjs.com/package/nvm).
+T> Una opción interesante es gestionar tu entorno a través de [Vagrant](https://www.vagrantup.com/) o mediante una herramienta como [nvm](https://www.npmjs.com/package/nvm).
 
-### Downloading the Boilerplate
+### Descargando el Esqueleto
 
-In order to fetch the boilerplate our project needs, clone it through Git as follows at your terminal:
+Para poder descargar el esqueleto que nuestro proyecto necesita, clónalo con Git de la siguiente manera desde una terminal:
 
 ```bash
 git clone https://github.com/survivejs/react-boilerplate.git kanban-app
 ```
 
-This will create a new directory, *kanban-app*. Inside it you can find everything we need to get ahead. As the boilerplate can change between book versions, I recommend you check out the version specific of it:
+Esto creará un nuevo directorio llamado *kanban-app*. Dentro encontrarás todo lo que necesitas para poder avanzar. Ya que el esqueleto puede cambiar dependiendo de la versión del libro, te recomiendo que cambies a la versión específica del mismo:
 
 ```bash
 cd kanban-app
 git checkout v2.5.6
 ```
 
-The repository contains a small seed application that shows `Hello World!` and basic Webpack configuration. To get the seed application dependencies installed, execute
+El repositorio contiene una pequeña aplicación a modo de semilla que muestra un `Hello World!` y una configuración de Webpack básica. Para instalar las dependencias de la semilla simplemente ejecuta:
 
 ```bash
 npm install
 ```
 
-Upon completion you should see a `node_modules/` directory containing the project dependencies.
+Una vez termine deberás ver un directorio llamado `node_modules/` con todas las dependencias del proyecto.
 
-### Create a Fresh Git Repository for Your Project
+### Creando un Repositorio Nuevo de Git para tu Proyecto
 
-Your freshly checked out project includes the history of the the  `react-boilerplate` project. That history is not really relevant to your new project, so now is a good time to clear the git history, and start a fresh repository. This new repository will reflect the evolution of your project. In your initial commit, you may want to mention the baseline version of the boilerplate.
+No sólo te has descargado el proyecto `react-boilerplate`, sino que además te has descargado el historial del mismo. Este historial no es realmente importante para tu nuevo proyecto, así que es un buen momento para borrar el historial de git y comenzar con un repositorio limpio. Este nuevo repositorio reflejará la evolución de tu proyecto. Es una buena idea que, en el commit inicial, menciones la versión del esqueleto de la que partes:
 
 ```
 rm -rf .git
@@ -49,11 +49,12 @@ git init
 git add .
 git commit -am "New project based on react-boilerplate (v2.5.6)"
 ```
-After this process you have a fresh project to work against.
 
-## Running the Project
+Tras esto tendrás un repositorio limpio en el que trabajar.
 
-To get the project running, execute `npm start`. You should see something like this at the terminal if everything went right:
+## Ejecutando el Proyecto
+
+Ejecuta `npm start` para arrancar el proyecto. Deberías tener una salida como la siguiente si todo ha ido bien:
 
 ```bash
 > webpack-dev-server
@@ -67,62 +68,62 @@ Child html-webpack-plugin for "index.html":
 webpack: bundle is now VALID.
 ```
 
-In case you received an error, make sure there isn't something else running in the same port. You can run the application through some other port easily using an invocation such as `PORT=3000 npm start` (Unix only). The configuration will pick up the new port from the environment. If you want to fix the port to something specific, adjust its value at *webpack.config.js*.
+En caso de que recibas un error asegúrate de que no tengas ningún otro proceso escuchando en el mismo puerto. Puedes hacer que la aplicación escuche en otro puerto distinto usando un comando similar a `PORT=3000 npm start` (sólo para Unix). La configuración utilizará el puerto que hayas indicado en la variable de entorno. Si quieres fijar el puerto con un valor específico configúralo en el fichero *webpack.config.js*.
 
-Assuming everything went fine, you should see something like this at the browser:
+Si todo ha ido bien deberás ver algo como esto en el navegador:
 
 ![Hello world](images/hello_01.png)
 
-You can try modifying the source to see how hot loading works.
+Puedes probar a modificar el código fuente para ver cómo funciona la recarga en caliente.
 
-I'll discuss the boilerplate in greater detail next so you know how it works. I'll also cover the language features we are going to use briefly.
+Hablaré del esqueleto con más detalle más adelante para que sepas cómo funciona. También mostraré brevemente qué características del lenguaje vamos a utilizar.
 
-T> The techniques used by the boilerplate are covered in greater detail at [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/).
+T> Las técnicas utilizadas en el esqueleto están cubiertas con más detalle en [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/).
 
-## Boilerplate npm `scripts`
+## `scripts` de npm presentes en el Esqueleto
 
-Our boilerplate is able to generate a production grade build with hashing. There's also a deployment related target so that you can show your project to other people through [GitHub Pages](https://pages.github.com/). I've listed all of the `scripts` below:
+Nuestro esqueleto es capaz de generar una aplicación que puede ser desplegada en producción. Hay una meta relacionada con el proceso de despliegue con la que podrás mostrar tu proyecto a otras personas mediante [GitHub Pages](https://pages.github.com/). A continuación tienes una lista con todos los `scripts`:
 
-* `npm run start` (or `npm start`) - Starts the project in the development mode. Surf to `localhost:8080` in your browser to see it running.
-* `npm run build` - Generates a production build below `build/`. You can open the generated *index.html* through the browser to examine the result.
-* `npm run deploy` - Deploys the contents of `build/` to the *gh-pages* branch of your project and pushes it to GitHub. You can access the project below `<user>.github.io/<project>` after that. Before this can work correctly, you should set `publicPath` at *webpack.config.js* to match your project name on GitHub.
-* `npm run stats` - Generates statistics (*stats.json*) about the project. You can [analyze the build output](http://survivejs.com/webpack/building-with-webpack/analyzing-build-statistics/) further.
-* `npm run test` (or `npm test`) - Executes project tests. The *Testing React* chapter digs deeper into the topic. In fact, writing tests against your components can be a good way to learn to understand React better.
-* `npm run test:tdd` - Executes project tests in TDD mode. This means it will watch for changes and run the tests when changes are detected allowing you to develop fast without having to run the tests manually.
-* `npm run test:lint` - Executes [ESLint](http://eslint.org/) against the code. ESLint is able to catch smaller issues. You can even configure your development environment to work with it. This allows you to catch potential mistakes as you make them. Our setup lints even during development so you rarely need to execute this command yourself.
+* `npm run start` (o `npm start`) - Ejecuta el proyecto en modo desarrollo. Navega hacia `localhost:8080` desde tu navegador para verlo funcionando.
+* `npm run build` - Produce una compilación lista para producción en `build/`. Puedes abrir el fichero *index.html* en el navegador para ver el resultado.
+* `npm run deploy` - Despliega el contenido de `build/` en la rama *gh-pages* de tu proyecto y lo sube a GitHub. Podrás acceder al proyecto a través de la URL `<usuario>.github.io/<proyecto>`. Para que funcione correctamente deberás configurar la variable `publicPath` del fichero *webpack.config.js* para que encaje con el nombre de tu proyecto en GitHub.
+* `npm run stats` - Genera estadísticas (*stats.json*) sobre el proyecto. Puedes [analizar los resultados](http://survivejs.com/webpack/building-with-webpack/analyzing-build-statistics/) más adelante.
+* `npm run test` (o `npm test`) - Ejecuta los tests del proyecto. El capítulo *Testing React* entra más adelante en este asunto. De hecho, una buena manera de aprender mejor cómo funciona React es escribir tests que prueben tus componentes.
+* `npm run test:tdd` - Ejecuta los tests del proyecto en modo TDD, lo que significa que se quedará a la espera de cambios en los ficheros y lanzará los tests cuando se detecten cambios, lo que te permititá ir más deprisa ya que te evitará tener que lanzar los tests manualmente.
+* `npm run test:lint` - Ejecuta [ESLint](http://eslint.org/) contra el código. ESLint es capaz de capturar pequeños problemas. Puedes configurar tu entorno de desarrollo para que lo utilice y te permitirá capturar errores potenciales a medida que los cometas.
 
-Study the `"scripts"` section of *package.json* to understand better how each of these works. There is quite a bit configuration. See [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/) to dig deeper into the topic.
+Revisa la sección `"scripts"` del fichero *package.json* para entender mejor cómo funciona cada uno de ellos. Es casi como configuración. Echa un vistazo a [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/) para saber más sobre este tema.
 
-## Boilerplate Language Features
+## Características del Lenguaje Presentes en el Esqueleto
 
 ![Babel](images/babel.png)
 
-The boilerplate relies on a transpiler known as [Babel](https://babeljs.io/). It allows us to use features from the future of JavaScript. It transforms your code to a format understandable by the browsers. You can even use it to develop your own language features. It supports JSX through a plugin.
+El esqueleto depende de un transpilador llamado [Babel](https://babeljs.io/) que nos permite utilizar características del JavaScript del futuro. Se encarga de transformar tu código en un formato que los navegadores puedan entender. Puedes incluso desarrollar tus propias características del lenguaje. Permite el uso de JSX mediante un plugin.
 
-Babel provides support for certain [experimental features](https://babeljs.io/docs/plugins/#stage-x-experimental-presets-) from ES7 beyond standard ES6. Some of these might make it to the core language while some might be dropped altogether. The language proposals have been categorized within stages:
+Babel da soporte a algunas [características experimentales](https://babeljs.io/docs/plugins/#stage-x-experimental-presets-) de ES7 que van más allá de ES6. Algunas de ellas podrían llegar formar parte del lenguaje, mientras que otras podrían ser eliminadas por completo. Las propuestas del lenguaje han sido categorizadas en etapas:
 
-* **Stage 0** - Strawman
-* **Stage 1** - Proposal
-* **Stage 2** - Draft
-* **Stage 3** - Candidate
-* **Stage 4** - Finished
+* **Etapa 0** - Hombre de paja
+* **Etapa 1** - Propuesta
+* **Etapa 2** - Borrador
+* **Etapa 3** - Candidata
+* **Etapa 4** - Finalizada
 
-I would be very careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk, though.
+Yo tendría mucho cuidado con las características de la **etapa 0**. El problema es que acabará rompiendo código que habrá que reescribir en caso de ésta cambie o sea borrada. Quizá en pequeños problemas experimentales merezca la pena correr el riesgo.
 
-In addition to standard ES2015 and JSX, we'll be using a few custom features in this project. I've listed them below. See the *Language Features* appendix to learn more of each.
+Además del ES2015 estándar y de JSX, vamos a utilizar algunas características extra en este proyecto. Las he listado a continuación. Echa un vistazo al apéndice *Características del Lenguaje* para saber más sobre ellas.
 
-* [Property initializers](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `addNote = (e) => {`. This binds the `addNote` method to an instance automatically. The feature makes more sense as we get to use it.
-* [Decorators](https://github.com/wycats/javascript-decorators) - Example: `@DragDropContext(HTML5Backend)`. These annotations allow us to attach functionality to classes and their methods.
-* [Object rest/spread](https://github.com/sebmarkbage/ecmascript-rest-spread) - Example: `const {a, b, ...props} = this.props`. This syntax allows us to easily extract specific properties from an object.
+* [Inicializadores de propiedades](https://github.com/jeffmo/es-class-static-properties-and-fields) - Ejemplo: `addNote = (e) => {`. Esto relaciona al método `addNote` automáticamente a una instancia. Esta característica tendrá más sentido a medida que la vayamos utilizando.
+* [Decoradores](https://github.com/wycats/javascript-decorators) - Ejemplo: `@DragDropContext(HTML5Backend)`. Estas anotaciones nos permitirán incluir funcionalidad a clases y a sus métodos.
+* [rest/spread de Objetos](https://github.com/sebmarkbage/ecmascript-rest-spread) - Ejemplo: `const {a, b, ...props} = this.props`. Esta sintaxis nos permite recuperar fácilmente propiedades específicas de un objeto.
 
-In order to make it easier to set up the features, I created [a specific preset](https://github.com/survivejs/babel-preset-survivejs-kanban). It also contains [babel-plugin-transform-object-assign](https://www.npmjs.com/package/babel-plugin-transform-object-assign) and [babel-plugin-array-includes](https://www.npmjs.com/package/babel-plugin-array-includes) plugins. The former allows us to use `Object.assign` while the latter provides `Array.includes` without having to worry about shimming these for older environments.
+He creado un [preset](https://github.com/survivejs/babel-preset-survivejs-kanban) para que sea más sencillo configurar estas características. Contiene los plugins [babel-plugin-transform-object-assign](https://www.npmjs.com/package/babel-plugin-transform-object-assign) y [babel-plugin-array-includes](https://www.npmjs.com/package/babel-plugin-array-includes). El primero nos permite usar `Object.assign` mientras que el último incluye `Array.includes` sin que tengamos que preocuparnos de compatibilidades con entornos antiguos.
 
-A preset is simply a npm module exporting Babel configuration. Maintaining presets like this can be useful especially if you want to share the same set of functionality across multiple projects.
+Un preset es simplemente un módulo de npm que exporta configuración de Babel. Mantener presets como éste puede ser útil si quieres mantener el mismo conjunto de funcionalidades entre varios proyectos.
 
-T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of code it generates.
+T> Puedes [probar Babel online](https://babeljs.io/repl/) para ver el tipo de código que genera.
 
-T> If you are interested in a lighter alternative, check out [Bublé](https://gitlab.com/Rich-Harris/buble).
+T> Si estás interesado en una alternativa más ligera, echa un vistazo a [Bublé](https://gitlab.com/Rich-Harris/buble).
 
-## Conclusion
+## Conclusión
 
-Now that we have a simple "Hello World!" application running, we can focus on development. Developing and getting into trouble is a good way to learn after all.
+Ahora que tenemos el clásico "Hello World!" funcionando podemos centrarnos en el desarrollo. Desarrollar y tener problemas es una buena forma de aprender después de todo.
