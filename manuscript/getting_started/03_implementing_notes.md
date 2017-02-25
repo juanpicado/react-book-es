@@ -1,10 +1,10 @@
-# Implementing a Note Application
+# Implementando una Aplicación de Notas
 
-Now that we have a nice development setup, we can actually get some work done. Our goal here is to end up with a crude note-taking application. It will have basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures, such as Flux, are needed.
+Ahora que tenemos un buen entorno de desarrollo podemos hacer algo que funcione. Nuestra meta ahora es acabar teniendo una aplicación primitiva que permita tomar notas. Tendremos las operaciones de manipulación básicas. Haremos que nuestra aplicación crezca desde la nada y nos meteremos en problemas, lo que nos permitirá entender por qué son necesarias arquitecturas como Flux.
 
-## Initial Data Model
+## Modelo de Datos Inicial
 
-Often a good way to begin designing an application is to start with the data. We can model a list of notes as follows:
+A menudo, una buena forma de comenzar con el desarrollo de una aplicación es empezar con los datos. Podemos modelar una lista de notas tal y como sigue:
 
 ```javascript
 [
@@ -19,15 +19,15 @@ Often a good way to begin designing an application is to start with the data. We
 ];
 ```
 
-Each note is an object which will contain the data we need, including an `id` and a `task` we want to perform. Later on it is possible to extend this data definition to include things like the note color or the owner.
+Cada nota es un objeto que contiene los datos que necesitamos, incluyendo un identificador (`id`) y el nombre de la tarea (`task`) que queremos llevar a cabo. Más adelante podremos extender esta definición para incluir cosas como el color de las notas o su propietario.
 
-We could have skipped ids in our definition. This would become problematic as we grow the application and add the concept of references to it. Each Kanban lane needs to be able to refer to some notes after all. By adopting proper indexing early on, we save ourselves some effort later.
+Podríamos haber ignorado los identificadores en nuestra definición, pero esto puede volverse un problema a medida que la aplicación crece si tratamos de referenciarlas. Al fin y al cabo, cada columna de Kanban necesita ser capaz de referenciar algunas notas. Adoptando los índices desde el principio ahorraremos algo de esfuerzo más adelante.
 
-T> Another interesting way to approach data would be to normalize it. In this case we would end up with a `[<id> -> { id: '...', task: '...' }]` kind of structure. Even though there's some redundancy, it is convenient to operate using the structure as it gives us easy access by index. The structure becomes even more useful once we start getting references between data entities.
+T> Otra forma interesante de aproximarse a los datos puede ser normalizarlos. En este caso podríamos acabar con una estructura del tipo `[<id> -> { id: '...', task: '...' }]`. Incluso aunque quizá tenga algo de redundante, es conveniente utilizar la estructura de esta forma ya que nos facilita poder acceder mediante a los elementos mediante el índice. La estructura se volverá más útil todavía una vez empecemos a tener referencias entre entidades.
 
-## Rendering Initial Data
+## Renderizado de los Datos Iniciales
 
-Now that we have a rough data model together, we can try rendering it through React. We are going to need a component to hold the data. Let's call it `Notes` for now. We can grow from that as we want more functionality. Set up a file with a small dummy component as follows:
+Ahora que tenemos un modelo de datos inicial, podemos tratar de renderizarlo utilizando React. Vamos a necesitar un componente que retenga los datos, lo llamaremos `Notes` de momento y lo haremos crecer si queremos que tenga más funcionalidad. Crea un fichero con un componente sencillo como el siguiente:
 
 **app/components/Notes.jsx**
 
@@ -52,12 +52,12 @@ export default () => (
 )
 ```
 
-We are using various important features of JSX in the snippet above. I have annotated the difficult parts below:
+Estamos utilizando algunas características importantes de JSX en el trozo de código anterior. He destacado las partes más difíciles:
 
-* `<ul>{notes.map(note => ...)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
-* `<li key={note.id}>{note.task}</li>` - In order to tell React which items have been changed, added, or removed, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/lists-and-keys.html#rendering-multiple-components) for more information.
+* `<ul>{notes.map(note => ...)}</ul>` - `{}` nos permite mexclar sintaxis de JavaScript con JSX. `map` devuelve una lista de elementos `li` para que React los renderice.
+* `<li key={note.id}>{note.task}</li>` - Usamos la propiedad `key` para poder decirte a React qué items han sido cambiandos, modificados o borrados. Es importante que sea único ya que, sino, React no será capaz de saber el orden correcto en el que debe renderizarlos. React mostrará una advertencia si no se establecen. Puedes leer el enlace al artículo [Varios Componentes](https://facebook.github.io/react/docs/lists-and-keys.html#rendering-multiple-components) para obtener más información.
 
-We also need to refer to the component from the entry point of our application:
+Necesitamos hacer referencia al componente desde el punto de entrada de nuestra aplicación:
 
 **app/index.jsx**
 
@@ -83,17 +83,17 @@ leanpub-end-insert
 );
 ```
 
-If you run the application now, you should see a list of notes. It's not particularly pretty or useful yet, but it's a start:
+Si ejecutas la aplicación verás una lista de notas. No es especialmente bonito ni útil todavía pero es un comienzo:
 
 ![A list of notes](images/react_03.png)
 
-T> We need to `import` React to *Notes.jsx* given there's that JSX to JavaScript transformation going on. Without it the resulting code would fail.
+T> Necesitamos usar el `import` de React en *Notes.jsx* ya que hay transformaciones que hacer de JSX a JavaScript. Sin él el código resultante fallará.
 
-## Generating the Ids
+## Generando los Ids
 
-Normally the problem of generating the ids is solved by a back-end. As we don't have one yet, we'll use a standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) instead. It allows us to generate unique ids. We'll be using a Node.js implementation known as *uuid* and its `uuid.v4` variant. It will give us ids, such as `1c8e7a12-0b4c-4f23-938c-00d7161f94fc` and they are guaranteed to be unique with a very high probability.
+Habitualmente el problema de generar los ids se resuelve por un backend. Ya que no tenemos ninguno todavía, en su lugar, vamos a utilizar un estándar conocido como [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) que nos permitirá generar identificadores únicos. Utilizaremos una implementación de Node.js conocida como *uuid* y su variante `uuid.v4` que nos dará ids tales como `1c8e7a12-0b4c-4f23-938c-00d7161f94fc` que, casi con toda seguridad, serán únicos.
 
-To connect the generator with our application, modify it as follows:
+Para utilizar el generador en nuestra aplicación modifícala como sigue:
 
 **app/components/Notes.jsx**
 
@@ -127,21 +127,21 @@ leanpub-end-insert
 ...
 ```
 
-The development setup will install the `uuid` dependency automatically. Once that has happened and the application has refreshed, everything should still look the same. If you try debugging it, you can see the ids should change if you refresh. You can verify this easily either by inserting a `console.log(notes);` line or a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement within the component function.
+Nuestra configuración de desarrollo instalará la dependencia `uuid` automáticamente. Una vez que esto haya ocurrido y que la aplicación se haya recargado, todo debería tener el mismo aspecto. Sin embargo, si pruebas a depurar la aplicación, verás que los ids cambiarán cada vez que refresques la página. Puedes comprobarlo fácilmente o bien insertando la línea `console.log(notes);` o bien usando el comando [debugger;](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Sentencias/debugger) dentro del componente.
 
-The `debugger;` statement is particularly useful as it tells the browser to break execution. This way you can examine the current call stack and examine the available variables. If you are unsure of something, this is a great way to debug and figure out what's going on.
+El comando `debugger;` es especialmente útil ya que le indica al navegador que debe para la ejecución. De este modo es posible ver la pila de llamaras y examinar las variables que estén disponibles. Es una buena forma de depurar las aplicaciones y suponer qué está ocurriendo si no estás seguro de cómo funciona algo.
 
-`console.log` is a lighter alternative. You can even design a logging system around it and use the techniques together. See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Console) and [Chrome documentation](https://developers.google.com/web/tools/chrome-devtools/debug/console/console-reference) for the full API.
+`console.log` es una alternativa más ligera. Puedes incluso diseñar un sistema de gestión de logs en torno a él y usar ambas técnicas juntas. Echa un vistazo a [MDN](https://developer.mozilla.org/es/docs/Web/API/Console) y a [la documentación de Chrome](https://developers.google.com/web/tools/chrome-devtools/debug/console/console-reference) para ver el API completo.
 
-T> If you are interested in the math behind id generation, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule and something we don't have to worry about.
+T> Si estás interesado en conocer las matemáticas que se esconden tras la generación de los id, puedes ver más detalles sobre cómo se hacen estos [cálculos en la Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates). Verás que la posibilidad de que haya una colisión es realmente pequeña y que no debemos preocuparnos por ello.
 
-## Adding New Notes to the List
+## Añadiendo Nuevas Notas a la Lista
 
-Even though we can display individual notes now, we are still missing a lot of logic to make our application useful. A logical way to start would be to implement adding new notes to the list. To achieve this, we need to expand the application a little.
+Aunque de momento podemos mostrar notas de forma individual, todavía nos falta mucha lógica que hará que nuestra aplicación sea útil. Una forma lógica de comenzar puede ser implementando la inclusión de nuevas notas a la lista. Para conseguirlo necesitamos hacer que la aplicación crezca un poco.
 
-### Defining a Stub for `App`
+### Definiendo un Borrador para `App`
 
-To enable adding new notes, we should have a button for that somewhere. Currently our `Notes` component does only one thing, display notes. That's perfectly fine. To make room for more functionality, we could add a concept known as `App` on top of that. This component will orchestrate the execution of our application. We can add the button we want there and manage state as well as we add notes. At a basic level `App` could look like this:
+Para poder añadir nuevas notas necesitaremos tener un botón que nos lo permita en algún sitio. Actualmente nuestro componente `Notes` sólo hace una cosa: mostrar notas. Esto es totalmente correcto. Para hacer espacio a más funcionalidad podemos incluir un concepto conocido como `App` en lo más alto. Este componente orquestará la ejecución de nuestra aplicación. Podemos añadir el botón que queramos allí, podremos gestionar el estado y también podremos añadir notas. Inicialmente `App` puede tener el siguiente aspecto:
 
 **app/components/App.jsx**
 
@@ -152,7 +152,7 @@ import Notes from './Notes';
 export default () => <Notes />;
 ```
 
-All it does now is render `Notes`, so it's going to take more work to make it useful. To glue `App` to our application, we still need to tweak the entry point as follows:
+Todo lo que hace es renderizar `Notes`, así que debe hacer más cosas para conseguir que sea útil. Tenemos que alterar el punto de entrada tal y como sigue para incrustar `App` en nuestra aplicación:
 
 **app/index.jsx**
 
@@ -181,11 +181,11 @@ leanpub-end-insert
 );
 ```
 
-If you run the application now, it should look exactly the same as before. But now we have room to grow.
+Si ejecutas la aplicación ahora verás que tiene exactamente el mismo aspecto que antes, pero ahora tenemos espacio para crecer.
 
-### Adding a Stub for *Add* Button
+### Añadiendo un Borrador para el Botón *Add*
 
-A good step towards something more functional is to add a stub for an *add* button. To achieve this, `App` needs to evolve:
+Un buen paso para llegar a algo más funcionar es añadir un borrador para el botón *add*. Para conseguirlo, `App` necesita evolucionar:
 
 **app/components/App.jsx**
 
@@ -206,15 +206,15 @@ export default () => (
 leanpub-end-insert
 ```
 
-If you press the button we added, you should see an "add note" message at the browser console. We still have to connect the button with our data somehow. Currently the data is trapped within the `Notes` component so before we can do that, we need to extract it to the `App` level.
+Si pulsas sobre el botón que hemos añadido verás un mensaje con el texto "add note" en la consola del navegador. Todavía necesitamos conectar de alguna forma el botón con nuestros datos. De momento los datos están atrapados dentro del componente `Notes` así que, antes de seguir, necesitamos sacarlos y dejarlos a nivel de `App`.
 
-T> Given React components have to return a single element, we had to wrap our application within a `div`.
+T> Tenemos que envolver nuestra aplicación dentro de un `div` porque todos los componentes de React deben devolver un único elemento.
 
-### Pushing Data to `App`
+### Llevando los Datos a `App`
 
-To push the data to `App` we need to make two modifications. First we need to literally move it there and pass the data through a prop to `Notes`. After that we need to tweak `Notes` to operate based on the new logic. Once we have achieved this, we can start thinking about adding new notes.
+Para llevar los datos a `App` necesitamos hacer un par de cambios. Lo primero que necesitamos es literalmente moverlos allí y mandar los datos mediante una propiedad (prop en adelante) a `Notes`. Tras esto necesitamos realizar cambios en `Notes` para realizar operaciones en base a la nueva lógica. Una vez hayamos conseguido esto podremos empezar a pensar en añadir notas nuevas.
 
-The `App` side is simple:
+En la parte de `App` el cambio es sencillo:
 
 **app/components/App.jsx**
 
@@ -251,7 +251,7 @@ leanpub-end-insert
 );
 ```
 
-This won't do much until we tweak `Notes` as well:
+Esto no hará mucho hasta que también cambiemos `Notes`:
 
 **app/components/Notes.jsx**
 
@@ -282,21 +282,21 @@ leanpub-end-insert
 );
 ```
 
-Our application should look exactly the same as it did before these changes. Now we are ready to add some logic to it.
+Nuestra aplicación tendrá el mismo aspecto que antes de que hiciéramos los cambios, pero ahora estamos listos para añadir algo de lógica.
 
-T> The way we extract `notes` from `props` (the first parameter) is a standard trick you see with React. If you want to access the remaining `props`, you can use `{notes, ...props}` kind of syntax. We'll use this later so you can get a better feel for how this works and why you might use it.
+T> La forma de extraer `notes` de `props` (el primer parámetro) es un truco estándar que verás con React. Si quieres acceder al resto de `props` puedes usar una sintaxis como `{notes, ...props}`. Más adelante lo utilizaremos de nuevo para que te hagas una idea más clara de cómo funciona y para qué puedes utilizarlo.
 
-### Pushing State to `App`
+### Llevando el Estado a `App`
 
-Now that we have everything in the right place, we can start to worry about modifying the data. If you have used JavaScript before, the intuitive way to handle it would be to set up an event handler like `() => notes.push({id: uuid.v4(), task: 'New task'})`. If you try this, you'll see that nothing happens.
+Ahora que tenemos todo colocado y en el lugar correcto podemos comenzar a preocuparnos sobre cómo modificar los datos. Si has utilizado JavaScript con anterioridad verás que la forma más intuitiva de hacer esto es configurar un evento de este estilo: `() => notes.push({id: uuid.v4(), task: 'New task'})`. Si lo intentas verás que no ocurre nada.
 
-The reason why is simple. React cannot notice the structure has changed and won't react accordingly (that is, trigger `render()`). To overcome this issue, we can implement our modification through React's own API. This makes it notice that the structure has changed. As a result it is able to `render()` as we might expect.
+El motivo es sencillo. React no se ha enterado de que la estructura ha cambiado y, por tanto, no reacciona (esto es, no invoca a `render()`). Para solucionar este problema podemos implementar nuestra modificación haciendo que utilice el propio API de React, lo que hará que sí se entere de que la estructura ha cambiado y, como resultado, ejecutará `render()` tal y como esperamos.
 
-As of the time of writing, the function based component definition doesn't support the concept of state. The problem is that these components don't have a backing instance. It is something in which you would attach state. We might see a way to solve this through functions only in the future but for now we have to use a heavy duty alternative.
+En el momento de escribir esto la definición de componentes basada en funciones no soporta el concepto de estado. El problema aparece porque estos componentes no tienen una instancia por detrás que les respalde. Podríamos ver cómo arreglar esto utilizando únicamente funciones, pero por ahora tendremos que utilizar la alternativa de hacer el trabajo duro por nosotros mismos.
 
-In addition to functions, you can create React components through `React.createClass` or a class based component definition. In this book we'll use function based components whenever possible. If there's a good reason why those can't work, then we'll use the class based definition instead.
+Además de funciones, también puedes crear componentes de React utilizando `React.createClass` o una definición de componentes basada en clases. En este libro utilizaremos componentes basados en funciones tanto como sea posible, y sólo si hay una buena razón por la cual estos componentes no pueden funcionar, entonces utilizaremos definiciones basadas en clases.
 
-In order to convert our `App` to a class based component, adjust it as follows to push the state within:
+Con el objetivo de transformar nuestro `App` en un componente basado en clases, cámbialo como sigue para meter el estado dentro.
 
 **app/components/App.jsx**
 
@@ -357,21 +357,21 @@ export default class App extends React.Component {
 leanpub-end-insert
 ```
 
-After this change `App` owns the state even though the application still should look the same as before. We can begin to use React's API to modify the state.
+Tras este cambio `App` contiene el estado aunque la aplicación siga pareciendo la misma de antes. Es ahora cuando podemos comenzar a usar el API de React para modificar el estado.
 
-T> Data management solutions, such as [MobX](https://mobxjs.github.io/mobx/), solve this problem in their own way. Using them you annotate your data structures and React components and leave the updating problem to them. We'll get back to the topic of data management later in this book in detail.
+T> Las soluciones de gestión de datos, tales como [MobX](https://mobxjs.github.io/mobx/), arreglan el problema a su manera. Utilizándolos sólo necesitas poner anotaciones en tus estructuras de datos, en los componentes de React, y ellos se encargan de resolver del problema de actualizarse. Volveremos más adelante a tratar este tema de la gestión de datos en detalle.
 
-T> We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
+T> Estamos pasando `props` a `super` por convención. Si no lo haces, ¡`this.props` no cambiará!. Llamar a `super` provoca que se invoque al mismo método de la clase padre del mismo modo a como se hace en la programación orientada a objetos.
 
-### Implementing `Note` Adding Logic
+### Implementando la Lógica de Añadir `Note`
 
-All the effort will pay off soon. We have just one step left. We will need to use React's API to manipulate the state and to finish our feature. React provides a method known as `setState` for this purpose. In this case we will need to call it like this: `this.setState({... new state goes here ...}, () => ...)`.
+Todos nuestros esfuerzos pronto se verán recompensados. Sólo nos queda un paso, tan sólo necesitamos utilizar el API de React para manipular el estado. React facilita un método conocido como `setState` con este objetivo. En este caso lo invocaremos como sigue: `this.setState({... el nuevo estado viene aquí ...}, () => ...)`.
 
-The callback is optional. React will call it when the state has been set and often you don't need to care about it at all. Once `setState` has gone through, React will call `render()`. The asynchronous API might feel a little strange at first but it will allow React to optimize its performance by using techniques such as batching updates. This all ties back to the concept of Virtual DOM.
+El callback es opcional. React lo invocará una vez haya establecido el estado y, por lo general, no tienes que preocuparte de ello para nada. React invocará a `render ` una vez que `setState` haya terminado. El API asíncrono te puede parecer un poco extraño al principio pero le permite a React ser capaz de optimizar su rendimiento utilizando técnicas como las actualizaciones en bloque. Todo esto recae en el concepto de DOM Virtual.
 
-One way to trigger `setState` would be to push the associated logic to a method of its own and then call it when a new note is added. The class based component definition doesn't bind custom methods like this by default so we will need to handle the binding somehow. It would be possible to do that at the `constructor`, `render()`, or by using a specific syntax. I'm opting for the syntax option in this book. Read the *Language Features* appendix to learn more.
+Una forma de invocar a `setState` puede ser dejar toda la lógica relacionada en un método para llamarlo una vez se crea una nueva nota. La definición de componentes basada en clases no permite enlazar métodos personalizados como éste por defecto así que necesitaremos gestionar esta asociación en algún sitio. Podría ser posible hacer esto en el `constructor`, `render()`, o utilizando una sintaxis específica. Voy a optar por la solución de la sintaxis en este libro. Lee el apéndice *Características del Lenguaje* para aprender más.
 
-To tie the logic with the button, adjust `App` as follows:
+Para atar la lógica al botón, `App` debe cambiar como sigue:
 
 **app/components/App.jsx**
 
@@ -401,16 +401,16 @@ leanpub-end-insert
   }
 leanpub-start-insert
   addNote = () => {
-    // It would be possible to write this in an imperative style.
-    // I.e., through `this.state.notes.push` and then
-    // `this.setState({notes: this.state.notes})` to commit.
+    // Es posible escribir esto de forma imperativa, es decir,
+    // a través de `this.state.notes.push` y, después,
+    // `this.setState({notes: this.state.notes})`.
     //
-    // I tend to favor functional style whenever that makes sense.
-    // Even though it might take more code sometimes, I feel
-    // the benefits (easy to reason about, no side effects)
-    // more than make up for it.
+    // Suelo favorecer el estilo funcional cuando tiene sentido.
+    // Incluso cuando es necesario escribir más código, ya que
+    // prefiero los beneficios (facilidad para razonar, no
+    // efectos colaterales) que trae consigo.
     //
-    // Libraries, such as Immutable.js, go a notch further.
+    // Algunas librerias, como Immutable.js, van un paso más allá.
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
@@ -422,16 +422,16 @@ leanpub-end-insert
 }
 ```
 
-Given we are binding to an instance here, the hot loading setup cannot pick up the change. To try out the new feature, refresh the browser and try clicking the `+` button. You should see something:
+Dado que, en este punto, estamos enlazando una instancia, la recarga en caliente no se dará cuenta del cambio. Para probar la nueva funcionalidad tienes que refrescar el navegador y pulsar sobre el botón `+`. Deberías ver algo:
 
 ![Notes with a plus](images/react_05.png)
 
-T> If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
+T> Si estuviésemos utilizando un backend podríamos lanzar una consulta y capturar el id de la respuesta. De momento es suficiente con generar una entrada y un id aleatorio.
 
-T> You could use `this.setState({notes: [...this.state.notes, {id: uuid.v4(), task: 'New task'}]})` to achieve the same result. This [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) can be used with function parameters as well. See the *Language Features* appendix for more information.
+T> Podríamos utilizar `this.setState({notes: [...this.state.notes, {id: uuid.v4(), task: 'New task'}]})` para conseguir el mismo resultado. Este [operador de propagación](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Operadores/Spread_operator) puede ser utilizado también con funciones recibidas como parámetros. Mira el apéndice *Características del Lenguaje* para más información.
 
-T> Using [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) would be a valid alternative for property initializers. In this case we would use `@autobind` annotation either on class or method level. To learn more about decorators, read the *Understanding Decorators* appendix.
+T> El [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) puede ser una alternativa válida a la hora de inicializar propiedades. En ese caso podríamos utilizar la anotación `@autobind` a nivel de clase o de método. Para aprender más sobre decoradores echa un vistazo al apéndice *Entendiendo los Decoradores*.
 
 ## Conclusion
 
-Even though we have a rough application together now, we are still missing two crucial features: editing and deleting notes. It's a good time to focus on those next. Let's do deletion first and handle editing after that.
+De momento tenemos sólo una aplicación primitiva, y hay dos funcionalidades críticas que necesitamos: la edición y el borrado de notas. Es un buen momento de centrarnos en ellas a partir de ahora. Primero comenzaremos con el borrado y, tras ello, con la edición.
