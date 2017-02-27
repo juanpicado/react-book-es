@@ -1,12 +1,12 @@
-# Deleting `Notes`
+# Borrado de `Notas`
 
-One easy way to handle deleting notes is to render a "x" button for each `Note`. When it's clicked we will simply delete the note in question from our data structure. As before, we can start by adding stubs in place. This might be a good place to separate the concept of a `Note` from the current `Notes` component.
+Una forma sencilla de permitir el borrado de notas consiste en mostrar un botón con una "x" en cada `Nota`. Cuando este botón sea pulsado, simplemente deberemos borrar la nota en cuestión de la estructura de datos. Tal y como hicimos antes podemos comenzar añadiendo borradores, este puede ser un buen lugar en el que separar el concepto de `Nota` del componente `Notas`.
 
-Often you work this way with React. You set up components only to realize they are composed of smaller components that can be extracted. This process of separation is cheap. Sometimes it can even improve the performance of your application as you can optimize the rendering of smaller parts.
+A menudo trabajarás de esta forma con React. Generarás componentes de los que más adelante te darás cuenta que están compuestos por otros componentes que pueden ser extraidos. Este proceso de separación es fácil, y a veces puede incluso incrementar el rendimiento de tu aplicación puesto que la estás optimizando al renderizar partes más pequeñas.
 
-## Separating `Note`
+## Separación de `Nota`
 
-To keep the list formatting aspect separate from a `Note` we can model it using a `div` like this:
+Para mantener una lista de `Nota` que mantengan el mismo aspecto podemos modelarla utilizando un `div` de este modo:
 
 **app/components/Note.jsx**
 
@@ -16,7 +16,7 @@ import React from 'react';
 export default ({task}) => <div>{task}</div>;
 ```
 
-Remember that this declaration is equivalent to:
+Recuerda que esta declaración es equivalente a:
 
 ```javascript
 import React from 'react';
@@ -24,9 +24,9 @@ import React from 'react';
 export default (props) => <div>{props.task}</div>;
 ```
 
-As you can see, destructuring removes some noise from the code and keeps our implementation simple.
+Como puedes ver, destructurar reduce la cantidad de ruido del código y permite que la implementación sea simple.
 
-To make our application use the new component, we need to patch `Notes` as well:
+Para hacer que nuestra aplicación utilice el nuevo componente tenemos que hacer cambios también en `Notas`:
 
 **app/components/Notes.jsx**
 
@@ -48,11 +48,11 @@ leanpub-end-insert
 )
 ```
 
-The application should look exactly the same after these changes. Now we have room to expand it further.
+La aplicación debe tener el mismo aspecto que ya tenía antes de hacer los cambios, pero hemos hecho hueco para poder meter más cosas más adelante.
 
-## Adding a Stub for `onDelete` Callback
+## Añadir un Esqueleto para la Llamada a `onDelete`
 
-To capture the intent to delete a `Note`, we'll need to extend it to include a button that triggers a `onDelete` callback. We can connect our logic with that after this step is complete. Consider the code below:
+Necesitamos extender las capacidades de `Nota` para capturar la intención de borrarla incluyendo una acción que se ejecute al llamar a `onDelete`. Presta atención al siguiente código:
 
 **app/components/Note.jsx**
 
@@ -72,23 +72,23 @@ export default ({task, onDelete}) => (
 leanpub-end-insert
 ```
 
-You should see small "x"s next to each Note:
+Deberias ver una pequeña "x" después de cada nota:
 
 ![Notes with delete controls](images/react_06.png)
 
-They won't do anything yet. Fixing that is the next step.
+Todavía no harán nada, arreglarlo es el siguiente paso.
 
-## Communicating Deletion to `App`
+## Comunicar el Borrado a `App`
 
-Now that we have the controls we need, we can start thinking about how to connect them with the data at `App`. In order to delete a `Note`, we'll need to know its id. After that we can implement the logic based on that at `App`. To illustrate the idea, we'll want to end up with a situation like this:
+Ahora que tenemos los controles que necesitamos podemos comenzar a pensar en cómo conectarlos con los datos de `App`. Para poder borrar una `Nota` necesitamos conocer su id. Tras ello podremos implementar la lógica que se encarga de borrarlas en `App`. Para que te hagas una idea, queremos encontranos en una situación como la siguiente:
 
 ![`onDelete` flow](images/bind.png)
 
-T> That `e` represents a DOM event you might be used to. We can do things like stop event propagation through it. This will come in handy as we want more control over the application behavior.
+T> La `e` representa un evento DOM al que deberias acostumbrarte. Podemos hacer cosas como parar la propagación de eventos con él. Esto se volverá más útil a medida que queramos tener más control sobre el comportamiento de la aplicación.
 
-T> [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) allows us to set the function context (first parameter) and arguments (following parameters). This gives us a technique known as **partial application**.
+T> [bind](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Function/bind) nos permite definir el contexto de la función (el primer parámetro) y los argumentos (el resto de parámetros). Esta técnica se conoce con el nombre de **aplicación parcial**.
 
-To achieve the scheme, we are going to need a new prop at `Notes`. We will also need to `bind` the id of each note to the `onDelete` callback to match the logic. Here's the full implementation of `Notes`:
+Para conseguir todo esto vamos a necesitar una nueva propiedad en `Notas`. También necesitaremos enlazar con `bind` el identificador de cada nota con la llamada a `onDelete` para hacer obrar la magia. Aquí tienes la implementación completa de `Notas`:
 
 **app/components/Notes.jsx**
 
@@ -116,9 +116,9 @@ export default ({notes, onDelete=() => {}}) => (
 leanpub-end-insert
 ```
 
-To keep our code from crashing if `onDelete` is not provided, I defined a dummy callback for it. Another good way to handle this would have been to go through `propTypes` as discussed in the *Typing with React* chapter.
+He definido un valor de retorno ficticio para evitar que nuestro código falle si no se proporciona un `onDelete`. Otra buena manera de conseguirlo es mediante el uso de `propTypes`, tal y como se muestra en el capítulo *Tipado con React*.
 
-Now that we have the hooks in place, we can use them at `App`:
+Ahora que tenemos las cosas en su lugar podemos usarlas con `App`:
 
 **app/components/App.jsx**
 
@@ -151,7 +151,7 @@ leanpub-end-insert
   }
 leanpub-start-insert
   deleteNote = (id, e) => {
-    // Avoid bubbling to edit
+    // Dejar de procesar eventos para poder editar
     e.stopPropagation();
 
     this.setState({
@@ -162,10 +162,10 @@ leanpub-end-insert
 }
 ```
 
-After refreshing the browser, you should be able to delete notes. To prepare for the future I added an extra line in form of `e.stopPropagation()`. The idea of this is to tell the DOM to stop bubbling events. In short, we'll avoid triggering possible other events elsewhere in the structure if we delete a note.
+Deberías poder borrar notas una vez hayas refrescado el navegador. Anticipándome al futuro he añadido la linea extra `e.stopPropagation()`. La idea subyacente es la de indicar al DOM que tiene que dejar de procesar eventos. En resumidas cuentas, vamos a evitar que se lancen otros eventos desde cualquier sitio que puedan afectar a la estructura si estamos borrando notas.
 
-## Conclusion
+## Conclusión
 
-Working with React is often like this. You will identify components and flows based on your needs. Here we needed to model a `Note` and then design a data flow so that we have enough control at the right place.
+Trabajar con React a menudo es esto: identificar los componentes y flujos en base a tus necesidades. Aquí hemos necesitado modelar una `Nota` y hemos diseñado un flujo que nos permite tener el control sobre ella en el lugar correcto.
 
-We are missing one more feature to call the first part of Kanban done. Editing is hardest of them all. One way to implement it is to solve it through an *inline editor*. By implementing a proper component now, we'll save time later when we have to edit something else. Before continuing with the implementation, though, we'll take a better look at React components to understand what kind of functionality they provide.
+Todavía nos falta implementar una funcionalidad con la que terminar la primera parte del Kanban. La edición es la funcionalidad más difícil de todas. Una forma de implementarla es mediante un *editor inline*. Implementar un componente adecuado ahora nos ayudará a ahorrar tiempo cuando tengamos que editar algo más. Antes de continuar con la implementación vamos a echar un vistazo más en detalle a los componentes de React para entender mejor qué tipo de funcionalidad nos pueden dar.
