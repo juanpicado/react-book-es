@@ -1,12 +1,12 @@
-# Styling the Notes Application
+# Dando Estilo a la Aplicación de Notas
 
-Aesthetically, our current application is very barebones. As pretty applications are more fun to use, we can do a little something about that. In this case we'll be sticking to an old skool way of styling.
+Estéticamente hablando, nuestra aplicación se encuentra en un estado bastante precario. Algo tendremos que hacer, ya que las aplicaciónes más divertidas de utilizar son aquellas que son visualmente más atractivas. En nuestro caso vamos a utilizar un estilo Old Skool.
 
-In other words, we'll sprinkle some CSS classes around and then apply CSS selectors based on those. The *Styling React* chapter discusses various other approaches in greater detail.
+Para ello esparciremos algunas clases CSS y aplicaremos estilo en base a los selectores. El capítulo *Dando estilo a React* discute otras aproximaciones con mayor detalle.
 
-## Styling "Add Note" Button
+## Aplicando Estilo sobre el Botón "Añadir Nota"
 
-To style the "Add Note" button we'll need to attach a class to it first:
+Para dar estilo al botón "Añadir Nota" primero tenemos que asignarle una clase:
 
 **app/components/App.jsx**
 
@@ -41,7 +41,7 @@ leanpub-end-insert
 }
 ```
 
-We also need to add corresponding styling:
+También necesitamos añadir el estilo correspondiente:
 
 **app/main.css**
 
@@ -57,11 +57,11 @@ leanpub-start-insert
 leanpub-end-insert
 ```
 
-A more general way to handle this would be to set up a `Button` component and style it. That would give us nicely styled buttons across the application.
+Una forma más general de gestionar esto es mediante el usocomponente `Botón` al cual se le da estilo. Esto nos permitirá tener botones con estilo en toda la aplicación.
 
-## Styling `Notes`
+## Aplicando estilos sobre `Notas`
 
-Currently the `Notes` list looks a little rough. We can improve that by hiding the list specific styling. We can also fix `Notes` width so if the user enter a long task, our user interface still remains fixed to some maximum width. A good first step is to attach some classes to `Notes` so it's easier to style:
+Actualmente la lista de `Notas` está en crudo. Podemos mejorarla ocultando los estilos específicos de las listas. También podemos ajustar el ancho de `Notas` para que la interfaz del usuario aguante bien si un usuario introduce una tarea larga. Un buen primer paso es incluir algunas clases en `Notas` que la hagan más fácil de estilizar:
 
 **app/components/Notes.jsx**
 
@@ -108,7 +108,7 @@ leanpub-end-insert
 )
 ```
 
-In order to eliminate the list specific styling, we can apply rules like these:
+Para eliminar los estilos específicos de las listas podemos aplicar las reglas siguientes:
 
 **app/main.css**
 
@@ -126,9 +126,9 @@ leanpub-start-insert
 leanpub-end-insert
 ```
 
-## Styling Individual Notes
+## Aplicando Estilos sobre Notas Individuales
 
-There is still `Note` related portions left to style. Before attaching any rules, we should make sure we have good styling hooks on `Editable`:
+Todavía quedan cosas relacionadas con `Notas` pendientes de estilizar. Antes de insertar reglas debemos asegurarnos de que tenemos unos buenos puntos de enganche para ello en `Editable`:
 
 **app/components/Editable.jsx**
 
@@ -191,9 +191,9 @@ leanpub-end-insert
 }
 ```
 
-Given `className` accepts only a string, it can be difficult to work with when you have multiple classes depending on some logic. This is where a package known as [classnames](https://www.npmjs.org/package/classnames) can be useful. It accepts almost arbitrary input and converts that to a string solving the problem.
+Puede que `className` sea difícil de manejar ya que sólo acepta un string y quizá queramos insertarle más de una clase. En este punto puede ser útil un paquete conocido como [classnames](https://www.npmjs.org/package/classnames). Este paquete acepta muchos tipos de entradas y los convierte a un único string para resolver el problema.
 
-There are enough classes to style the remainder now. We can show a shadow below the hovered note. It's also a good touch to show the delete control on hover as well. Unfortunately this won't work on touch based interfaces, but it's good enough for this demo:
+Hay suficientes clases para diseñar el resto ahora. Podemos mostrar una sombra debajo de la nota si ponemos el ratón por encima. También es un buen momento para mostrar el control de borrado al mover el cursor por encima. Por desgracia estos estilos no se mostrarán en interfaces táctiles, pero son lo suficientemente buenos para esta demo:
 
 **app/main.css**
 
@@ -242,14 +242,14 @@ leanpub-start-insert
 leanpub-end-insert
 ```
 
-Assuming everything went fine, your application should look roughly like this now:
+Si todo ha ido bien tu aplicación debería tener el siguiente aspecto:
 
 ![Styled Notes Application](images/style_01.png)
 
-## Conclusion
+## Conclusión
 
-This is only one way to style a React application. Relying on classes like this will become problematic as the scale of your application grows. That is why there are alternative ways to style that address this particular problem. The *Styling React* chapter touches a lot of those techniques.
+Esta no es más que una forma de aplicar estilos sobre una aplicación de React. Delegar en clases como hemos hecho hasta ahora puede acarrear problemas a medida que la aplicación crezca. Este es el motivo por el cual hay alternativas con las que poder aplicar estilos a la vez que se resuelve este problema en particular. El capítulo *Dando estilo a React* muestra muchas de esas técnicas.
 
-It can be a good idea to try out a couple of alternative ways to find something you are comfortable with. Particularly **CSS Modules** are promising as they solve the fundamental problem of CSS - the problem of globals. The technique allows styling locally per component. That happens to fit React very well since we are dealing with components by default.
+Puede ser una buena idea probar un par de alternativas con el objetivo de encontrar alguna con la que te encuentes cómodo. Particularmente creo que los **Módulos CSS** prometen ser capaces de resolver el problema fundamental de CSS - el problema de que el ámbito de todo es global. Esta técnica te permite aplicar estilos para cada componente de forma local.
 
-Now that we have a simple Notes application up and running, we can begin to generalize it into a full blown Kanban. It will take some patience as we'll need to improve the way we are dealing with the application state. We also need to add some missing structure and make sure it's possible to drag and drop things around. Those are good goals for the next part of the book.
+Ahora que tenemos una aplicación de Notas sencilla funcionando podemos comenzar a hacer un Kanban completo. Requerirá de un poco de paciencia ya que necesitaremos mejorar la forma en la que estamos gestionando el estado de la aplicación. También necesitaremos añadir algo de estructura que nos falta y estar seguros de que podremos arrastrar y soltar notas por aquí y por allá. Todos ellos son objetivos jugosos para la siguiente parte del libro.
