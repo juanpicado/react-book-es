@@ -1,14 +1,14 @@
-# Editing `Notes`
+# Edición de `Notas`
 
-Editing notes is a similar problem as deleting them. The data flow is exactly the same. We'll need to define an `onEdit` callback and  `bind` an id of the note being edited at `Notes`.
+La edición de notas supone un problema similar al del borrado, ya que el flujo de datos es exactamente el mismo. Necesitamos definir qué hacer tras invocar a `onEdit` y hacer una asociación con `bind` al identificador de la nota dentro de `Notas` que está siendo editado.
 
-What makes this scenario difficult is the user interface requirement. It's not enough just to have a button. We'll need some way to allow the user to input a new value which we can then commit to the data model.
+Lo que hace que este escenario sea más difícil son los requisitos a nivel de interfaz de usuario. No es suficiente con tener un botón, necesitamos encontrar la manera de permitir al usuario introducir un nuevo valor y de persistirlo en el modelo de datos.
 
-One way to achieve this is to implement so called **inline editing**. The idea is that when a user click a note, we'll show an input. After the user has finished editing and signals that by hitting *enter* or clicking outside of the field (blur event), we'll capture the value and update.
+Una forma de conseguirlo es mediante la implementación de algo llamado **edición en línea**. La idea es que cuando un usuario pulse sobre una nota se muestre una caja de texto. Cuando el usuario haya terminado la edición, bien pulsando *enter* o bien pulsando fuera del campo (lanzando un evento de tipo blur), capturaremos el valor y lo actualizaremos.
 
-## Implementing `Editable`
+## Implementación de `Editable`
 
-To keep the application clean, I'll wrap this behavior into a component known as `Editable`. It will give us an API like this:
+Vamos a contener este comportamiento dentro de un componente conocido como `Editable` con el fin de mantener la aplicación limpia. El componente nos dará un API como el siguiente:
 
 ```javascript
 <Editable
@@ -17,29 +17,29 @@ To keep the application clean, I'll wrap this behavior into a component known as
   onEdit={onEdit.bind(null, id)} />
 ```
 
-This is an example of a **controlled** component. We'll control the editing state explicitly from outside of the component. This gives us more power, but it also makes `Editable` more involved to use.
+Este es un ejemplo de componente **controlado**. Controlaremos explícitamente el estado de la edición desde el exterior del componente, lo cual no sólo nos dará más poder sobre él, sino que nos permitirá que `Editable` sea más sencillo de utilizar.
 
-T> It can be a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them from other props and keep your code a little tidier.
+T> Suele ser buena idea nombrar las llamadas con el prefijo `on`. Esto nos permitirá distinguirlas de otras propiedades y mantener el código un poco más limpio.
 
-### Controlled vs. Uncontrolled Design
+### Diseño Controlado vs. Diseño no Controlado
 
-An alternative way to handle this would have been to leave the control over the `editing` state to `Editable`. This **uncontrolled** way of designing can be valid if you don't want to do anything with the state outside of the component.
+Una forma alternativa de gestionar esto es dejar el control del estado `editing` a `Editable`. Esta **forma no controlada** de diseño puede ser válida si no quieres que el estado de componente pueda ser modificado desde fuera.
 
-It is possible to use both of these designs together. You can even have a controlled component that has uncontrolled elements inside. In this case we'll end up using an uncontrolled design for the `input` that `Editable` will contain for example. Even that could be turned into something controlled should we want to.
+Utilizar ambos diseños es posible. Puedes tener un componente controlado que tenga elementos no controlados dentro. En nuestro caso tendremos un diseño no controlado para la caja de texto que `Editable` contendrá en este ejemplo.
 
-Logically `Editable` consists of two separate portions. We'll need to display the default value while we are not `editing`. In case we are `editing`, we'll want to show an `Edit` control instead. In this case we'll settle for a simple input as that will do the trick.
+`Editable` estará formado por dos partes bien separadas. Por un lado necesitamos mostrar el valor mientras no estamos `editando`, pero por otro querremos mostrar un componente de `Edición` en caso de que estemos `editando`.
 
-Before digging into the details, we can implement a little stub and connect that to the application. This will give us the basic structure we need to grow the rest. To get started, we'll adjust the component hierarchy a notch to make it easier to implement the stub.
+Antes de entrar en detalles podemos implementar un pequeño esqueleto y conectarlo con la aplicación, lo que nos dará la estructura básica que necesitaremos para hacer crecer el resto. Para comenzar, haremos una marca en la jerarquía de componentes para hacer que sea más fácil implementar el esqueleto.
 
-T> The official documentation of React discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
+T> La documentación oficial de React entra en los [componentes controlados](https://facebook.github.io/react/docs/forms.html) en más detalle.
 
-## Extracting Rendering from `Note`
+## Extrayendo el Renderizado de `Nota`
 
-Currently `Note` controls what is rendered inside it. It renders the passed task and connects a deletion button. We could push `Editable` inside it and handle the wiring through `Note` interface. Even though that might be one valid way to do it, we can push the rendering concern on a higher level.
+Ahora mismo la `Nota` controla qué se va a renderizar dentro de ella. Podríamos incluir `Editable` dentro de ella y hacer que todo funcione mediante la interfaz `Nota`. A pesar de que podría ser una forma válida de hacerlo, podemos mover la responsabilidad del procesamiento a un nivel superior.
 
-Having the concept of `Note` is useful especially when we'll expand the application further so there's no need to remove it. Instead, we can give the control over its rendering behavior to `Notes` and wire it there.
+Tener el concepto de `Nota` será especialmente útil cuando queramos llevar la aplicación un paso más allá, así que no hay necesidad de borrarla. En su lugar, podemos darle el control sobre su renderizado a `Notas`.
 
-React provides a prop known as `children` for this purpose. Adjust `Note` and `Notes` as follows to push the control over `Note` rendering to `Notes`:
+React tiene una propiedad conocida como `children` que nos permitirá conseguir esto. Modifica `Nota` and `Notas` como se muestra a continuación para llevar el control de renderizado de `Nota` a `Notas`:
 
 **app/components/Note.jsx**
 
@@ -88,11 +88,11 @@ leanpub-end-insert
 )
 ```
 
-Now that we have room to work, we can set up a stub for `Editable`.
+Ahora que tenemos espacio para trabajar podemos definir un esqueleto para `Editable`.
 
-## Adding `Editable` Stub
+## Inclusión del Esqueleto `Editable`
 
-We can model a rough starting point based on our specification as below. The idea is that we'll branch based on the `editing` prop and attach the props needed for implementing our logic:
+Podemos definir un punto por el que comenzar basándonos en la especificación que sigue. La idea es que hagamos una cosa u otra basándonos en la propiedad `editing` y que hagamos lo necesario para implementar nuestra lógica:
 
 **app/components/Editable.jsx**
 
@@ -114,11 +114,11 @@ const Edit = ({onEdit = () => {}, value, ...props}) => (
 );
 ```
 
-To see our stub in action we still need to connect it with our application.
+Para ver el esqueleto en acción todavía necesitamos conectarlo con nuestra aplicación.
 
-## Connecting `Editable` with `Notes`
+## Conectando `Editable` con `Notas`
 
-We still need to replace the relevant portions of the code to point at `Editable`. There are more props to track and to connect:
+Todavía necesitamos cambiar las partes relevantes del código para que apunten a `Editable`. Hay más propiedades que conectar:
 
 **app/components/Notes.jsx**
 
@@ -164,13 +164,13 @@ leanpub-end-insert
 )
 ```
 
-If everything went right, you should see something like this:
+Si todo fue bien deberias ver algo como sigue:
 
 ![Connected `Editable`](images/react_06.png)
 
-## Tracking `Note` `editing` State
+## Haciendo un Seguimiento del Estado `editing` de `Nota`
 
-We are still missing logic needed to control the `Editable`. Given the state of our application is maintained at `App`, we'll need to deal with it there. It should set the `editable` flag of the edited note to `true` when we begin to edit and set it back to `false` when we complete the editing process. We should also adjust its `task` using the new value. For now we are interested in just getting the `editable` flag to work, though. Modify as follows:
+Todavía nos falta la lógica necesaria para controlar `Editable`. Dado que el estado de nuestra aplicación está siendo mantenido en `App`, necesitaremos hacer cosas allí. Debería marcar el valor `editable` de una nota a `true` cuando comience con la edición y a `false` cuando el proceso de edición termine. También debería ajustar el valor de `task` al nuevo valor. De momento sólo estamos interesados en conseguir que el valor de `editable` funcione correctamente. Realizamos los siguientes cambios:
 
 **app/components/App.jsx**
 
@@ -235,23 +235,24 @@ leanpub-end-insert
 }
 ```
 
-If you try to edit a `Note` now, you should see something like this:
+Si tratas de editar una `Nota` ahora verás algo como lo siguiente:
 
 ![Tracking `editing` state](images/react_07.png)
 
-If you click a `Note` twice to confirm the edit, you should see an `Uncaught Invariant Violation` error at the browser console. This happens because we don't deal with `task` correctly yet. We have bound only `id` and `task` will actually point to an `event` object provided by React. This is something we should fix next.
+Si pulsas en `Note` dos veces para confirmar la edición verás un error llamado `Uncaught Invariant Violation` en la consola del navegador. Este ocurre porque todavía no hemos terminado de gestionar `task` correctamente. Esto es algo que deberemos arreglar a continuación.
 
-T> If we used a normalized data structure (i.e., `{<id>: {id: <id>, task: <str>}}`), it would be possible to write the operations using `Object.assign` and avoid mutation.
 
-T> In order to clean up the code, you could extract a method to contain the logic shared by `activateNoteEdit` and `editNote`.
+T> Si usamos una estructura de datos normalizada (por ejemplo, `{<id>: {id: <id>, task: <str>}}`), es posible implementar las operaciones con `Object.assign` y evitar la mutación.
 
-## Implementing `Edit`
+T> Para tener el código más limpio puedes extraer un método que contenga la lógica compartida por `activateNoteEdit` y por `editNote`.
 
-We are missing one more part to make this work. Even though we can manage the `editing` state per `Note` now, we still can't actually edit them. For this purpose we need to expand `Edit` and make it render a text input for us.
+## Implmentación de `Edit`
 
-In this case we'll be using **uncontrolled** design and extract the value of the input from the DOM only when we need it. We don't need more control than that here.
+Nos falta algo que haga que esto funcione. Incluso aunque ahora podemos gestionar el estado de `editing` de cada `Nota`, todavía no podemos editarlas. Para ello necesitamos expandir `Edit` y hacer que muestre una caja de texto.
 
-Consider the code below for the full implementation. Note how we are handling finishing the editing. We capture `onKeyPress` and check for `Enter` to confirm editing. We also run the finish logic `onBlur` so that we can end the editing when the input loses focus:
+En este caso estaremos utilizando un diseño **no controlado** y obtendremos el valor de la caja de texto del árbol DOM sólo si lo necesitamos.
+
+Fíjate en el código siguiente para ver la implementación completa. Observa cómo estamos gestionando el fin de la edición, capturamos `onKeyPress` y comprobamos si han pulsado `Enter` para confirmar la edición. También tenemos en cuenta al evento `onBlur` para saber cuándo la entrada de texto pierde el foco.
 
 **app/components/Editable.jsx**
 
@@ -308,24 +309,24 @@ class Edit extends React.Component {
 leanpub-end-insert
 ```
 
-If you refresh and edit a note, the commits should go through:
+Si refrescas y editas una nota deberías ver lo siguiente:
 
 ![Editing a `Note`](images/react_08.png)
 
-## On Namespacing Components
+## Sobre los Componentes y el Espacio de Nombres
 
-We could have approached `Editable` in a different way. In an earlier edition of this book I ended up developing it as a single component. I handled rendering the value and the edit control through methods (i.e., `renderValue`). Often method naming like that is a clue that it's possible to refactor your code and extract separate components like we did here.
+Podríamos haber abordado `Editable` de una forma diferente. En una edición anterior de este libro lo creé como un único componente. Lo hice mostrando el valor y el control de edición a través de métodos (esto es, mediante `renderValue`). A menudo, el nombrado de métodos como el anterior es una pista de que es posible refactorizar el código y extraer componentes como hicimos anteriormente.
 
-You can go one step further and [namespace](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components)  your component parts. It would have been possible to define `Editable.Value` and `Editable.Edit` components. Better yet, we could have allowed the user to swap those components through props. As long as the interface is the same, the components should work. This would give an extra dimension of customizability.
+Puedes ir un paso más adelante y colocar las partes de los componentes en un [espacio de nombres](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components). De este modo habría sido posible definir los componentes `Editable.Value` y `Editable.Edit`. Mejor todavía, podríamos haber permitido al usuario intercambiar ambos componentes entre sí mediante props. Dado que la interfaz es la misma, los componentes deberían funcionar. Esto nos da una dimensión extra de personalización.
 
-Implementation-wise we would have had to do something like this in case we had gone with namespacing:
+Llevándolo a la implementación, podemos tener algo como lo siguiente haciendo uso del espacio de nombres:
 
 **app/components/Editable.jsx**
 
 ```javascript
 import React from 'react';
 
-// We could allow edit/value to be swapped here through props
+// Podemos conseguir que la edición y la presentación del valor se intercambien mediante props
 const Editable = ({editing, value, onEdit}) => {
   if(editing) {
     return <Editable.Edit value={value} onEdit={onEdit} />;
@@ -341,14 +342,14 @@ class Edit extends React.Component {
 }
 Editable.Edit = Edit;
 
-// We could export individual components too to allow modification
+// También podemos exportar componentes individuales para permitir la modificación
 export default Editable;
 ```
 
-You can use a similar approach for more generic components as well. Consider something like `Form`. You could easily have `Form.Label`, `Form.Input`, `Form.Textarea` and so on. Each would contain your custom formatting and logic as needed. This is one way to make your designs more flexible.
+Puedes utilizar una aproximación similar para definir otros componentes más genéricos. Considera algo como `Form`, puedes fácilmente tener `Form.Label`, `Form.Input`, `Form.Textarea`, etcétera. Cada uno contendrá un formato concreto y la lógica que necesite. Es una forma de hacer que tus diseños sean más flexibles.
 
-## Conclusion
+## Conclusión
 
-It took quite a few steps, but we can edit our notes now. Best of all, `Editable` should be useful whenever we need to edit some property. We could have extracted the logic later on as we see duplication, but this is one way to do it.
+Nos ha llevado algunos pasos, pero ya podemos editar notas. Lo mejor de todo es que `Editable` debería ser útil en cualquier lugar donde necesitemos editar alguna propiedad. Podríamos haber extraído la lógica más adelante si hubiésemos visto duplicación, pero esta también es una forma de hacerlo.
 
-Even though the application kind of works, it is still quite ugly. We'll do something about that in the next chapter as we add basic styling to it.
+Aunque la aplicación hace lo que se espera de ella todavía es bastante fea. Haremos algo al respecto en el próximo capítulo a medida que le vayamos añadiendo estilos básicos.
