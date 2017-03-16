@@ -1,89 +1,88 @@
-# React and Flux
+# React y Flux
 
-You can get pretty far by keeping everything in components. That's an entirely valid way to get started. The problems begin as you add state to your application and need to share it across different parts. This is the reason why various state management solutions have emerged. Each one of those tries to solve the problem in its own way.
+Puedes llegar bastante lejos guardándolo todo en componentes, lo cual una forma completamente válida de comenzar. El problema comenzará cuando añadas estado a tu aplicación y necesites compartirlo en distintos sitios. Por este motivo han sido varios los gestores de estado que han aparecido. Cada uno de ellos trata de resolver el problema a su manera.
 
-The [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) was the first proper solution to the problem. It allows you to model your application in terms of **Actions**, **Stores**, and **Views**. It also has a part known as **Dispatcher** to manage actions and allow you to model dependencies between different calls.
+La [arquitectura Flux de aplicaciones](https://facebook.github.io/flux/docs/overview.html) fué la primera solución al problema. Te permite modelar tu aplicación mediante el uso de **Acciones**, **Almacenes** y **Vistas**. También tiene una parte conocida como **Dispatcher** con la que gestionar acciones y permitirte modelar dependencias entre las distintas llamadas.
 
-This separation is particularly useful when you are working with large teams. The unidirectional flow makes it easy to tell what's going on. That's a common theme in various data management solutions available for React.
+Esta forma de oganización es particulamente útil cuando estas trabajando en equipos grandes. El flujo unidireccional hace fácil poder saber qué está pasando. Este es un elemento común de varias soluciones de gestión de estados disponibles en React.
 
-## Quick Introduction to Redux
+## Breve Introducción a Redux
 
-A solution known as [Redux](http://redux.js.org/) took the core ideas of Flux and pushed them to a certain form. Redux is more of a guideline, though a powerful one, that gives your application certain structure and pushes you to model data related concerns in a certain way. You will maintain the state of your application in a single tree which you then alter using pure functions (no side effects) through reducers.
+Existe una solución llamada [Redux](http://redux.js.org/) que rescata las ideas principales de Flux y las moldea para tener una forma concreta. Redux es más que una simple guía que sirve para que le dés a tu aplicación cierta estructura ya que te empuja a modelar todo lo relacionado con la gestión de los datos de una manera concreta. Mantendrás el estado de tu aplicación en una estructura de árbol que modificarás usando funciones puras (las cuales no tienen efectos secundarios) mediante reductores.
 
-This might sound a little complex but in practice Redux makes your data flow very explicit. Standard Flux isn't as opinionated in certain parts. I believe understanding basic Flux before delving into Redux is a good move as you can see shared themes in both.
+Puede parecer un poco complicado pero, en la práctica, Redux hace que el flujo de tus datos sea explícito. Flux estándar no es dogmático en algunas cosas. Creo que entender Flux de forma básica antes de produndizar en Redux es una buena idea para ver cosas que ambos tienen en común.
 
-## Quick Introduction to MobX
 
-[MobX](https://mobxjs.github.io/mobx/) takes an entirely different view on data management. If Redux helps you to model data flow explicitly, MobX makes a large part of that implicit. It doesn't force you to any certain structure. Instead you will annotate your data structures as **observable** and let MobX handle updating your views.
+## Breve Introducción a MobX
 
-Whereas Redux embraces the concept of immutability through its idea of reducers, MobX does something opposite and relies on mutation. This means aspects like reference handling can be surprisingly simple in MobX while in Redux you will most likely be forced to normalize your data so that it is easy to manipulate through reducers.
+[MobX](https://mobxjs.github.io/mobx/) tiene un punto de vista totalmente diferente sobre la gestión de datos. Si Redux te ayuda a modelar tu flujo de datos de manera explícita, MobX hace el esfuerzo de que sea implícita. No te obliga a seguir determinada estructura. En su lugar, tendrás que anotar tus estructuras de datos como **observable** y dejar a MobX gestionar cuándo se actualizan tus vistas.
 
-Both Redux and MobX are valuable in their own ways. There's no one right solution when it comes to data management. I'm sure more alternatives will appear as time goes by. Each solution comes with its pros/cons. By understanding the alternatives you have a better chance of picking a solution that fits your purposes at a given time.
+Mientras que Redux adopta el concepto de inmutabilidad a través de la idea de los reductores, MobX hace justo lo contrario y apoya la mutación. Esto implica que ciertos asuntos como la gestión de referencias pueden ser extraordinariamente sencillos en MobX mientras que en Redux te verás forzado a normalizar tus datos para que puedas manipularlos fácilmente con reductores.
 
-## Which Data Management Solution to Use?
+Tanto Redux como MobX son valiosos a su manera. No hay una solución correcta cuando de la gestión de datos se trata. Estoy seguro de que aparecerán más alternativas a medida que pase el tiempo. Cada solución tiene sus propias ventajas e inconvenientes. Entendiendo las alternativas tendrás una mejor capacidad de seleccionar la solución que mejor encaje con lo que necesites llegado el momento.
 
-The data management situation is changing constantly. At the moment [Redux](http://rackt.org/redux/) is very strong, but there are good alternatives in sight. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
+## ¿Qué Sistema de Gestión de Datos Debería Utilizar?
 
-When choosing a library, it comes down to your own personal preferences. You will have to consider factors, such as API, features, documentation, and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture, you are able to make choices that serve you better.
+El mapa de gestores de datos está cambiando constantemente. En la actualidad [Redux](http://redux.js.org) es muy popular, pero hay buenas alternativas a la vista. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) muestra una comparativa entre algunos de los más populares.
 
-In this application we'll use a Flux implementation known as [Alt](http://alt.js.org/). The API is neat and enough for our purposes. As a bonus, Alt has been designed universal (isomorphic) rendering in mind. If you understand Flux, you have a good starting point for understanding the alternatives.
+La elección de una librería está condicionada a tus propias preferencias personales. Tienes que tener en cuenta factores como API, funcionalidades, documentación y soporte. Comenzar con una de las alternativas más populares puede ser una buena idea. Podrás hacer elecciones que se ajusten más a lo que quieres a medida que vayas conociendo mejor la arquitectura.
 
-The book doesn't cover the alternative solutions in detail yet, but we'll design our application architecture so that it's possible to plug in alternatives at a later time. The idea is that we isolate our view portion from the data management so that we can swap parts without tweaking our React code. It's one way to design for change.
+Para esta aplicación vamos a utilizar una implementación de Flux conocida con el nombre de [Alt](http://alt.js.org/). Su API está bien diseñado y es suficiente para nuestro propósito. Como extra, Alt ha sido diseñado teniendo en mente el renderizado isomórfico (renderiza de igual manera tanto en servidor como en cliente). Si conoces Flux tendrás un buen punto de partida con el que comprender mejor las alternativas.
 
-## Introduction to Flux
+El libro no cubre todas las soluciones alternativas en detalle todavía, pero diseñaremos la aplicación de tal forma que podamos utilizar alternativas más adelante. La idea es que podamos aislar la vista de la gestión de datos para que podamos intercambiar esta gestión sin tener que cambiar código de React. Es una forma de diseñar pensando en el cambio.
+
+## Introducción a Flux
 
 ![Unidirectional Flux dataflow](images/flux_linear.png)
 
-So far, we've been dealing only with views. Flux architecture introduces a couple of new concepts to the mix. These are actions, dispatcher, and stores. Flux implements unidirectional flow in contrast to popular frameworks, such as Angular or Ember. Even though two-directional bindings can be convenient, they come with a cost. It can be hard to deduce what's going on and why.
+De momento sólo hemos trabajado con vistas. La arquitectura Flux introduce un par de conceptos nuevos, los cuales son acciones, dispatchers y almacenes. Flux implementa un flujo unidireccional, al contrario que otros frameworks populares como Angular o Ember. Aunque los flujos bidireccionales puedan ser convenientes, éstos tienen un coste. Puede ser difícil saber qué está pasando y por qué.
 
-### Actions and Stores
+### Acciones y Almacenes
 
-Flux isn't entirely simple to understand as there are many concepts to worry about. In our case, we will model `NoteActions` and `NoteStore`. `NoteActions` provide concrete operations we can perform over our data. For instance, we can have `NoteActions.create({task: 'Learn React'})`.
+Flux no es totalmente trivial ya que hay algunos conceptos que tener en cuenta. En nuestro caso modelaremos `NoteActions` y `NoteStore`. `NoteActions` facilita operaciones concretas que podremos realizar sobre nuestros datos. Por ejemplo, podremos tener `NoteActions.create({task: 'Aprender React'})`.
 
 ### Dispatcher
 
-When we trigger an action, the dispatcher will get notified. The dispatcher will be able to deal with possible dependencies between stores. It is possible that a certain action needs to happen before another. The dispatcher allows us to achieve this.
+El dispatcher percibirá que hemos ejecutado una acción. No sólo eso, sino que el dispatcher será capaz de lidiar con las posibles dependencias que existan entre almacenes. Es probable que cierta acción necesite ser ejecutada después de otra, el dispacher nos permitirá lograr todo ello.
 
-At the simplest level, actions can just pass the message to the dispatcher as is. They can also trigger asynchronous queries and hit the dispatcher based on the result eventually. This allows us to deal with received data and possible errors.
+El almacén detectará que el dispacher ha procesado una acción y se invocará. En nuestro caso se notificará a `NoteStore`. Como resultado, será capaz de actualizar su estado interno y, tras hacer esto, notificará del nuevo estado.
 
-Once the dispatcher has dealt with an action, the stores listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this, it will notify possible listeners of the new state.
+### El Flujo de Datos de Flux
 
-### Flux Dataflow
-
-This completes the basic unidirectional, yet linear, process flow of Flux. Usually, though, the unidirectional process has a cyclical flow and it doesn't necessarily end. The following diagram illustrates a more common flow. It is the same idea again, but with the addition of a returning cycle. Eventually, the components depending on our store data become refreshed through this looping process.
+Esto completa el flujo de flujo unidireccional, aunque lineal, básico de Flux. Por regla general el proceso unidireccional tiene un flujo cíclico que no necesariamente termina. El siguiente diagrama ilustra un flujo más común. Es la misma idea de nuevo, pero incluye un ciclo de retorno. Para terminar, los componentes se actualizan a través de este proceso de bucle dependiendo de los datos de nuestro almacén.
 
 ![Cyclical Flux dataflow](images/flux.png)
 
-This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow is always in a single direction, it is easy to trace and debug. If there's something wrong, it's somewhere within the cycle.
+Parece que se dan muchos pasos para conseguir algo tan simple como crear una nueva `Nota`. Esta aproximación, sin embargo, conlleva sus propios beneficios. Es muy fácil de trazar y de depurar puesto que el flujo siempre actúa en una única dirección. Si algo está mal, está en algún lugar del ciclo.
 
-Better yet, we can consume the same data across our application. You will just connect your view to a store and that's it. This is one of the great benefits of using a state management solution.
+Mejor todavía: podemos ver los datos que recorren nuestra aplicación. Tan sólo conecta tu vista a tu almacén y ya lo tienes. Ésta es uno de las mayores ventajas de utilizar una solución de gestión de estados.
 
-### Advantages of Flux
+### Ventajas de Flux
 
-Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching, and i18n outside of our views. This way they stay clean of logic while keeping the application easier to understand.
+Aunque todo esto suene complicado, esta forma de trabajar dará flexibilidad a tu aplicación. Podemos, por ejemplo, implementar comunicación con un API, cachés, e internacionalización fuera de nuestras vistas. De esta forma se mantienen lejos de la lógica a la vez que las aplicaciones siguen siendo fáciles de entender.
 
-Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand that minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say that explicit is better than implicit.
+Implementar una arquitectura Flux en tu aplicación incrementará la cantidad de código de alguna manera. Es importante comprender que la meta de Flux no es minimizar la cantidad de código escrito. Ha sido diseñado para que haya productividad en equipos grandes. Siempre se puede decir que explícito es mejor que implícito.
 
-## Porting to Alt
+## Migrando a Alt
 
 ![Alt](images/alt.png)
 
-In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations, Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and universal rendering.
+En Alt trabajarás con acciones y almacenes. El dispatcher está oculto, pero puedes acceder a él si lo necesitas. Comparado con otras implementaciones, Alt oculta mucho código reutilizable. Tiene algunas ceracterísticas especiales que te permitirán guardar y recuperar el estado de la aplicación, lo cual es útil para implementar tanto persistencia como renderizado universal.
 
-There are a couple of steps we must take to push our application state to Alt:
+Hay un par de pasos que debemos seguir para permitir que Alt gestione el estado de nuestra aplicación:
 
-1. Set up an Alt instance to keep track of actions and stores and to coordinate communication.
-2. Connect Alt with views.
-3. Push our data to a store.
-4. Define actions to manipulate the store.
+1. Configurar una instancia de Alt para que siga las acciones, los almacenes y coordine la comunicación.
+2. Conectar Alt con las vistas.
+3. Dejar nuestros datos en un almacén.
+4. Definir acciones que permitan manipular el almacén.
 
-We'll do this gradually. The Alt specific portions will go behind adapters. The adapter approach allows us to change our mind later easier so it's worth implementing.
+Lo iremos haciendo paso a paso.  Las partes específicas de Alt van después de los adaptadores. El enfoque de adaptadores nos permite cambiar fácilmente de idea más adelante así que vale la pena implementarlos.
 
-### Setting Up an Alt Instance
+### Configurando una Instancia de Alt
 
-Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application.
+Todo en Alt comienza desde una instancia de Alt. Hace un seguimiento de las acciones y los almacenes y permite que la comunicación fluya. Para hacer que todo sea sencillo trataremos a todos los componentes de Alt como si fueran [singleton](https://es.wikipedia.org/wiki/Singleton). Gracias a este patrón podremos reutilizar la misma instancia dentro de nuestra aplicación.
 
-To achieve this we can push it to a module of its own and then refer to that from everywhere. Configure it as follows:
+Para conseguirlo podemos dejarlo en un módulo y referenciarlo desde cualquier sitio. Configúralo tal y como sigue:
 
 **app/libs/alt.js**
 
@@ -95,29 +94,29 @@ const alt = new Alt();
 export default alt;
 ```
 
-This is a standard way to implement *singletons* using ES6 syntax. It caches the modules so the next time you import Alt from somewhere, it will return the same instance again.
+Esta es la forma estándar de implementar *singletons* usando la sintaxis de ES6. Cachea el módulo de tal forma que te devolverá la misma instancia la próxima vez que importes Alt desde donde sea.
 
-T> Note that `alt.js` should go below `app/libs`, not project root `libs`!
+T> Observa que `alt.js` debe ir bajo `app/libs`, ¡no en el directorio `libs` del raíz!
 
-T> The singleton pattern guarantees that there can be only one instance. That is exactly the behavior we want here.
+T> El patrón singleton garantiza que habrá una y sólo una instancia. Este es precisamente el comportamiento que queremos ahora.
 
-### Connecting Alt with Views
+### Uniendo Alt con las Vistas
 
-Normally state management solutions provide two parts you can use to connect them with a React application. These are a `Provider` component and a `connect` higher order function (function returning function generating a component). The `Provider` sets up a React [context](https://facebook.github.io/react/docs/context.html).
+Por normal general los gestores de estados facilitan dos cosas que pueden ser usadas para conectar con una aplicación React. Esto son el `Proveedor` y una función de alto nivel `conectar` (una función que devuelve una función que genera un componente). El `Proveedor` configura un [contexto de react](https://facebook.github.io/react/docs/context.html).
 
-Context is an advanced feature that can be used to pass data through a component hierarchy implicitly without going through props. The `connect` function uses the context to dig the data we want and then passes it to a component.
+Los contextos son una característica avanzada que puede ser utilizada para enviar datos de forma implícita a través de la jerarquía de componentes sin utilizar props. La función `conectar` utiliza el contexto para cavar un hueco en el que enviar los datos al componente.
 
-It is possible to use a `connect` through function invocation or a decorator as we'll see soon. The *Understanding Decorators* appendix digs deeper into the pattern.
+Es posible utilizar `conectar` a través de la invocación de funciones o de un decorador como veremos pronto. El apéndice *Entendiendo los Decoradores* entra más en profundidad en este patrón.
 
-To keep our application architecture easy to modify, we'll need to set up two adapters. One for `Provider` and one for `connect`. We'll deal with Alt specific details in both places.
+Para permitir que la arquitectura de nuestra aplicación sea sencilla de modificar necesitaremos configurar dos adaptadores, uno para el `Proveedor` y otro para `conectar`. Nos enfrentaremos con los detalles específicos de Alt en ambos sitios.
 
-### Setting Up a `Provider`
+### Configurando un `Proveedor`
 
-In order to keep our `Provider` flexible, I'm going to use special configuration. We'll wrap it within a module that will choose a `Provider` depending on our environment. This enables us to use development tooling without including it to the production bundle. There's some additional setup involved, but it's worth it given you end up with a cleaner result.
+Voy a utilizar una configuración especial que nos permitirá que nuestro `Proveedor` sea flexible. Lo envolveremos en un módulo que eligirá un `Proveedor` u otro dependiendo de nuestro entorno. Esto nos permitirá usar herramientas de desarrollo sin incluirlas en el pack de producción. Es necesario hacer algo de configuración extra pero merece la pena puesto que así tendremos un resultado más limpio.
 
-The core of this arrangement is the index of the module. CommonJS picks up the **index.js** of a directory by default when we perform an import against the directory. Given the behavior we want is dynamic, we cannot rely on ES6 modules here.
+El punto de partida de esto está en el index del módulo. CommonJS escoje por defecto el fichero **index.js** del directorio cuando hacemos un import de ese directorio. No podemos dejarlo en mano de los módulos de ES6 dado que queremos un comportamiento dinámico.
 
-The idea is that our tooling will rewrite the code depending on `process.env.NODE_ENV` and choose the actual module to include based on that. Here's the entry point of our `Provider`:
+La idea es que nuestro componente reescriba el código dependiendo de la variable `process.env.NODE_ENV`, la cual servirá para seleccionar el módulo que queramos incluir. Aquí tenemos el punto de entrada de nuestro `Proveedor`:
 
 **app/components/Provider/index.js**
 
@@ -130,9 +129,9 @@ else {
 }
 ```
 
-We also need the files the index is pointing at. The first part is easy. We'll need to point to our Alt instance there, connect it with a component known as `AltContainer`, and then render our application within it. That's where `props.children` comes in. It's the same idea as before.
+También necesitaremos los ficheros a los cuales está apuntando el fichero index. La primera parte es sencilla. Aquí necesitamos apuntar a nuestra instancia de Alt, conectarlo con un componente cnmocido como `AltContainer` y renderizar nuestra aplicación con él. Es aquí donde `props.children` entran en juego. Es la misma idea de antes.
 
-`AltContainer` will enable us to connect the data of our application at component level when we implement `connect`. To get to the point, here's the production level implementation:
+`AltContainer` nos permitirá conectar los datos de nuestra aplicación a nivel de componente cuando implementemos `conectar`. Para ello, aquí tienes la implementación a nivel de producción:
 
 **app/components/Provider/Provider.prod.jsx**
 
@@ -150,11 +149,11 @@ export default ({children}) =>
   </AltContainer>
 ```
 
-The implementation of `Provider` can change based on which state management solution we are using. It is possible it ends up doing nothing, but that's acceptable. The idea is that we have an extension point where to alter our application if needed.
+La implementación de `Proveedor` puede cambiar dependiendo del gestor de estados que estemos utilizando. Es posible que finalmente no haga nada, lo cual es aceptable. La idea es que tengamos un punto de extensión donde poder modificar nuestra aplicación si lo necesitamos.
 
-We are still missing one part, the development related setup. It is like the production one except this time we can enable development specific tooling. This is a good chance to move the *react-addons-perf* setup here from the *app/index.jsx* of the application. I'm also enabling [Alt's Chrome debug utilities](https://github.com/goatslacker/alt-devtool). You'll need to install the Chrome portion separately if you want to use those.
+Todavía nos estamos dejando una parte, la relacionada con la configuración de desarrollo. Será como la de producción con la excepción de que esta vez podremos habilitar herramientas específicas de desarrollo. Es una buena oportunidad de mover la configuración de *react-addons-perf* aquí desde el *app/index.jsx* de la aplicación. También estoy habilitando [las herramientas de debug de Chrome para Alt](https://github.com/goatslacker/alt-devtool). Tendrás que instalar Chrome si quieres utilizarlas.
 
-Here's the full code of the development provider:
+Aquí tienes el código completo del proveedor de desarrollo:
 
 **app/components/Provider/Provider.dev.jsx**
 
@@ -177,7 +176,7 @@ export default ({children}) =>
   </AltContainer>
 ```
 
-That `setup` module allows us to perform Alt related setup that's common for both production and development environment. For now it's enough to do nothing there like this:
+El módulo `setup` permite hacer toda la configuración relacionada con Alt que sea común tanto para el entorno de producción como para el entorno de desarrollo. De momento con que no haga nada es suficiente:
 
 **app/components/Provider/setup.js**
 
@@ -185,7 +184,7 @@ That `setup` module allows us to perform Alt related setup that's common for bot
 export default alt => {}
 ```
 
-We still need to connect the `Provider` with our application by tweaking *app/index.jsx*. Perform the following changes to hook it up:
+Todavía necesitamos conectar el `Proveedor` con nuestra aplicación modificando *app/index.jsx*. Haz los siguientes cambios:
 
 **app/index.jsx**
 
@@ -214,15 +213,15 @@ leanpub-end-insert
 );
 ```
 
-If you check out Webpack output, you'll likely see it is installing new dependencies to the project. That's expected given the changes. The process might take a while to complete. Once completed, refresh the browser.
+Si miras la salida de Webpack verás que hay nuevas dependencias que se han instalado en el proyecto. Es lo que podemos esperar dados los cambios. El proceso puede tardar un rato en terminar, una vez que lo haga, refresca el navegador.
 
-Given we didn't change the application logic in any way, everything should still look the same. A good next step is to implement an adapter for connecting data to our views.
+Dado que no hemos cambiado la lógica de la aplicación de ninguna manera, todo debería tener el mismo aspecto de antes. Un buen paso con el que continuar es implementar un adaptador que conecte los datos con nuestras vistas.
 
-T> You can see a similar idea in [react-redux](https://www.npmjs.com/package/react-redux). MobX won't need a Provider at all. In that case our implementation would simply return `children`.
+T> Puedes encontrar una idea similar en [react-redux](https://www.npmjs.com/package/react-redux). MobX no necesita un `Proveedor` para nada. En este caso nuestra implementación únicamente devolverá `children`.
 
-## Understanding `connect`
+## Entendiendo `conectar`
 
-The idea of `connect` is to allow us to attach specific data and actions to components. I've modeled the API after react-redux. Fortunately we can adapt various data management systems to work against it. Here's how you would connect lane data and actions with `App`:
+La idea de `conectar` es la de permitirnos incrustar datos y acciones concretas a componentes. Es así como podemos conectar los datos de los carriles y las acciones con `App`:
 
 ```javascript
 @connect(({lanes}) => ({lanes}), {
@@ -243,7 +242,7 @@ export default class App extends React.Component {
 }
 ```
 
-The same could be written without decorators. This is the syntax we'll be using in our application:
+Se puede escribir lo mismo sin decoradores. Esta es la sintáxis que utilizaremos en nuestra aplicación:
 
 ```javascript
 class App extends React.Component {
@@ -255,21 +254,19 @@ export default connect(({lanes}) => ({lanes}), {
 })(App)
 ```
 
-In case you need to apply multiple higher order functions against a component, you could use an utility like `compose` and end up with `compose(a, b)(App)`. This would be equal to `a(b(App))` and it would read a little better.
+En caso de que necesites aplicar varias funciones de alto nivel contra un componente, puedes utilizar una utilidad como `compose` y usarla con `compose(a, b)(App)`. Esto será igual a `a(b(App))` y se puede leer mejor.
 
-As the examples show, `compose` is a function returning a function. That's why we call it a higher order function. In the end we get a component out of it. This wrapping allows us to handle our data connection concern.
+En los ejemplos mostrados `compose` es una función que devuelve una función. Por ello lo llamamos función de alto nivel. Al final obtendremos un componente de ella. Este envoltorio nos permite manejar todo lo relacionado con la conexión con los datos.
 
-We could use a higher order function to annotate our components to give them other special properties as well. We will see the idea again when we implement drag and drop later in this part. Decorators provide a nicer way to attach these types of annotations. The *Understanding Decorators* appendix delves deeper into the topic.
+Podemos utilizar una función de alto nivel para anotar nuestros componentes y darles además otras propiedades especiales. Veremos esta idea cuando implementemos la funcionalidad de arrastrar y soltar. Los decoradores brindan una forma sencilla de incluir estos tipos de anotaciones. El apéndice *Entendiendo los Decoradores* profundiza más en este asunto.
 
-Now that we have a basic understanding of how `connect` should work, we can implement it.
+Ahora que entendemos básicamente cómo debería funcionar `conectar` podemos implementarlo.
 
-### Setting Up `connect`
+### Configurando `conectar`
 
-In this case I'm going to plug in a custom `connect` to highlight a couple of key ideas. The implementation isn't optimal when it comes to performance. It is enough for this application, though.
+Voy a utilizar un `conectar` personalizado para remarcar un par de ideas clave. La implementación no es óptima en terminos de rendimiento pero será suficiente para esta aplicación.
 
-It would be possible to optimize the behavior with further effort. You could use one of the established connectors instead or develop your own here. That's one reason why having control over `Provider` and `connect` is useful. It allows further customization and understanding of how the process works.
-
-In case we have a custom state transformation defined, we'll dig the data we need from the `Provider`, apply it over our data as we defined, and then pass the resulting data to the component through props:
+Es posible optimizar el rendimiento con un trabajo posterior. Puedes utilizar uno de los conectores comunes en lugar de desarrollar el tuyo propio. He aquí una razón por la cual tener el control de `Proveedor` y `conectar` es útil, permite personalizar más adelante y entender cómo funciona el proceso.
 
 **app/libs/connect.jsx**
 
@@ -287,10 +284,10 @@ export default (state, actions) => {
   );
 }
 
-// Connect to Alt through context. This hasn't been optimized
-// at all. If Alt store changes, it will force render.
+// Conectar con Alt a través del contexto. Esto no ha sido optimizado
+// para nada. Si Alt almacena los cambios se forzará el renderizado.
 //
-// See *AltContainer* and *connect-alt* for optimized solutions.
+// Ver *AltContainer* y *connect-alt* para encontrar soluciones óptimas
 function connect(state = () => {}, actions = {}, target) {
   class Connect extends React.Component {
     componentDidMount() {
@@ -325,14 +322,14 @@ function connect(state = () => {}, actions = {}, target) {
   return Connect;
 }
 
-// Transform {store: <AltStore>} to {<store>: store.getState()}
+// Convierte {store: <AltStore>} en {<store>: store.getState()}
 function composeStores(stores) {
   let ret = {};
 
   Object.keys(stores).forEach(k => {
     const store = stores[k];
 
-    // Combine store state
+    // Combina el estado del almacén
     ret = Object.assign({}, ret, store.getState());
   });
 
@@ -340,7 +337,7 @@ function composeStores(stores) {
 }
 ```
 
-As `flux.FinalStore` won't be available by default, we'll need to alter our Alt instance to contain it. After that we can access it whenever we happen to need it:
+Dado que `flux.FinalStore` no está disponible por defecto, necesitamos cambiar nuestra instacia de Alt para que la contenga. Tras ello podremos acceder a ella donde la necesitemos:
 
 **app/libs/alt.js**
 
@@ -370,7 +367,7 @@ export default flux;
 leanpub-end-insert
 ```
 
-In order to see `connect` in action, we could use it to attach some dummy data to `App` and then render it. Adjust it as follows to pass data `test` to `App` and then show it in the user interface:
+Podemos incrustar algunos datos de prueba en `App` y renderizarlos para ver `conectar` en acción. Haz los cambios siguientes para enviar datos a `App` y, después, mira cómo se muestran en la interfaz de usuario:
 
 **app/components/App.jsx**
 
@@ -419,14 +416,14 @@ export default connect(() => ({
 leanpub-end-insert
 ```
 
-To make the text show up, refresh the browser. You should see the text that we connected to `App` now.
+Refresca el navegador para mostrar el texto. Deberías poder ver ahora el texto que hemos conectado con `App`.
 
-## Dispatching in Alt
+## Usando el dispatcher en Alt
 
-Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet, such as `alt.dispatcher.register(console.log.bind(console))`. Alternatively, you could trigger `this.dispatcher.register(...)` at a store constructor. These mechanisms allow you to implement effective logging.
+Aunque hayamos llegado lejos sin utilizar el dispatcher de Flux, puede ser útil que sepamos algo sobre ello. Alt facilita dos formas de utilizarlo. Si quieres guardar una traza de todo lo que pase por la instancia de `alt` puedes utilizar un trozo de código como `alt.dispatcher.register(console.log.bind(console))`. También puedes lanzar `this.dispatcher.register(...)` en un constructor del almacén. Estos mecanismos te permitirán generar trazas de forma efectiva.
 
-Other state management systems provide similar hooks. It is possible to intercept the data flow in many ways and even build custom logic on top of that.
+Otros gestores de estado ofrecen puntos de enganche similares. Es posible interceptar el flujo de datos de muchas formas e incluso crear una lógica personalizada encima de ello.
 
-## Conclusion
+## Conclusión
 
-In this chapter we discussed the basic idea of the Flux architecture and started porting our application to it. We pushed the state management related concerns behind an adapter to allow altering the underlying system without having to change the view related code. The next step is to implement a store for our application data and define actions to manipulate it.
+En este capítulo hemos debatido la idea básica de qué es la arquitectura Flux y hemos comenzado a migrar nuestra aplicación a ella. Hemos dejado todo lo relacionado con la gestión del estado tras un adaptador para poder modificar el código sin tener que cambiar nada relacionado con la vista. El paso siquiente será definir un almacén para nuestra aplicación y definir las acciones que lo puedan manipular.
