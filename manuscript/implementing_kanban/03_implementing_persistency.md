@@ -1,27 +1,25 @@
-# Implementing Persistency over `localStorage`
+# Implementando Persistencia en `localStorage`
 
-Currently our application cannot retain its state if refreshed. One neat way to get around this problem is to store the application state to [localStorage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage) and then restore it when we run the application again.
+Ahora mismo nuestra aplicación no puede mantener su estado si la página se refresca. Una buena forma de solucionar este problema es almacenar el estado de la aplicación en el [localStorage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage) y recuperarlo cuando ejecutemos la aplicación de nuevo.
 
-If you were working against a back-end, this wouldn't be a problem. Even then having a temporary cache in `localStorage` could be handy. Just make sure you don't store anything sensitive there as it is easy to access.
+Esto no es un problema si estamos trabajando contra un backend, aunque incluso en ese caso tener una caché temporal en `localStorage` puede ser útil, únicamente estate seguro de que no almacenas información sensible ya que es fácil acceder a ella.
 
-## Understanding `localStorage`
+## Entendiendo `localStorage`
 
-`localStorage` is a part of the Web Storage API. The other half, `sessionStorage`, exists as long as the browser is open while `localStorage` persists even in this case. They both share [the same API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API) as discussed below:
+`localStorage` es una parte de Web Storage API. La otra mitad, el `sessionStorage`, funciona sólo cuando el navegador está en funcionamiento mientras `localStorage` persiste incluso más allá. Ambos comparten [el mismo API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API) que se muestra a continuación:
 
-* `storage.getItem(k)` - Returns the stored string value for the given key.
-* `storage.removeItem(k)` - Removes the data matching the key.
-* `storage.setItem(k, v)` - Stores the given value using the given key.
-* `storage.clear()` - Empties the storage contents.
+* `storage.getItem(k)` - Devuelve la cadena de texto almacenada en la clave enviada como parámetro.
+* `storage.removeItem(k)` - Elimina el dato que coincida con la clave.
+* `storage.setItem(k, v)` - Guarda el valor recibido en base a la clave indicada.
+* `storage.clear()` - Borra el contenido del almacén.
 
-It is convenient to operate on the API using your browser developer tools. In Chrome especially the *Resources* tab is useful as it allows you to inspect the data and perform direct operations on it. You can even use `storage.key` and `storage.key = 'value'` shorthands in the console for quick tweaks.
+Es conveniente operar con el API utilizando las herramientas de desarrollador del navegador. En Chrome, la pestaña *Recursos* es útil y te permite tanto inspeccionar los datos como realizar operaciones directas contra ellas. Puedes utilizar incluso los atajos `storage.key` y `storage.key = 'value'` en la consola para hacer pequeñas pruebas.
 
-`localStorage` and `sessionStorage` can use up to 10 MB of data combined. Even though they are well supported, there are certain corner cases that can fail. These include running out of memory in Internet Explorer (fails silently) and failing altogether in Safari's private mode. It is possible to work around these glitches, though.
+`localStorage` y `sessionStorage` pueden utilizar hasta un máximo de 10 MB entre las dos, que aunque es algo que debería estar bien soportado por los navegadores, puede fallar.
 
-T> You can support Safari in private mode by trying to write into `localStorage` first. If that fails, you can use Safari's in-memory store instead, or just let the user know about the situation. See [Stack Overflow](https://stackoverflow.com/questions/14555347/html5-localstorage-error-with-safari-quota-exceeded-err-dom-exception-22-an) for details.
+## Implementando un Envoltorio para `localStorage`
 
-## Implementing a Wrapper for `localStorage`
-
-To keep things simple and manageable, we will implement a little wrapper for `storage` to wrap the complexity. The API will consist of `get(k)` to fetch items from the storage and `set(k, v)` to set them. Given the underlying API is string based, we'll use `JSON.parse` and `JSON.stringify` for serialization. Since `JSON.parse` can fail, that's something we need to take into account. Consider the implementation below:
+Para hacer que las cosas sean simples y manejables vamos a implementar un pequeño envoltorio sobre el `almacén` que nos permita limitar la complejidad. El API consistirá en un método `get(k)` para recuperar elementos del almacenamiento y `set(k,v)` para establecerlos. Dado que el API que está por debajo funciona con cadenas de texto, usaremos `JSON.parse` y `JSON.stringify` para la serialización. Tendremos que tener en cuenta que `JSON.parse` puede fallar. Considera la siguiente implementación:
 
 **app/libs/storage.js**
 
@@ -41,27 +39,27 @@ export default storage => ({
 })
 ```
 
-The implementation is enough for our purposes. It's not foolproof and it will fail if we put too much data into a storage. To overcome these problems without having to solve them yourself, it would be possible to use a wrapper such as [localForage](https://github.com/mozilla/localForage) to hide the complexity.
+Esta implementación es suficiente para cumplir nuestros propósitos. No funcionará siempre y fallará si ponemos demasiados datos en el almacén. Para superar estos problemas sin tener que arreglarlos por tí mismo es posible utilizar un envoltorio como [localForage](https://github.com/mozilla/localForage) para ocultar la complejidad.
 
-## Persisting the Application Using `FinalStore`
+## Persistiendo la Aplicación usando `FinalStore`
 
-Just having means to write and read from the `localStorage` won't do. We still need to connect out application to it somehow. State management solutions provide hooks for this purpose. Often you'll find a way to intercept them somehow. In Alt's case that happens through a built-in store known as `FinalStore`.
+El que tengamos los medios para poder escribir en el `localStorage` no es suficiente. Todavía necesitamos poder conectarlo con nuestra aplicación de alguna manera. Los gestores de estados tienen puntos de enganche para este propósito y a menudo encontrarás una forma de interceptarlos de alguna manera. En el caso de Alt, esto ocurre gracias a un almacén predefinido conocido como `FinalStore`.
 
-We have already set it up at our Alt instance. What remains is writing the application state to the `localStorage` when it changes. We also need to load the state when we start running it. In Alt terms these processes are known as **snapshotting** and **bootstrapping**.
+El caso es que ya lo tenemos configurado en nuestra instancia de Alt. Lo que nos queda es escribir el estado de la aplicación en el `localStorage` cuando éste cambie. También necesitaremos cargar el estado cuando arranquemos la aplicación. Estos procesos en Alt se conocen como **snapshotting** y **bootstrapping**.
 
-T> An alternative way to handle storing the data would be to take a snapshot only when the window gets closed. There's a Window level `beforeunload` hook that could be used. This approach is brittle, though. What if something unexpected happens and the hook doesn't get triggered for some reason? You'll lose data.
+T> Una forma alternativa de gestionar el almacenamiento de los datos es hacer un snapshot sólo cuando se cierre el navegador. Hay una llamada a nivel de ventana llamado `beforeunload` que puede ser utilizado para ello. Sin embargo, esta aproximación es algo frágil. ¿Qué ocurrirá si ocurre algo inesperado y el evento no se llega a lanzar por algún motivo?, que perderás datos.
 
-## Implementing the Persistency Logic
+## Implementando la Lógica de Persistencia
 
-We can handle the persistency logic at a separate module dedicated to it. We will hook it up at the application setup and off we go.
+Podemos gestionar la lógica de persistencia en un módulo separado que se dedique a ello.
 
-Given it can be useful to be able to disable snapshotting temporarily, it can be a good idea to implement a `debug` flag. The idea is that if the flag is set, we'll skip storing the data.
+Puede ser una buena idea implementar un flag de `debug` ya que puede ser útil deshabilitar el snapshotting de forma temporal. La idea es dejar de almacenar datos si el flag está puesto a true.
 
-This is particularly useful if we manage to break the application state dramatically during development somehow as it allows us to restore it to a blank slate easily through `localStorage.setItem('debug', 'true')` (`localStorage.debug = true`), `localStorage.clear()`, and finally a refresh.
+Esto es especialmente útil para poder eliminar el estado de la aplicación de forma drástica durante el desarrollo y poder dejarlo en un estado en blanco mediante `localStorage.setItem('debug', 'true')` (`localStorage.debug = true`), `localStorage.clear()` y, finalmente, refrescar el navegador.
 
-Given bootstrapping could fail for an unknown reason, we catch a possible error. It can still be a good idea to proceed with starting the application even if something horrible happens at this point. The snapshot portion is easier as we just need to check for the `debug` flag there and then set data if the flag is not active.
+Dado que el bootstrapping puede fallar por algún motivo desconocido debemos ser capaces de capturar el error. Puede ser una buena idea seguir con el arranque de la aplicación aunque algo horrible haya pasado llegado ese punto.
 
-The implementation below illustrates the ideas:
+La siguiente implementación ilustra estas ideas:
 
 **app/libs/persist.js**
 
@@ -82,11 +80,11 @@ export default function(alt, storage, storageName) {
 }
 ```
 
-You would end up with something similar in other state management systems. You'll need to find equivalent hooks to initialize the system with data loaded from the `localStorage` and write the state there when it happens to change.
+Puede que acabes con algo similar usando otros gestores de estado. Necesitarás encontrar puntos de enganche similares con los que inicializar el sistema con datos cargados desde el `localStorage` y poder escribir el estado cuando algo haya cambiado.
 
-## Connecting Persistency Logic with the Application
+## Conectando la Lógica de Persistencia con la Aplicación
 
-We are still missing one part to make this work. We'll need to connect the logic with our application. Fortunately there's a suitable place for this, the setup. Tweak as follows:
+Todavía nos falta una pieza para hacer que esto funcione. Necesitamos conectar la lógica con nuestra aplicación. Por suerte hay un sitio indicado para ello, la configuración. Déjala como sigue:
 
 **app/components/Provider/setup.js**
 
@@ -106,15 +104,15 @@ leanpub-end-insert
 }
 ```
 
-If you try refreshing the browser now, the application should retain its state. Given the solution is generic, adding more state to the system shouldn't be a problem. We could also integrate a proper back-end through the same hooks if we wanted.
+Si refrescas el navegador ahora, la aplicación debería mantener su estado. Puesto que esta solución es genérica, añadir más estados al sistema no debería suponer un problema. También podemos integrar un backend que facilite estos puntos de enganche si queremos.
 
-If we had a real back-end, we could pass the initial payload as a part of the HTML and load it from there. This would avoid a round trip. If we rendered the initial markup of the application as well, we would end up implementing basic **universal rendering** approach. Universal rendering is a powerful technique that allows you to use React to improve the performance of your application while gaining SEO benefits.
+Si tuviésemos un backend real podríamos incluir el resultado en el HTML y devolverlo al navegador, lo que nos ahorraría un viaje. Si además renderizamos el HTML inicial de la aplicación acabaremos implementando una aproximación básica al **renderizado universal**. El renderizado universal es una técnica muy poderosa que permite usar React para mejorar el rendimiento de tu aplicación a la vez que sigue funcionando el SEO.
 
-W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. The lesson here is that the more you inject state and logic to your application, the more complicated it gets to handle.
+W> Nuestra implementación no está falta de fallos. Es fácil llegar a una situación en la que el `localStorage` contenga datos inválidos debido a cambios que hayamos hecho en el modelo de datos. Esto te acerca al mundo de los esquemas de bases de datos y sus migraciones. Lo que debes aprender aquí es que cuánto más estado tengas en tu aplicación, más complicado se volverá manejarlo.
 
-## Cleaning Up `NoteStore`
+## Limpiando `NoteStore`
 
-Before moving on, it would be a good idea to clean up `NoteStore`. There's still some code hanging around from our earlier experiments. Given persistency works now, we might as well start from a blank slate. Even if we wanted some initial data, it would be better to handle that at a higher level, such as application initialization. Adjust `NoteStore` as follows:
+Antes de continuar es una buena idea limpiar `NoteStore`. Todavía queda algo de código de experimentos anteriores. Dado que la persistencia ya funciona, puede que queramos arrancar desde un estado en blanco. Incluso si queremos tener datos iniciales, puede que sea mejor gestionarlos a alto nivel, por ejemplo al arrancar la aplicación. Cambia `NoteStore` de este modo:
 
 **app/stores/NoteStore.js**
 
@@ -148,22 +146,22 @@ leanpub-end-insert
 }
 ```
 
-This is enough for now. Now our application should start from a blank slate.
+Es suficiente de momento. Nuestra aplicación debería arrancar desde cero.
 
-## Alternative Implementations
+## Implementaciones Alternativas
 
-Even though we ended up using Alt in this initial implementation, it's not the only option. In order to benchmark various architectures, I've implemented the same application using different techniques. I've compared them briefly below:
+Que hayamos usado Alt en esta implementación inicial no significa que sea la única opción. Para poder comparar varias arquitecturas he implementado la misma aplicación utilizando técnicas diferentes. A continuación presento una breve comparación:
 
-* [Redux](http://rackt.org/redux/) is a Flux inspired architecture that was designed with hot loading as its primary constraint. Redux operates based on a single state tree. The state of the tree is manipulated using *pure functions* known as reducers. Even though there's some boilerplate code, Redux forces you to dig into functional programming. The implementation is quite close to the Alt based one. - [Redux demo](https://github.com/survivejs/redux-demo)
-* Compared to Redux, [Cerebral](http://www.cerebraljs.com/) had a different starting point. It was developed to provide insight on *how* the application changes its state. Cerebral provides more opinionated way to develop, and as a result, comes with more batteries included. - [Cerebral demo](https://github.com/survivejs/cerebral-demo)
-* [MobX](https://mobxjs.github.io/mobx/) allows you to make your data structures observable. The structures can then be connected with React components so that whenever the structures update, so do the React components. Given real references between structures can be used, the Kanban implementation is surprisingly simple. - [MobX demo](https://github.com/survivejs/mobx-demo)
+* [Redux](http://rackt.org/redux/) es una arquitectura inspirada en Flux diseñada con la recarga en caliente como primer objetivo a cumplir. Redux se basa en un único árbol de estado, el cual se manipula con *funciones puras* conocidas como reductores. Redux te fuerza a profundizar en la programación funcional. la implementación es muy parecida a la de Alt. - [Demo de Redux](https://github.com/survivejs/redux-demo)
+* Comparado con Redux, [Cerebral](http://www.cerebraljs.com/) tiene un enfoque diferente. Fue desarrollado para permitir ver *cómo* la aplicación cambia su estado. Cerebral guía más cómo hacer el desarrollo y, como resultado, viene con las pilas más cargadas.  - [Demo de Cerebral](https://github.com/survivejs/cerebral-demo)
+* [MobX](https://mobxjs.github.io/mobx/) te permite tener estructuras de datos observables. Las estructuras pueden estar conectadas con componentes de React así que cuando las estructuras cambian, también lo hacen los componentes. La implementación del Kanban es sorprendentemente simple ya que se pueden utilizar referencias reales entre componentes. - [Demo de MobX](https://github.com/survivejs/mobx-demo)
 
-## Relay?
+## ¿Relay?
 
-Compared to Flux, Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) improves on the data fetching department. It allows you to push data requirements to the view level. It can be used standalone or with Flux depending on your needs.
+Comparado con Flux, [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) de Facebook mejora la recepción de datos. Permite llevar los requisitos sobre los datos a nivel de vista. Puede ser utilizado de forma independiente o con Flux dependiendo de lo que necesites.
 
-Given it's still largely untested technology, we won't be covering it in this book yet. Relay comes with special requirements of its own (GraphQL compatible API). Only time will tell how it gets adopted by the community.
+No lo vamos a cubrir en este libro por ser una tecnología que todavía no está madura. Relay tiene algunos requisitos especiales, como un API compatible con GraphQL. Sólo lo explicaré si pasa a ser adoptado por la comunidad.
 
-## Conclusion
+## Conclusión
 
-In this chapter, you saw how to set up `localStorage` for persisting the application state. It is a useful little technique to know. Now that we have persistency sorted out, we are ready to start generalizing towards a full blown Kanban board.
+En este capítulo hemos visto cómo configurar el `localStorage` para almacenar el estado de la aplicación. Es una técnica pequeña a la vez que útil. Ahora que hemos solucionado la persistencia, estamos listos para tener un estupendo tablero de Kanban.
