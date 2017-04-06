@@ -1,16 +1,16 @@
-# Editing Lanes
+# Editando los Carriles
 
 ![Kanban board](images/kanban_05.png)
 
-We still have work to do to turn this into a real Kanban as pictured above. The application is still missing some logic and styling. That's what we'll focus on here.
+Todavia tenemos mucho trabajo por hacer para conseguir que esto sea un Kanban real como el que se muestra ahí arriba. La aplicación todavía carece de algo de lógica y de estilo. Es en eso en lo que nos vamos a centrar ahora.
 
-The `Editable` component we implemented earlier will come in handy. We can use it to make it possible to alter `Lane` names. The idea is exactly the same as for notes.
+El componente `Editable` que implementamos antes nos será útil ahora. Podremos usarlo para que sea posible cambiar el nombre de los carriles. La idea es la misma que para las notas.
 
-We should also make it possible to remove lanes. For that to work we'll need to add an UI control and attach logic to it. Again, it's a similar idea as earlier.
+También debemos hacer que sea posible eliminar carriles. Para ello necesitaremos añadir un control en el UI e incluir algo de lógica. De nuevo, la idea es similar a lo de antes.
 
-## Implementing Editing for `Lane` names
+## Implementando la Edición de Nombres de `Carril`
 
-To edit a `Lane` name, we need a little bit of logic and UI hooks. `Editable` can handle the UI part. Logic will take more work. To get started, tweak `LaneHeader` as follows:
+Para editar el nombre de un `Carril` necesitaremos algo de lógica y puntos de enganche con el UI. `Editable` puede encargarse del UI, la lógica nos dará algo más de trabajo. Para comenzar, deja `LaneHeader` como sigue:
 
 **app/components/LaneHeader.jsx**
 
@@ -69,9 +69,9 @@ leanpub-end-insert
 })
 ```
 
-The user interface should look exactly the same after this change. We still need to implement `LaneActions.update` to make our setup work.
+La interfaz deusuario debería tener el mismo aspecto tras este cambio. Todavía necesitamos implementar `LaneActions.update` para hacer que esto funcione.
 
-Just like before, we have to tweak two places, the action definition and `LaneStore`. Here's the action part:
+Igual que antes, tenemos que hacer cambios en dos sitios, en la definición de la acción y en `LaneStore`. Aquí tenemos la parte de la acción:
 
 **app/actions/LaneActions.js**
 
@@ -83,7 +83,7 @@ export default alt.generateActions(
 );
 ```
 
-To add the missing logic, tweak `LaneStore` like this. It's the same idea as for `NoteStore`:
+Para añadir la lógica que falta, modifica `LaneStore` de este modo. La idea es la misma que la de `NoteStore`:
 
 **app/stores/LaneStore.js**
 
@@ -116,13 +116,13 @@ leanpub-end-insert
 }
 ```
 
-After these changes you should be able to edit lane names. Lane deletion is a good feature to sort out next.
+Tras estos cambios deberías ser capaz de editar los nombres de los carriles. El borrado de carriles es una buena característica con la que seguir.
 
-## Implementing `Lane` Deletion
+## Implementando el Borrao de `Carril`
 
-Deleting lanes is a similar problem. We need to extend the user interface, add an action, and attach logic associated to it.
+El borrado de carriles en un problema parecido. Necesitamos poner más cosas en la interfaz de usuario, añadir una acción y asociarle lógica.
 
-The user interface is a natural place to start. Often it's a good idea to add some `console.log`s in place to make sure your event handlers get triggered as your expect. It would be even better to write tests for those. That way you'll end up with a runnable specification. Here's how to add a stub for deleting lanes:
+La interfaz del usuario es un lugar natural en el que comenzar. A menudo es una buena idea añadir algunos `console.log` en ciertos lugares para estar seguro de que los manejadores se ejecutan cuando esperas. Puede ser incluso mejor que escribas tests para ellos. De este modo acabarás con una especificación ejecutable. Aquí tienes un esqueleto con el que poder borrar carriles:
 
 **app/components/LaneHeader.jsx**
 
@@ -136,7 +136,7 @@ export default connect(() => ({}), {
   ...
 leanpub-start-insert
   const deleteLane = e => {
-    // Avoid bubbling to edit
+    // Evita que se ejecuten los eventos naturales de javascript del componente
     e.stopPropagation();
 
     LaneActions.delete(lane.id);
@@ -160,7 +160,7 @@ leanpub-end-insert
 });
 ```
 
-Again, we need to expand our action definition:
+De nuevo, necesitamos agrandar nuestra definición de acción:
 
 **app/actions/LaneActions.js**
 
@@ -172,7 +172,7 @@ export default alt.generateActions(
 );
 ```
 
-And to finalize the implementation, let's add logic:
+Y, para finalizar con la implementación, tenemos que añadir algo de lógica:
 
 **app/stores/LaneStore.js**
 
@@ -202,13 +202,13 @@ leanpub-end-insert
 }
 ```
 
-Assuming everything went correctly, you should be able to delete entire lanes now.
+Si todo ha ido correctamente ahora deberías ser capaz de borrar carriles enteros.
 
-The current implementation contains one gotcha. Even though we are removing references to lanes, the notes they point remain. This is something that could be turned into a rubbish bin feature. Or we could perform cleanup as well. For the purposes of this application, we can leave the situation as is. It is something good to be aware of, though.
+La implementación actual tiene un problema. Aunque estamos borrando las referencias con los carriles, las notas todavía existen. Esto lo podemos arreglar de dos maneras: y creando una papelera donde ir dejando esta basura y borrarla cada cierto tiempo o podemos borrar las notas junto con el carril. Sin embargo, para el ámbito de esta aplicación vamos a dejarlo como está, es una mejora de lo que tendremos que ser conscientes.
 
-## Styling Kanban Board
+## Dando Estilo al Tablero Kanban
 
-As we added `Lanes` to the application, the styling went a bit off. Adjust as follows to make it a little nicer:
+El estilo se ha estropeado un poco al añadir `Carriles` a la aplicación. Cambia lo siguiente para que quede un poco mejor:
 
 **app/main.css**
 
@@ -295,12 +295,12 @@ leanpub-end-insert
 ...
 ```
 
-You should end up with a result like this:
+Deberías evr algo como esto:
 
 ![Styled Kanban](images/kanban_styled.png)
 
-As this is a small project, we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple files. One way to do this is to extract CSS per component and then refer to it there (e.g., `require('./lane.css')` at `Lane.jsx`). You could even consider using **CSS Modules** to make your CSS default to local scope. See the *Styling React* chapter for further ideas.
+Podemos dejar el CSS en un sólo fichero ya que este es un proyecto pequeño. En caso de que comience a crecer, habrá que considerar el partirlo en varios ficheros. Una forma de hacer esto es extraer el CSS de cada componente y referenciarlo desde él (por ejemplo,  `require('./lane.css')` en `Lane.jsx`). Puedes incluso considerar el utilizar **CSS Modules** para hacer que las CSS funcionen en un ámbito local. Lee el capítulo *Dando Estilo a React* para más información.
 
-## Conclusion
+## Conclusión
 
-Even though our application is starting to look good and has basic functionality in it, it's still missing perhaps the most vital feature. We still cannot move notes between lanes. This is something we will resolve in the next chapter as we implement drag and drop.
+Aunque nuestra aplicación empieza a tener un buen aspecto y tiene una funcionalidad básica todavia carece de una característica vital: aún no podemos mover notas entre carriles. Esto es algo que solucionaremos en el próximo capítulo cuando implementemos el drag and drop.
