@@ -1,14 +1,14 @@
-# Implementing Drag and Drop
+# Implementado Arrastrar y Soltar
 
-Our Kanban application is almost usable now. It looks alright and there's basic functionality in place. In this chapter, we will integrate drag and drop functionality to it as we set up [React DnD](https://gaearon.github.io/react-dnd/).
+Nuestra aplicación de Kanban es casi utilizable. Tiene un buen aspecto y cierta funcionalidad básica. En este capítulo integraremos la funcionalidad de arrastrar y soltar utilizando [React DnD](https://gaearon.github.io/react-dnd/).
 
-After this chapter, you should be able to sort notes within a lane and drag them from one lane to another. Although this sounds simple, there is quite a bit of work to do as we need to annotate our components the right way and develop the logic needed.
+Al terminar este capítulo deberías ser capaz de arrastrar notas entre carriles. Aunque parezca sencillo implica realizar algo de trabajo por nuestra parte ya que tendremos que anotar los componentes de la forma correcta y crear la lógica necesaria.
 
-## Setting Up React DnD
+## Configurando eact DnD
 
-As the first step, we need to connect React DnD with our project. We are going to use the HTML5 Drag and Drop based back-end. There are specific back-ends for testing and [touch](https://github.com/yahoo/react-dnd-touch-backend).
+Para comenzar necesitaremos conectar React DnD con nuestro proyecto. Vamos a utilizar un backend de arrastrar y soltar basado en el de HTML5. Existen backends específicos para testing y [tacto](https://github.com/yahoo/react-dnd-touch-backend).
 
-In order to set it up, we need to use the `DragDropContext` decorator and provide the HTML5 back-end to it. To avoid unnecessary wrapping, I'll use Redux `compose` to keep the code neater and more readable:
+Para configurarlo, necesitaremos utilizar el decorador `DragDropContext` y facilitarle el backend de HTML5. Voy a utilizar `compose` de redux para evitar revestimientos innecesarios y mantener el código más limpio:
 
 **app/components/App.jsx**
 
@@ -58,11 +58,11 @@ export default compose(
 leanpub-end-insert
 ```
 
-After this change, the application should look exactly the same as before. We are ready to add some sweet functionality to it now.
+Tras este cambio la aplicación debería tener el mismo aspecto de antes, pero ahora estamos preparados para añadir la funcionalidad.
 
-## Allowing Notes to Be Dragged
+## Permitiendo que las Notas sean Arrastradas
 
-Allowing notes to be dragged is a good first step. Before that, we need to set up a constant so that React DnD can tell different kind of draggables apart. Set up a file for tracking `Note` as follows:
+Permitir que las notas puedan ser arrastradas es un buen comienzo. Antes de ello, necesitamos configurar una constante de tal modo que React DnD sepa que hay distintos tipos de elementos arrastrables. Crea un fichero con el que poder indicar que quieres mover elementos de tipo `Nota` como sigue:
 
 **app/constants/itemTypes.js**
 
@@ -72,9 +72,9 @@ export default {
 };
 ```
 
-This definition can be expanded later as we add new types, such as `LANE`, to the system.
+Esta definición puede ser extendida más adelante incluyendo nuevos tipos, como `CARRIL`, al sistema.
 
-Next, we need to tell our `Note` that it's possible to drag it. This can be achieved using the `DragSource` annotation. Replace `Note` with the following implementation:
+A continuación necesitamos decirle a nuestra `Nota` que es posible arrastrarla. Esto se puede conseguir usando la anotación `DragSource`. Modifica `Nota` con la siguiente implementación:
 
 **app/components/Note.jsx**
 
@@ -106,21 +106,19 @@ export default DragSource(ItemTypes.NOTE, noteSource, connect => ({
 }))(Note)
 ```
 
-If you try to drag a `Note` now, you should see something like this at the browser console:
+Deberías ver algo como esto en la consola del navegador al tratar de mover una nota:
 
 ```bash
 begin dragging note Object {className: "note", children: Array[2]}
 ```
 
-Just being able to drag notes isn't enough. We need to annotate them so that they can accept dropping. Eventually this will allow us to swap them as we can trigger logic when we are trying to drop a note on top of another.
+Ser capaz sólo de mover notas no es suficiente. Necesitamos anotarlas para que puedan ser soltadas. Esto nos permitirá lanzar cierta lógica cuando tratemos de soltar una nota encima de otra.
 
-T> In case we wanted to implement dragging based on a handle, we could apply `connectDragSource` only to a specific part of a `Note`.
+W> Observa que React DnD no soporta perfectamente recarga en caliente. Puede que necesites refrescar el navegador para ver los mensajes de log que esperas.
 
-W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh the browser to see the log messages you expect!
+## Permitiendo a las Notas que Detecten Notas que Pasan por Encima
 
-## Allowing Notes to Detect Hovered Notes
-
-Annotating notes so that they can notice that another note is being hovered on top of them is a similar process. In this case we'll have to use a `DropTarget` annotation:
+Podemos anotar notas de tal modo que detecten que otra nota les está pasando por encima de un modo similar al anterior. En este caso usaremos la anotación `DropTarget`:
 
 **app/components/Note.jsx**
 
@@ -191,27 +189,27 @@ export default compose(
 leanpub-end-insert
 ```
 
-If you try hovering a dragged note on top of another now, you should see messages like this at the console:
+Si pruebas a arrastrar una nota por encima de otra deberías ver mensajes como el siguiente en la consola:
 
 ```bash
 dragging note Object {} Object {className: "note", children: Array[2]}
 ```
 
-Both decorators give us access to the `Note` props. In this case, we are using `monitor.getItem()` to access them at `noteTarget`. This is the key to making this to work properly.
+Ambos decoradores nos dan acceso a las propiedades de `Nota`. En este caso estamos usando `monitor.getItem()` para acceder a ellas en `noteTarget`. Esta es la clave para hacer que todo funcione correctamente.
 
-## Developing `onMove` API for `Notes`
+## Desarrollando el API `onMove` para `Notas`
 
-Now, that we can move notes around, we can start to define logic. The following steps are needed:
+Ahora que podemos mover las notas podemos comenzar a definir la lógica. Se necesitan los siguientes pasos:
 
-1. Capture `Note` id on `beginDrag`.
-2. Capture target `Note` id on `hover`.
-3. Trigger `onMove` callback on `hover` so that we can deal with the logic elsewhere. `LaneStore` would be the ideal place for that.
+1. Capturar el identificador de `Nota` en `beginDrag`.
+2. Capturar el identificador de la `Nota` objetivo `hover`.
+3. Lanzar la llmada a `hover` cuando se ejecute `onMove` par que podamos incluir la lógica en algún sitio. `LaneStore` puede ser el mejor lugar para ello.
 
-Based on the idea above we can see we should pass id to a `Note` through a prop. We also need to set up a `onMove` callback, define `LaneActions.move`, and `LaneStore.move` stub.
+Siguiendo la idea anterior podemos pasar el identificador de la `Nota` mediante una propiedad. También necesitaremos crear un esqueleto para la llamada a `onMove` y definir `LaneActions.move` y `LaneStore.move`.
 
-### Accepting `id` and `onMove` at `Note`
+### Aceptando `id` y `onMove` en `Note`
 
-We can accept `id` and `onMove` props at `Note` like below. There is an extra check at `noteTarget` as we don't need trigger `hover` in case we are hovering on top of the `Note` itself:
+Podemos aceptar las propiedades `id` y `onMove` en `Note` como sigue:
 
 **app/components/Note.jsx**
 
@@ -279,11 +277,11 @@ leanpub-end-insert
 ...
 ```
 
-Having these props isn't useful if we don't pass anything to them at `Notes`. That's our next step.
+Tener esas propiedades no es útil si no pasamos nada a `Notas`. Ese será nuestro siguiente paso.
 
-### Passing `id` and `onMove` from `Notes`
+### Pasando `id` y `onMove` desde `Notes`
 
-Passing a note `id` and `onMove` is simple enough:
+Pasar el `id` de una nota y `onMove` es sencillo:
 
 **app/components/Notes.jsx**
 
@@ -321,17 +319,17 @@ leanpub-end-insert
 )
 ```
 
-If you hover a note on top of another, you should see console messages like this:
+Si mueves una nota encima de otra verás mensajes por consola como el siguiente:
 
 ```bash
 moving from 3310916b-5b59-40e6-8a98-370f9c194e16 to 939fb627-1d56-4b57-89ea-04207dbfb405
 ```
 
-## Adding Action and Store Method for Moving
+## Añadiendo Acciones en el Movimiento
 
-The logic of drag and drop goes as follows. Suppose we have a lane containing notes A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
+La lógica de arrastrar y soltar funciona como sigue. Supón que tienes un carril que contiene las notas A, B y C. En caso de que sitúes A detrás de C el carríl contendrá B, C y A. Si tienes otra lista, por ejemplo D, E y F, y movemos A al comienzo de ésta lista, acabaremos teniendo B y C y A, D, E y F.
 
-In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note`, we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over the given notes. A good starting point is to define `LaneActions.move`:
+En nuestro caso tendremos algo de complejidad extra al soltar notas de carril en carril. Cuando movamos una `Nota` sabremos su posición original y la posición que querramos que tenga al final. El `Carril` sabe qué `Notas` le pertenecen por sus ids. Vamos a necesitar decir al `LaneStore` de alguna forma que debe realizar algo de lógica sobre las notas que posee. Un buen punto de partida es definir `LaneActions.move`:
 
 **app/actions/LaneActions.js**
 
@@ -345,7 +343,7 @@ export default alt.generateActions(
 );
 ```
 
-We should connect this action with the `onMove` hook we just defined:
+Debemos conectar esta acción con el punto de enganche `onMove` que acabamos de definir:
 
 **app/components/Notes.jsx**
 
@@ -386,9 +384,9 @@ leanpub-end-insert
 )
 ```
 
-T> It could be a good idea to refactor `onMove` as a prop to make the system more flexible. In our implementation the `Notes` component is coupled with `LaneActions`. This isn't particularly nice if you want to use it in some other context.
+T> Puede ser una buena idea refactorizar `onMove` y dejarla como propiedad para hacer que el sistema sea más flexible. En nuestra implementaciónm el componente `Notas` está acoplado con `LaneActions`, lo cual no es particularmente útil si quieres poder usarlo en otro contexto.
 
-We should also define a stub at `LaneStore` to see that we wired it up correctly:
+También debemos definir un esqueleto en `LaneStore` para ver que lo hemos cableado todo correctamente:
 
 **app/stores/LaneStore.js**
 
@@ -408,15 +406,15 @@ leanpub-end-insert
 }
 ```
 
-You should see the same log messages as earlier.
+Deberías ver los mismos mensajes de log de antes.
 
-Next, we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about: moving within a lane itself and moving from lane to another.
+A continuación vamos a añdir algo de lógica para conseguir que esto funcione. Hay dos casos de los que nos tenemos que preocupar: mover notas dentro de un mismo carril y mover notas entre distintos carriles.
 
-## Implementing Note Drag and Drop Logic
+## Implementando la Lógica de Arrastrar y Soltar Notas
 
-Moving within a lane itself is complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
+El movimiento dentro de un mismo carril es complicado. Cuando estás basando las operaciones en ids y haces las operaciones una a una, tienes que tener en cuenta que puede hacer alteraciones en el índice. Como resultado estoy usando [update](https://facebook.github.io/react/docs/update.html) de React para solucionar el problema de una pasada.
 
-It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First, we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
+Es posible solucionar el caso de mover notas entre carriles usando [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). Primero obtenemos la nota a mover, y después la incorporamos al carril destino. De nuevo, `update` puede ser útil aquí, aunque en este caso `splice` está bien. El siguiente código muestra una posible solución:
 
 **app/stores/LaneStore.js**
 
@@ -442,7 +440,7 @@ leanpub-start-insert
     const targetNoteIndex = targetLane.notes.indexOf(targetId);
 
     if(sourceLane === targetLane) {
-      // move at once to avoid complications
+      // las mueve en bloque para evitar complicaciones
       sourceLane.notes = update(sourceLane.notes, {
         $splice: [
           [sourceNoteIndex, 1],
@@ -451,10 +449,10 @@ leanpub-start-insert
       });
     }
     else {
-      // get rid of the source
+      // elimina la nota del origen
       sourceLane.notes.splice(sourceNoteIndex, 1);
 
-      // and move it to target
+      // y la mueve al objetivo
       targetLane.notes.splice(targetNoteIndex, 0, sourceId);
     }
 
@@ -464,13 +462,13 @@ leanpub-end-insert
 }
 ```
 
-If you try out the application now, you can actually drag notes around and it should behave as you expect. Dragging to empty lanes doesn't work, though, and the presentation could be better.
+Si pruebas la aplicación ahora verás que puedes arrastrar notas y que el comportamiento debería ser el correcto. Arrastrar a carriles vacíos no funcionará y la presentación puede ser mejorada.
 
-It would be nicer if we indicated the dragged note's location more clearly. We can do this by hiding the dragged note from the list. React DnD provides us the hooks we need for this purpose.
+Podría ser mejor si indicásemos la localización de la nota arrastrada de forma más clara. Podemos conseguirlo ocultándola de la lista. React DnD nos dá los puntos de enganche que necesitamos para conseguirlo.
 
-### Indicating Where to Move
+### Indicando Dónde Mover
 
-React DnD provides a feature known as state monitors. Through it we can use `monitor.isDragging()` and `monitor.isOver()` to detect which `Note` we are currently dragging. It can be set up as follows:
+React DnD tiene una cualidad conocida como monitores de estado. Con ellos podemos usar `monitor.isDragging()` y `monitor.isOver()` para detactar qué `Nota` es la que estamos arrastrando. Podemos configurarlo como sigue:
 
 **app/components/Note.jsx**
 
@@ -528,13 +526,13 @@ leanpub-end-insert
 )(Note)
 ```
 
-If you drag a note within a lane, the dragged note should be shown as blank.
+Si arrastras una nota por un carril, la nota arrastrada se mostrará en blanco.
 
-There is one little problem in our system. We cannot drag notes to an empty lane yet.
+Hay un pequeño problema con nuestro sistema. Todavía no podemos arrastrar notas sobre un carril vacío.
 
-## Dragging Notes to Empty Lanes
+## Arrastrando Notas sobre Carriles Vacíos
 
-To drag notes to empty lanes, we should allow them to receive notes. Just as above, we can set up `DropTarget` based logic for this. First, we need to capture the drag on `Lane`:
+Para arrastrar notas sobre carriles vaciós necesitamos permitirles el poder recibir notas. Al igual que antes, podemos configurar una lógica basada en `DropTarget` para ello. Antes de nada, necesitamos capturar el hecho de arrastrar en `Carril`:
 
 **app/components/Lane.jsx**
 
@@ -581,13 +579,12 @@ const noteTarget = {
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
-    // If the target lane doesn't have notes,
-    // attach the note to it.
+    // Si el carril destino no tiene notas
+    // le damos la nota.
     //
-    // `attachToLane` performs necessarly
-    // cleanup by default and it guarantees
-    // a note can belong only to a single lane
-    // at a time.
+    // `attachToLane` hace la limpieza necesaria
+    // por defecto y garantiza que una nota sólo
+    // pueda pertenecar a un carril
     if(!targetProps.lane.notes.length) {
       LaneActions.attachToLane({
         laneId: targetProps.lane.id,
@@ -623,15 +620,15 @@ export default compose(
 leanpub-end-insert
 ```
 
-After attaching this logic, you should be able to drag notes to empty lanes.
+Debería ser capaz de poder arrastrar notas a carriles vacios una vez hayas añadido esta lógica.
 
-Our current implementation of `attachToLane` does a lot of the hard work for us. If it didn't guarantee that a note can belong only to a single lane at a time, we would need to adjust our logic. It's good to have these sort of invariants within the state management system.
+Nuesta implementación de `attachToLane` hace gran parte del trabajo duro por nosotros. Si no garantizase que una nota sólo puede pertenecer a un carril nuestra lógica debería ser modificada. Es bueno tener este tipo de certezas dentro del sistema de gestión de estados.
 
-### Fixing Editing Behavior During Dragging
+### Solucionando el Modo de Edición durante el Arrastre
 
-The current implementation has a small glitch. If you edit a note, you can still drag it around while it's being edited. This isn't ideal as it overrides the default behavior most people are used to. You cannot for instance double-click on an input to select all the text.
+La implementación actual tiene un pequeño problema. Puedes arrastrar una nota mientras esta está siendo editada. Esto no es conveniente ya que no es lo que la mayoría de la gente espera poder hacer. No puedes, por ejemplo, hacer doble click en la caja de texto para seleccionar todo su contenido.
 
-Fortunately, this is simple to fix. We'll need to use the `editing` state per each `Note` to adjust its behavior. First we need to pass `editing` state to an individual `Note`:
+Por suerte es fácil de arreglar. Necesitamos usar el estado `editing` de cada `Nota` para ajustar su comportamiento. Lo primero que necesitamos es pasar el estado `editing` a una `Nota` individual:
 
 **app/components/Notes.jsx**
 
@@ -667,7 +664,7 @@ leanpub-end-insert
 )
 ```
 
-Next we need to take this into account while rendering:
+Lo siguiente será tenerlo en cuenta a la hora de renderizar:
 
 **app/components/Note.jsx**
 
@@ -706,16 +703,16 @@ leanpub-end-insert
 ...
 ```
 
-This small change gives us the behavior we want. If you try to edit a note now, the input should work as you might expect it to behave normally.
+Este pequeño cambio nos dá el comportamiento que queremos. Si tratas de editar una nota ahora, la caja de texto se comportará como esperas.
 
-Design-wise it was a good idea to keep `editing` state outside of `Editable`. If we hadn't done that, implementing this change would have been a lot harder as we would have had to extract the state outside of the component.
+Mirando hacia atrás podemos ver que mantener el estado `editing` fuera de `Editable` fue una buena idea. Si no lo hibiésemos hecho así, implementar este cambio habría sido bastante más difícil ya que tendríamos que poder sacar el estado fuera del componente.
 
-Now we have a Kanban table that is actually useful! We can create new lanes and notes, and edit and remove them. In addition we can move notes around. Mission accomplished!
+¡Por fin tenemos un tablero Kanba que es útil!. Podemos crear carriles y notas nuevas, y también podemos editarlas y borrarlas. Además podemos movar las notas. ¡Objetivo cumplido!
 
-## Conclusion
+## Conclusión
 
-In this chapter, you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First, you mark the lanes to be draggable and droppable, then you sort out their ids, and finally, you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
+En este capítulo has visto cómo implementar la funcionalidad de arrastrar y soltar para nuestra pequeña aplicación. Puedes modelar la ordenación de carriles usando la misma técnica. Primero, marcas los carriles como arrastrables y soltables, los ordenas según sus identificadores y, finalmente, añades algo de lógica para hacer que todo funcione. Debería ser más sencillo que lo que hemos hecho con las notas.
 
-I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending the DnD implementation, you can try adding more data to the system. You could also do something to the visual outlook. One option would be to try out various styling approaches discussed at the *Styling React* chapter.
+Te animo a que hagas crecer la aplicación. La implementación actual debería servir de punto de entrada para hacer algo más grande. Más allá de la implementación de arrastrar y soltar, puedes tratar de añadir más datos al sistema. También puedes hacer algo con el aspecto gráfico. Una opción puede ser usar varias de las aproximaciones de aplicación de estilos que se discuten en el capítulo *Dando Estilo a React*.
 
-To make it harder to break the application during development, you can also implement tests as discussed at *Testing React*. *Typing with React* discussed yet more ways to harden your code. Learning these approaches can be worthwhile. Sometimes it may be worth your while to design your applications test first. It is a valuable approach as it allows you to document your assumptions as you go.
+Para conseguir que sea difícil romper la aplicación durante el desarrollo, puedes implementar tests como se indica en *Testing React*. *Tipando con React* discute más modos auń de endurecer tu código. Aprender estas aproximaciones puede merecer la pena. A veces es realmente útil diseñar antes los tests de las aplicaciones, ya que es una aporximación valiosa que te permite documentar lo que vas asumiendo a medida que haces la implementación.
