@@ -1,20 +1,20 @@
-# Testing React
+# Probando React
 
-In order to encourage people to support my work, I've decided to publish a TL;DR version of this chapter for the community. This will allow me to develop more content, so it's a win-win really.
+He decidido publicar una versión TL;DR (demasiado largo, no lo leas) de este capítulo para la comunidad para así animar a la gente a apoyar mi trabajo. Esto me permitirá desarrollar más contenido, así que realmente es una estrategia ganar-ganar.
 
-You can access the full chapter by buying a copy through [Leanpub](https://leanpub.com/survivejs_react). It goes into detail, whereas the following should give you a rough idea of the chapter contents.
+Puedes acceder al capítulo completo comprando una copia a través de [Leanpub](https://leanpub.com/survivejs_react). Los siguientes puntos te darán una idea del contenido del capítulo.
 
 ## TL;DR
 
-* Basic testing techniques include unit testing, acceptance testing, property based testing, and mutation testing.
-* Unit testing allows us to ascertain *specific* certain truths.
-* Acceptance testing allows us to test qualitative aspects of our system.
-* Property based testing (see [QuickCheck](https://hackage.haskell.org/package/QuickCheck)) is more generic and allows us to cover a wider range of values more easily. These tests are more difficult to write, though.
-* Mutation testing makes it possible to test the tests. Unfortunately, it's not a particularly popular technique with JavaScript yet.
-* Cesar Andreu's [web-app](https://github.com/cesarandreu/web-app) has a nice testing setup (Mocha/Karma/Istanbul).
-* Code coverage helps us to understand what parts of the code remain untested. It does not, however, give us any guarantees of the quality of our tests.
-* [React Test Utilities](https://facebook.github.io/react/docs/test-utils.html) give us a nice way to write unit tests for components. There are lighter APIs, such as [jquense/react-testutil-query](https://github.com/jquense/react-testutil-query).
-* Alt provides a good means for testing [actions](http://alt.js.org/docs/testing/actions/) and [stores](http://alt.js.org/docs/testing/stores/).
-* Testing provides you confidence. This will become particularly important as your codebase grows. It will become harder to break things inadvertently.
+* Técnicas básicas de testing, incluido test unitario, test de aceptación, test basado en propiedades, y test basado en mutaciones.
+* Los tests unitarios nos permiten *determinar* ciertas verdades.
+* Los tests de aceptación nos permiten probar sapectos cualitativos de nuestro sistema.
+* Los tests basados en propiedades (echa un vistazo a [QuickCheck](https://hackage.haskell.org/package/QuickCheck)) es más genérico y nos permite cubir un rango mayor de valores con más facilidad. Esos tests son más difíciles de probar.
+* Los tests basados en mutaciones permiten probar los tests. Desafortunadamente, todavía no es una técnica particularmente popular en JavaScript.
+* La [aplicación](https://github.com/cesarandreu/web-app) de Cesar Andreu tiene una buena configuración de test (Mocha/Karma/Istanbul).
+* La cobertura del código nos permiten saber qué partes del código no están siendo probadas. Sin embargo, esto no nos da ninguna medida de la calidad de nuestros tests.
+* [React Test Utilities](https://facebook.github.io/react/docs/test-utils.html) nos brinda una buena manera de escribir tests unitarios para nuestros componentes. Hay APIs más sencillas, como [jquense/react-testutil-query](https://github.com/jquense/react-testutil-query).
+* Alt tiene buenos mecanismos para probar [acciones](http://alt.js.org/docs/testing/actions/) y [almacenes](http://alt.js.org/docs/testing/stores/).
+* El testing te dá confianza, lo cual se convierte en algo particularmente importante a medida que la base del código crece, ya que se vuelve más difícil romper cosas sin darte cuenta.
 
-> [Buy the book](https://leanpub.com/survivejs-react) for more detail.
+> [Compra el libro](https://leanpub.com/survivejs-react) para más detalles.
