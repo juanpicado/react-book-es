@@ -58,13 +58,13 @@ En nuestro projecto podemos aprovecharnos de cssnext incluso si no hemos hecho c
 
 ## Aproximaciones Basadas en React
 
-With React we have some additional alternatives. What if the way we've been thinking about styling has been misguided? CSS is powerful, but it can become an unmaintainable mess without some discipline. Where do we draw the line between CSS and JavaScript?
+Existen algunas alternativas extra con React. ¿Qué ocurre si todo lo que habiamos ideado sobre estilos era erróneo?. CSS es poderoso, pero se puede volver un lío inmantenible sin algo de disciplina. ¿Dónde podemos trazar la separación entre CSS y JavaScript?
 
-There are various approaches for React that allow us to push styling to the component level. It may sound heretical. React, being an iconoclast, may lead the way here.
+Hay varias aproximaciones para React que nos permiten aplicar estilos a nivel de componente. Puede parecer un sacrilegio, pero React, rebelde como es, nos puede llevar allí.
 
-### Inline Styles to Rescue
+### Estilos Inline al Rescate
 
-Ironically, the way solutions based on React solve this is through inline styles. Getting rid of inline styles was one of the main reasons for using separate CSS files in the first place. Now we are back there. This means that instead of something like this:
+Irónicamente, la forma en la que las soluciones que utilizan React resuelven el problema de los estilos es a través de estilos inline. Deshacerse de los estilos inline fue una de las principales razones para el uso de múltipls archivos CSS separados, pero ahora han vuelto. Esto significa que, en vez de tener algo como esto:
 
 ```javascript
 render(props, context) {
@@ -74,7 +74,7 @@ render(props, context) {
 }
 ```
 
-and accompanying CSS, we'll do something like this:
+y acompañarlo de CSS, tendremos algo como esto:
 
 ```javascript
 render(props, context) {
@@ -89,29 +89,29 @@ render(props, context) {
 }
 ```
 
-Like with HTML attribute names, we are using the same camelcase convention for CSS properties.
+Como ocurre con los nombres de los atributos en HTML, usaremos la convención camelcase para las propiedades CSS.
 
-Now that we have styling at the component level, we can implement logic that also alters the styles easily. One classic way to do this has been to alter class names based on the outlook we want. Now we can adjust the properties we want directly.
+Ahora que estamos aplicando estilos a nivel de componente, podemos implementar la lógica que modifica estos estilos fácilmente. Una forma clásica de hacer esto ha sido alterar los nombres de las clases basándonos en el aspecto que queremos tener. Ahora podemos ajustar las propiedades que queramos directamente.
 
-We have lost something in process, though. Now all of our styling is tied to our JavaScript code. It is going to be difficult to perform large, sweeping changes to our codebase as we need to tweak a lot of components to achieve that.
+Sin embargo, hemos perdido algo por el camino. Ahora nuestros estilos están fuertemente ligados a nuestro código JavaScript. Va a ser difícil hacer cambios de mucha envergadura sobre nuestra base del código ya que vamos a tener que modificar un montón de componentes para ello.
 
-We can try to work against this by injecting a part of styling through props. A component could patch its style based on a provided one. This can be improved further by coming up with conventions that allow parts of style configuration to be mapped to some specific part. We just reinvented selectors on a small scale.
+Podemos tratar de hacer algo par ello inyectando algunos estilos mediante props. Un estilo puede adaptar su propio estilo basado en uno que reciba. Esto se puede mejorar más adelante mediante convenciones que permitan que ciertas partes de la configuración de los estilos lleguen a ciertas partes específicas de los componentes. Es simplemente reinventar los selectores a una pequeña escala.
 
-How about things like media queries? This naïve approach won't quite cut it. Fortunately, people have come up with libraries to solve these tough problems for us.
+¿Qué hacemos con cosas como los media queries?. Esta inocente aproximación no se encarga de ello. Afortunandamente hay gente que ha desarrollado librerías que solucionan estos problemas por nosotros.
 
-According to Michele Bertoli basic features of these libraries are
+Según Michele Bertoli las características básicas de estas librerías son
 
-* Autoprefixing - e.g., for `border`, `animation`, `flex`.
-* Pseudo classes - e.g., `:hover`, `:active`.
-* Media queries - e.g., `@media (max-width: 200px)`.
-* Styles as Object Literals - See the example above.
-* CSS style extraction - It is useful to be able to extract separate CSS files as that helps with the initial loading of the page. This will avoid a flash of unstyled content (FOUC).
+* Autoprefixing - p.e., para `border`, `animation`, `flex`.
+* Pseudo clases - p.e., `:hover`, `:active`.
+* Media queries - p.e., `@media (max-width: 200px)`.
+* Estilos como Objetos - Revisa el ejemplo anterior.
+* Extracción de estilos CSS - Es útil para poder partir un fichero CSS grande en ficheros CSS pequeños que ayuden con la primera carga de la página. Esto evita que veamos la página sin estilos al entrar  (FOUC).
 
-I will cover some of the available libraries to give you a better idea how they work. See [Michele's list](https://github.com/MicheleBertoli/css-in-js) for a more a comprehensive outlook of the situation.
+Vamos a ver algunas de las librerías disponibles para que te hagas una idea de cómo funcionan. Echa un vistazo a [la list de Michele](https://github.com/MicheleBertoli/css-in-js) para tener una mejor visión de la situación.
 
 ### Radium
 
-[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth highlighting. Most importantly it provides abstractions required to deal with media queries and pseudo classes (e.g., `:hover`). It expands the basic syntax as follows:
+[Radium](http://projects.formidablelabs.com/radium/) tiene algunas ideas valiosas que merece la pena destacar. Lo más importante es que facilita las abstracciones necesarias para poder lidiar con media queries y pseudo clases (p.e. `:hover`). Expande la sintaxis básica como sigue:
 
 ```javascript
 const styles = {
@@ -143,11 +143,11 @@ const styles = {
 <button style={[styles.button, styles.primary]}>Confirm</button>
 ```
 
-For `style` prop to work, you'll need to annotate your classes using `@Radium` decorator.
+Para que la propiedad `style` funcione deberás anotar tus clases usando el decorador `@Radium`.
 
 ### React Style
 
-[React Style](https://github.com/js-next/react-style) uses the same syntax as React Native [StyleSheet](https://facebook.github.io/react-native/docs/stylesheet.html#content). It expands the basic definition by introducing additional keys for fragments.
+[React Style](https://github.com/js-next/react-style) utiliza la misma sintaxis que React Native [StyleSheet](https://facebook.github.io/react-native/docs/stylesheet.html#content). Alarga la definición básica introduciendo algunas claves adicionales para cada fragmento.
 
 ```javascript
 import StyleSheet from 'react-style';
@@ -175,15 +175,15 @@ const styles = StyleSheet.create({
 <button styles={[styles.button, styles.primary]}>Confirm</button>
 ```
 
-As you can see, we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (e.g., `:hover`) through JavaScript. Also CSS animations won't work. Instead, it's preferred to use some other solution for that.
+Como puedes ver, podemos uasr fragmentos individuales para tener el mismo efecto que teniamos con Radium. Además, los media queries también están soportados. React Style espera que manipules los estados del navegador (p.e. `hover`) mediante JavaScript. Las animaciones con CSS no funcionarán, es mejor usar alguna otra solución para ello.
 
-T> [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin) can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to, but without cascades. We also have our style declarations on the component level.
+T> [El plugin de React Style para Webpack](https://github.com/js-next/react-style-webpack-plugin) puede extraer las declaraciones del CSS en un paquete aparte. Ahora estamos más cerca de lo que ha utilizado todo el mundo, pero no tenemos las cascadas, aunque mantenemos la declaración de los estilos a nivel de componente.
 
 ### JSS
 
-[JSS](https://github.com/jsstyles/jss) is a JSON to StyleSheet compiler. It can be convenient to represent styling using JSON structures as this gives us easy namespacing. Furthermore it is possible to perform transformations over the JSON to gain features, such as autoprefixing. JSS provides a plugin interface just for this.
+[JSS](https://github.com/jsstyles/jss) es un compilador de JSON a hoja de estilos. Puede ser una forma útil de representar estilos usando estructuras JSON ya que tiene un espacio de nombres sencillo. También es posible realizar tranformaciones en el JSON para obtener más funcionalidad, como el autoprefixing. JSS tiene una interfaz para plugins con la que hacer este tipo de cosas.
 
-JSS can be used with React through [react-jss](https://www.npmjs.com/package/react-jss).  You can use JSS through *react-jss* like this:
+JSS puede utilizarse con React a través de [react-jss](https://www.npmjs.com/package/react-jss). Puedes usar *react-jss* de este modo:
 
 ```javascript
 ...
@@ -220,13 +220,11 @@ export default class ConfirmButton extends React.Component {
 }
 ```
 
-The approach supports pseudoselectors, i.e., you could define a selector within, such as `&:hover`, within a definition and it would just work.
-
-T> There's a [jss-loader](https://www.npmjs.com/package/jss-loader) for Webpack.
+T> Hay un [jss-loader](https://www.npmjs.com/package/jss-loader) para Webpack.
 
 ### React Inline
 
-[React Inline](https://github.com/martinandert/react-inline) is an interesting twist on StyleSheet. It generates CSS based on `className` prop of elements where it is used. The example above could be adapted to React Inline like this:
+[React Inline](https://github.com/martinandert/react-inline) es un enfoque intereasnte para aplicar estilos. Genera CSS basado en la prop `className` de los elementos que lo usen. El ejemplo anterior puede ser adaptado para React Inline de esta manera:
 
 ```javascript
 import cx from 'classnames';
@@ -242,11 +240,11 @@ class ConfirmButton extends React.Component {
 }
 ```
 
-Unlike React Style, the approach supports browser states (e.g., `:hover`). Unfortunately, it relies on its own custom tooling to generate React code and CSS which it needs to work.
+Por desgracia, se basa en su propia herramienta personalizada para generar código de React y el CSS que necesita para trabajar.
 
 ### jsxstyle
 
-Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate some problems of React Style's approach. As you saw in previous examples, we still have style definitions separate from the component markup. jsxstyle merges these two concepts. Consider the following example:
+El [jsxstyle](https://github.com/petehunt/jsxstyle) de Pete Hunt trata de mitigar algunos de los problemas React Style. Como has podido ver en los ejemplos anteriores, todavía tenemos las definiciones de los estilos separadas del lenguaje de marcado de los componentes. jsxstyle une ambos conceptos. Observa el siguiente ejemplo:
 
 ```javascript
 // PrimaryButton component
@@ -256,19 +254,19 @@ Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate so
 >Confirm</button>
 ```
 
-The approach is still in its early days. For instance, support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
+Esta aproximación todavía está en fase inicial. Por ejemplo, no hay soporte para media queries. En lugar de definir modificadores como antes, acabarás definiendo más componentes con los que dar cabida a tus casos de uso.
 
-T> Just like React Style, jsxstyle comes with a Webpack loader that can extract CSS into a separate file.
+T> Al igual que con React Style, jsxstyle tieen un cargador de Webpack que puede extraer CSS en un fichero separado.
 
 ## CSS Modules
 
-As if there weren't enough styling options for React, there's one more that's worth mentioning. [CSS Modules](https://github.com/css-modules/css-modules) starts from the premise that CSS rules should be local by default. Globals should be treated as a special case. Mark Dalgleish's post [The End of Global CSS](https://medium.com/seek-ui-engineering/the-end-of-global-css-90d2a4a06284) goes into more detail about this.
+Como si no hubiera suficientes opciones de estilo para React, hay una más que merece la pena mencionar. [CSS Modules](https://github.com/css-modules/css-modules) parte de la premisa de que los estilos CSS deben ser locales por defecto. Los estilos globales deben ser tratadas como un caso especial. El post [The End of Global CSS](https://medium.com/seek-ui-engineering/the-end-of-global-css-90d2a4a06284) de Mark Dalgleish entra en más detalles sobre esto.
 
-In short, if you make it difficult to use globals, you manage to solve the biggest problem of CSS. The approach still allows us to develop CSS as we've been used to. This time we're operating in a safer, local context by default.
+De forma resumida, si se te hace difícil usar estilos globales, tienes que apañártelas para resolver el mayor problemas de las CSS. Esta aproximación te permite desarrollar CSS como hemos estado haciendo hasta ahora, solo que esta vez el ámbito se reduce a un contexto más seguro y localizado por defecto.
 
-This itself solves a large amount of problems libraries above try to solve in their own ways. If we need global styles, we can still get them. We still might want to have some around for some higher level styling after all. This time we're being explicit about it.
+Esto en sí mismo soluciona una gran cantidad de los problemas que las librerias anteriores trataban de resolver a su propia forma. Si necesitas estilos globales todavía puedes tenerlos, es probable que queramos tener ciertos estilos que apliquen a alto nivel, después de todo. Esta vez seremos explícitos en ello.
 
-To give you a better idea, consider the example below:
+Para qur te hagas una idea mejor, fíjate en el siguiente ejemplo:
 
 **style.css**
 
@@ -308,20 +306,20 @@ import styles from './style.css';
 <button className=`${styles.primaryButton}`>Confirm</button>
 ```
 
-As you can see, this approach provides a balance between what people are familiar with and what React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still in its early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
+Como puedes ver, esta aproximación trata de encontrar el equilibrio entre aquello que a la gente le resulta familiar con librerías específicas para React. Es por ello que no me sorprende que esta aproximacíon sea muy popular aunqque todavía sea reciente. Echa un ojo a [la demo de CSS Modules de Webpack](https://css-modules.github.io/webpack-demo/) para ver más ejemplos.
 
-T> You can use other processors, such as Sass, in front of CSS Modules, in case you want more functionality.
+T> Puedes usar procesadores, como Sass, junto con CSS Modules, en caso de que busques tener más funcionalidad.
 
-T> [gajus/react-css-modules](https://github.com/gajus/react-css-modules) makes it even more convenient to use CSS Modules with React. Using it, you don't need to refer to the `styles` object anymore, and you are not forced to use camelCase for naming.
+T> [gajus/react-css-modules](https://github.com/gajus/react-css-modules) hace que sea más sencillo todavía usar CSS Modules con React. Con él, no tendrás que referencia al objeto `styles` nunca más, y no estás obligado a poner nombres usando camelCase.
 
-T> Glen Maddern discusses the topic in greater detail in his article named [CSS Modules - Welcome to the Future](http://glenmaddern.com/articles/css-modules).
+T> Glen Maddern discute este tema con mucho más detalle en si artículo llamado [CSS Modules - Bienvenidos al Futuro](http://glenmaddern.com/articles/css-modules).
 
-## Conclusion
+## Conclusión
 
-It is simple to try out various styling approaches with React. You can do it all, ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
+Es fácil probar varias aproximaciones de estilos con React. Puedes hacerlo, yendo desde CSS plano hasta configuraciones más complejas. Es sencillo probar distintas alternativas.
 
-React based styling approaches allow us to push styles to the component level. This provides an interesting contrast to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS. In return you gain something that is simpler to understand. It is also harder to break.
+Las aproximaciones te permiten dejar los estilos a nivel de componente. Esto nos ofrece un contraste interesante con respecto a las aproximaciones convencionales en las que las CSS se mantienen separadas. Lidiar con la lógica específica del componente se vuelve más sencillo. Puede que pierdas algo del poder que te dan las CSS, pero obtendrás algo más sencillo de entender que puede ser más difícil de romper.
 
-CSS Modules strike a balance between a conventional approach and React specific approaches. Even though it's a newcomer, it shows a lot of promise. The biggest benefit seems to be that it doesn't lose too much in the process. It's a nice step forward from what has been commonly used.
+Los CSS Modules buscan un equilibrio entre un enfoque convencional y un enfoque específico para React. Incluso aún siendo un recién llegado parece tener mucho potencial. El mayor beneficio parece ser que no perderás mucho durante el proceso. Representa un paso adelante que ha sido comúnmente usado.
 
-There are no best practices yet, and we are still figuring out the best ways to do this in React. You will likely have to do some experimentation of your own to figure out what ways fit your use case the best.
+Todavía no existen buenas prácticas, y todavía estamos tratando de encontrar la mejor manera de aplicar estilos con React. Tendrás que experimentar un poco por ti mismo para hacerte una idea de qué es lo que mejor encaja en tu caso particular.
