@@ -1,14 +1,14 @@
-# Language Features
+# Características del Lenguaje
 
-ES6 (or ES2015) was arguably the biggest change to JavaScript in a long time. As a result, we received a wide variety of new functionality. The purpose of this appendix is to illustrate the features used in the book in isolation to make it clearer to understand how they work. Rather than going through [the entire specification](http://www.ecma-international.org/ecma-262/6.0/index.html), I will just focus on the subset of features used in the book.
+ES6 (o ES2015) ha sido sin lugar a dudas el mayor cambio en JavaScript en mucho tiempo. Como resultado, muchas funcionalidades nuevas han sido añadidas. El propósito de este apéndie es mostrar las características utilizadas en este libro de forma individual para que sea más fácil de entender cómo funcionan. En lugar de ir a [la especificación completa](http://www.ecma-international.org/ecma-262/6.0/index.html), me centraré únicamente en el subconunto de características usadas en el libro.
 
-## Modules
+## Módulos
 
-ES6 introduced proper module declarations. Earlier, this was somewhat ad hoc and we used formats, such as AMD or CommonJS. ES6 module declarations are statically analyzable. This is highly useful for tool authors. Effectively, this means we can gain features like *tree shaking*. This allows the tooling to skip unused code easily simply by analyzing the import structure.
+ES6 introduce una declaración formal de módulos. Anteriormente había que utilizar soluciones ad hoc o cosas como AMD o CommonJS. Las declaraciones de módulos de ES6 son analizables estáticamente, lo cual es útil para no cargar código sin utilizar símplemente analizando la estructura de imports.
 
-### `import` and `export` for Single
+### `import` y `export` Sencillo
 
-To give you an example of exporting directly through a module, consider below:
+Para mostrarte un ejemplo de cómo exportar directamente un módulo echa un vistazo al código siguiente:
 
 **persist.js**
 
@@ -28,9 +28,9 @@ import persist from './persist';
 ...
 ```
 
-### `import` and `export` for Multiple
+### `import` y `export` Multiple
 
-Sometimes it can be useful to use modules as a namespace for multiple functions:
+A menudo puede ser útil utilizar módulos como un espacio de nombres con varias funciones:
 
 **math.js**
 
@@ -48,7 +48,7 @@ export function square(a) {
 }
 ```
 
-Alternatively we could write the module in a form like this:
+De forma alternativa puedes escribir el módulo de la forma siguiente:
 
 **math.js**
 
@@ -56,38 +56,36 @@ Alternatively we could write the module in a form like this:
 const add = (a, b) => a + b;
 const multiple = (a, b) => a * b;
 
-// You can omit ()'s with a single parameter if you want.
+// Puedes omitir los () si quieres ya que tiene sólo un parámetro
 const square = a => a * a;
 
 export {
   add,
   multiple,
-  // Aliasing works too
+  // Puedes crear alias
   multiple as mul
 };
 ```
 
-The example leverages the *fat arrow syntax*. This definition can be consumed through an import like this:
+El ejemplo utiliza la *sintaxis de la flecha gorda*. Esta definición puede ser consumida desde un import de la manera siguiente:
 
 **index.js**
 
 ```javascript
 import {add} from './math';
 
-// Alternatively we could bind the math methods to a key
+// También podríamos usar todos los métodos de math con
 // import * as math from './math';
 // math.add, math.multiply, ...
 
 ...
 ```
 
-Especially `export default` is useful if you prefer to keep your modules focused. The `persist` function is an example of such. Regular `export` is useful for collecting multiple functions below the same umbrella.
+T> Ya que la sintaxis de los módulos de ES6 es analizable estáticamente, es posible usar heramientas como [analyze-es6-modules](https://www.npmjs.com/package/analyze-es6-modules).
 
-T> Given the ES6 module syntax is statically analyzable, it enables tooling such as [analyze-es6-modules](https://www.npmjs.com/package/analyze-es6-modules).
+### Imports con Alias
 
-### Aliasing Imports
-
-Sometimes it can be handy to alias imports. Example:
+A veces puede ser útil hacer alias de imports. Por ejemplo:
 
 ```javascript
 import {actions as TodoActions} from '../actions/todo'
@@ -95,11 +93,11 @@ import {actions as TodoActions} from '../actions/todo'
 ...
 ```
 
-`as` allows you to avoid naming conflicts.
+`as` te permite evitar conflictos de nombrado.
 
 ### Webpack `resolve.alias`
 
-Bundlers, such as Webpack, can provide some features beyond this. You could define a `resolve.alias` for some of your module directories for example. This would allow you to use an import, such as `import persist from 'libs/persist';`, regardless of where you import. A simple `resolve.alias` could look like this:
+Los empaquetadores, como Webpack, pueden dar funcionalidad más allá de esto. Puedes definir un `resolve.alias` para alguno de tus directorios de módulos, por ejemplo. Esto te permite usar un import como `import persist from 'libs/persist';` independientemente de dónde estés importando. Un simple `resolve.alias` puede ser algo como esto:
 
 ```javascript
 ...
@@ -110,13 +108,13 @@ resolve: {
 }
 ```
 
-The official documentation describes [possible variants](https://webpack.github.io/docs/configuration.html#resolve-alias) in fuller detail.
+La documentación oficial describe [las posibles alternativas](https://webpack.github.io/docs/configuration.html#resolve-alias) con todo lujo de detalles.
 
-## Classes
+## Clases
 
-Unlike many other languages out there, JavaScript uses prototype based inheritance instead of class based one. Both approaches have their merits. In fact, you can mimic a class based model through a prototype based one. ES6 classes are about providing syntactical sugar above the basic mechanisms of JavaScript. Internally it still uses the same old system. It just looks a little different to the programmer.
+Al contrario de como ocurre con otros lenguajes ahí fuera, JavaScript utiliza una herencia basada en prototipos en lugar de herencia basada en clases. Ambas aproximaciones tienen sus ventajas. De hecho, puedes imitar un modelo basado en clases utilizando uno basado en prototipos. Las clases de ES6 simplemente son azúcar sintáctico de los mecanismos de JavaScript, ya que internamente sigue utilizando el sistema antiguo, solo que parece algo distinto para el programador.
 
-These days React supports class based component definitions. Not all agree that it's a good thing. That said, the definition can be quite neat as long as you don't abuse it. To give you a simple example, consider the code below:
+React permite definición de componentes basados en clases. No todos estamos de acuerdo en que sea algo bueno. Dicho esto, la definición puede estar bien siempre que no abuses de ella. Para darte un ejemplo sencillo, observa el código siguiente:
 
 ```javascript
 import React from 'react';
@@ -125,19 +123,18 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    // This is a regular property outside of React's machinery.
-    // If you don't need to trigger render() when it's changed,
-    // this can work.
+    // This es una propiedad fuera del funcionamiento de React.
+    // Si no necesitas lanzar render() cuando cambia puede funcionar.
     this.privateProperty = 'private';
 
-    // React specific state. Alter this through `this.setState`. That
-    // will call `render()` eventually.
+    // Estado específico de React. Puedes cambiarlo con `this.setState`, lo
+    // cual podrá llamar a `render()`.
     this.state = {
       name: 'Class demo'
     };
   }
   render() {
-    // Use the properties somehow.
+    // Use estas propiedades de alguna manera.
     const privateProperty = this.privateProperty;
     const name = this.state.name
     const notes = this.props.notes;
@@ -147,13 +144,11 @@ export default class App extends React.Component {
 }
 ```
 
-Perhaps the biggest advantage of the class based approach is the fact that it cuts down some complexity, especially when it comes to React lifecycle methods. It is important to note that class methods won't get by default, though! This is why the book relies on an experimental feature known as property initializers.
+Quizá la mayor ventaja de la aproximación basada en clases sea el hecho de que reduce algo de complejidad, especialmente cuando involucra los métodos del ciclo de vida de React.
 
-### Classes and Modules
+### Clases y Módulos
 
-As stated above, the ES6 modules allow `export` and `import` single and multiple objects, functions, or even classes. In the latter, you can use `export default class` to export an anonymous class or export multiple classes from the same module using `export class className`.
-
-To export and import a single class you can use `export default class` to export an anonymous class and call it whatever you want at import time:
+Como vimos antes, los módulos de ES6 permiten hacer `export` e `import` de uno o varios objetos, funciones o incluso clases. También puedes usar `export default class` para exportar una clase anónima o exportar varias clases desde el mismo módulo usando `export class className`.
 
 **Note.jsx**
 
@@ -168,7 +163,7 @@ import Note from './Note.jsx';
 ...
 ```
 
-Or use `export class className` to export several named classes from a single module:
+También puedes usar `export class className` para exportar varias clases nombradas de un único módulo.
 
 **Components.jsx**
 
@@ -185,11 +180,11 @@ import {Note, Notes} from './Components.jsx';
 ...
 ```
 
-It is recommended to keep your classes separated in different modules.
+Se recomienda que tengas las clases separadas en módulos diferentes.
 
-## Class Properties and Property Initializers
+## Propiedades de las Clases e Iniciadores de Propiedades
 
-ES6 classes won't bind their methods by default. This can be problematic sometimes, as you still may want to be able to access the instance properties. Experimental features known as [class properties and property initializers](https://github.com/jeffmo/es-class-static-properties-and-fields) solve this problem. Without them, we might write something like this:
+Las clases de ES6 no enlazan sus métodos por defecto. Esto puede suponer un problema a veces, ya que puede que quieras acceder a las propiedades de la instancia. Hay características experimentales conocidas como [las propiedades de las clases y los iniciadores de propiedades]https://github.com/jeffmo/es-class-static-properties-and-fields) que arreglan este problema. Sin ellos podríamos escribir algo como:
 
 ```javascript
 import React from 'react';
@@ -201,13 +196,12 @@ class App extends React.Component {
     this.renderNote = this.renderNote.bind(this);
   }
   render() {
-    // Use `renderNote` here somehow.
     ...
 
     return this.renderNote();
   }
   renderNote() {
-    // Given renderNote was bound, we can access `this` as expected
+    // Dado que renderNote ha sido enlazado, podemos usar `this` como esperamos
     return <div>{this.props.value}</div>;
   }
 }
@@ -221,13 +215,13 @@ App.defaultProps = {
 export default App;
 ```
 
-Using class properties and property initializers we could write something tidier instead:
+Utilizando propiedades de clases e iniciadores de propiedades podemos escribir algo más limpio en su lugar:
 
 ```javascript
 import React from 'react';
 
 export default class App extends React.Component {
-  // propType definition through static class properties
+  // la definición de propType mediante propiedades estáticas de la clase
   static propTypes = {
     value: React.PropTypes.string
   }
@@ -235,24 +229,23 @@ export default class App extends React.Component {
     value: ''
   }
   render() {
-    // Use `renderNote` here somehow.
     ...
 
     return this.renderNote();
   }
-  // Property initializer gets rid of the `bind`
+  // El iniciador de propiedades se necarga del `bind`
   renderNote = () => {
-    // Given renderNote was bound, we can access `this` as expected
+    // Dado que renderNote ha sido enlazado, podemos usar `this` como esperamos
     return <div>{this.props.note}</div>;
   }
 }
 ```
 
-Now that we've pushed the declaration to method level, the code reads better. I decided to use the feature in this book primarily for this reason. There is simply less to worry about.
+Ahora que nos hemos llevado la declaración a nivel de método el código se lee mejor. He decidido usar esta característica en este libro principalmente por este motivo. Hay menos de lo que preocuparse.
 
-## Functions
+## Funciones
 
-Traditionally, JavaScript has been very flexible with its functions. To give you a better idea, see the implementation of `map` below:
+JavaScript ha sido tradicionalmente muy flexible con respecto a las funciones. Para que te hagas una mejor idea, aquí tienes la implementación de `map`:
 
 ```javascript
 function map(cb, values) {
@@ -268,10 +261,10 @@ function map(cb, values) {
 
 map(function(v) {
   return v * 2;
-}, [34, 2, 5]); // yields [68, 4, 10]
+}, [34, 2, 5]); // salen [68, 4, 10]
 ```
 
-In ES6 we could write it as follows:
+En ES6 podríamos haberlo escrito de esta manera:
 
 ```javascript
 function map(cb, values) {
@@ -285,34 +278,34 @@ function map(cb, values) {
   return ret;
 }
 
-map((v) => v * 2, [34, 2, 5]); // yields [68, 4, 10]
+map((v) => v * 2, [34, 2, 5]); // salen [68, 4, 10]
 ```
 
-The implementation of `map` is more or less the same still. The interesting bit is at the way we call it. Especially that `(v) => v * 2` part is intriguing. Rather than having to write `function` everywhere, the fat arrow syntax provides us a handy little shorthand. To give you further examples of usage, consider below:
+La implementación de `map` es más o menos lo mismo. La parte interesante es la forma en la que lo llamamos. En concreto, `(v) => v * 2` es fascinante. En lugar de tener que escribir `function` por todos lados, la sintaxis de la flecha gorda nos da un pequeño y útil atajo. Para ver más ejemplos de uso hecha un vistazo a lo que sigue:
 
 ```javascript
-// These are the same
+// Todas son equivalentes
 v => v * 2;
-(v) => v * 2; // I prefer this variant for short functions
-(v) => { // Use this if you need multiple statements
+(v) => v * 2; // Prefiero esta opción en funciones cortas
+(v) => { // Usa esta si necesitas ejecutar varias sentencias
   return v * 2;
 }
 
-// We can bind these to a variable
+// Podemos enlazarlo a una variable
 const double = (v) => v * 2;
 
 console.log(double(2));
 
-// If you want to use a shorthand and return an object,
-// you need to wrap the object.
+// Si quieres usar un atajo y devolver un objeto
+// necesitas encapsular el objeto.
 v => ({
   foo: 'bar'
 });
 ```
 
-### Arrow Function Context
+### El contexto de la Función Flecha
 
-Arrow functions are special in that they don't have `this` at all. Rather, `this` will point at the caller object scope. Consider the example below:
+Las funciones flecha son un tanto especiales ya que no tienen un `this` propio. En su lugar, `this` apunta al ámbito del objeto invocante. Fíjate en el siguiente ejemplo:
 
 ```javascript
 var obj = {
@@ -328,41 +321,41 @@ var obj2 = {
 };
 
 console.log(obj.context()); // { context: [Function], name: 'demo object 1' }
-console.log(obj2.context()); // {} in Node.js, Window in browser
+console.log(obj2.context()); // {} en Node.js, Window en el navegador
 ```
 
-As you can notice in the snippet above, the anonymous function has a `this` pointing to the `context` function in the `obj` object. In other words, it is binding the scope of the caller object `obj` to the `context` function.
+Como puedes ver en el código anterior, la función anónima tiene un `this` que apunta a la función `context` del objeto `obj`. En otras palabras, está enlazando el ámbito del objeto `obj` a la función `context`.
 
-This happens because `this` doesn't point to the object scopes that contains it, but the caller object scopes, as you can see it in the next snippet of code:
+Esto es así porque `this` no apunta al ámbito del objeto que lo contiene, sino al ámbito del objeto que lo invoca, como puedes ver en el siguiente fragmento de código:
 
 ```javascript
 console.log(obj.context.call(obj2)); // { context: [Function], name: 'demo object 2' }
 ```
 
-The arrow function in the object `obj2` doesn't bind any object to its context, following the normal lexical scoping rules resolving the reference to the nearest outer scope. In this case it happens to be Node.js `global` object.
+La función flecha en el objeto `obj2` no enlaza ningún objeto a su contexto, siguendo lo que serían las reglas normales de ámbitos resolviendo la referencia al ámbito inmediatemente superior.
 
-Even though the behavior might seem a little weird, it is actually useful. In the past, if you wanted to access parent context, you either needed to `bind` it or attach the parent context to a variable `var that = this;`. The introduction of the arrow function syntax has mitigated this problem.
+Incluso cuando este comportamiento parece ser un poco extraño, en realidad es útil. En el pasado, si querías acceder al contexto de la clase padre necesitabas enlazarlo o relacionarlo en una variable del estilo `var that = this;`. La introducción de la sintaxis de la función flecha ha mitigado este problema.
 
-### Function Parameters
+### Parámetros de las Funciones
 
-Historically, dealing with function parameters has been somewhat limited. There are various hacks, such as `values = values || [];`, but they aren't particularly nice and they are prone to errors. For example, using `||` can cause problems with zeros. ES6 solves this problem by introducing default parameters. We can simply write `function map(cb, values=[])` now.
+Históricamente, lidiar con los parámetros de las funciones ha sido algo limitado. hay varios hacks, como `values = values || [];`, pero no son particularmente buenos y son propensos a errores. Por ejemplo, el uso de `||` puede causar problemas con ceros. ES6 soluciona este problema introduciendo parámetros por defecto. De este modo, podemos escribir simplemente `function map(cb, values=[])`.
 
-There is more to that and the default values can even depend on each other. You can also pass an arbitrary amount of parameters through `function map(cb, ...values)`. In this case, you would call the function through `map(a => a * 2, 1, 2, 3, 4)`. The API might not be perfect for `map`, but it might make more sense in some other scenario.
+Hay más que esto y los valores por defecto pueden depender unos de otros. También puedes pasar una cantidad arbitraria de parámetros mediante `function map(cb, ...values)`. En este caso, puedes llamar a la función usando `map(a => a * 2, 1, 2, 3, 4)`. Este API puede que no sea perfecto para `map`, pero puede tener más sentido en otro escenario.
 
-There are also convenient means to extract values out of passed objects. This is highly useful with React component defined using the function syntax:
+También hay medios útiles para extraer valores de los objetos enviados. Esto es muy útil con los componentes de React que se definen como funciones:
 
 ```javascript
 export default ({name}) => {
-  // ES6 string interpolation. Note the back-ticks!
+  // Interpolación de strings en ES6. ¡Observa las tildes!
   return <div>{`Hello ${name}!`}</div>;
 };
 ```
 
-## String Interpolation
+## Interpolación de Strings
 
-Earlier, dealing with strings was somewhat painful in JavaScript. Usually you just ended up using a syntax like `'Hello' + name + '!'`. Overloading `+` for this purpose wasn't perhaps the smartest move as it can lead to strange behavior due to type coercion. For example, `0 + ' world` would yield `0 world` string as a result.
+Antiguamente, lidiar con strings era algo doloroso en JavaScript. Por lo general se utilizaba una sintaxis del tipo `'Hello' + name + '!'`. Sobrecargar `+` para alcanzar este propósito quizá no era la mejor manera ya que podia provocar comportamientos extraños. Por ejemplo, `0 + ' world` puede devolver el string `0 world` como resultado.
 
-Besides being clearer, ES6 style string interpolation provides us multi-line strings. This is something the old syntax didn't support. Consider the examples below:
+Aparte de ser más clara, la interpolación de strings de ES6 permite strings multilínea. Esto es algo que la anterior sintaxis no soportaba. Observa los siguientes ejemplos:
 
 ```javascript
 const hello = `Hello ${name}!`;
@@ -373,11 +366,11 @@ awesomeness
 `;
 ```
 
-The back-tick syntax may take a while to get used to, but it's powerful and less prone to mistakes.
+Puede que tardes un poco hasta que te acostumbres a la tilde, pero es poderosa y menos propensa a errores.
 
 ## Destructuring
 
-That `...` is related to the idea of destructuring. For example, `const {lane, ...props} = this.props;` would extract `lane` out of `this.props` while the rest of the object would go to `props`. This object based syntax is still experimental. ES6 specifies an official way to perform the same for arrays like this:
+Eso de `...` está relacionado con la idea de destructuring. Por ejemplo, `const {lane, ...props} = this.props;` sacará `lane` fuera de `this.props` mientras que el resto del objeto se quedará en `props`. Esta sintaxis es todavía experimental en objetos. ES6 especifica una forma oficial de poder hacer lo mismo en arrays como sigue:
 
 ```javascript
 const [lane, ...rest] = ['foo', 'bar', 'baz'];
@@ -385,16 +378,16 @@ const [lane, ...rest] = ['foo', 'bar', 'baz'];
 console.log(lane, rest); // 'foo', ['bar', 'baz']
 ```
 
-The spread operator (`...`) is useful for concatenating. You see syntax like this in Redux examples often. They rely on experimental [Object rest/spread syntax](https://github.com/sebmarkbage/ecmascript-rest-spread):
+El operador spread (`...`) es útil para concatenaciones. Verás sintaxis similar con frecuencia en ejemplos de Redux. Se basa en el experimental [Object rest/spread syntax](https://github.com/sebmarkbage/ecmascript-rest-spread):
 
 ```javascript
 [...state, action.lane];
 
-// This is equal to
+// Esto es igual que
 state.concat([action.lane])
 ```
 
-The same idea applies to React components:
+La misma idea funciona en los componentes de React:
 
 ```javascript
 ...
@@ -408,24 +401,22 @@ render() {
 ...
 ```
 
-W> There are several gotchas related to the spread operator. Given it is *shallow* by default, it can lead to interesting behavior that might be unexpected. This is particularly true if you are trying to use it to clone an object using it. Josh Black discusses this problem in detail at his Medium post titled [Gotchas in ES2015+ Spread](https://medium.com/@joshblack/gotchas-in-es2015-spread-5db06dfb1e10).
+## Iniciadores de Objetos
 
-## Object Initializers
-
-In order to make it easier to work with objects, ES6 provides a variety of features just for this. To quote [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer), consider the examples below:
+ES6 facilita varias funcionalidades para hacer que sea más sencillo trabajar con objetos. Citando a [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer), fíjate en los siguientes ejemplos:
 
 ```javascript
 const a = 'demo';
-const shorthand = {a}; // Same as {a: a}
+const shorthand = {a}; // Lo mismo que {a: a}
 
-// Shorthand methods
+// Métodos atajo
 const o = {
   get property() {},
   set property(value) {},
   demo() {}
 };
 
-// Computed property names
+// Nombres de propiedades procesadas
 const computed = {
   [a]: 'testing' // demo -> testing
 };
@@ -433,16 +424,16 @@ const computed = {
 
 ## `const`, `let`, `var`
 
-In JavaScript, variables are global by default. `var` binds them on *function level*. This is in contrast to many other languages that implement *block level* binding. ES6 introduces block level binding through `let`.
+En JavaScript, las variables son globales por defecto. `var` las enlaza a *nivel de función*, lo cual es un contraste con muchos otros lenguajes que implementan enlazamiento a *nivel de bloque*. ES6 introduce enlazamiento a nivel de bloque con `let`.
 
-There's also support for `const`, which guarantees the reference to the variable itself cannot change. This doesn't mean, however, that you cannot modify the contents of the variable. So if you are pointing at an object, you are still allowed to tweak it!
+`const` también está soportado, lo que garantiza que la referencia a una variable no pueda ser cambiada. Esto, sin embargo, no significa que no puedas cambiar el contenido de la variable, así que si estás apuntando a un objeto, ¡todavía tendrás permitido cambiarlo!
 
-I tend to favor to default to `const` whenever possible. If I need something mutable, `let` will do fine. It is hard to find any good use for `var` anymore as `const` and `let` cover the need in a more understandable manner. In fact, all of the book's code, apart from this appendix, relies on `const`. That just shows you how far you can get with it.
+Suelo utilizar `const` siempre que sea posible. Si necesito que algo sea mutable, `let` es estupendo. Es difícil encontrar un uso útil de `var` teniendo `const` y `let`. De hecho, todo el código de este libro, exceptuando el apéndice, utiliza `const`, lo que quizá pueda enseñarte lo lejos que puedes llegar con él.
 
-## Decorators
+## Decoradores
 
-Given decorators are still an experimental feature and there's a lot to cover about them, there's an entire appendix dedicated to the topic. Read *Understanding Decorators* for more information.
+Dado que los decoradores son todavía una funcionalidad experimental hay mucho que hablar de ellos. Hay un apéndice entero dedicado a este tema. Lee *Entendiendo los Decoradores* para más información.
 
-## Conclusion
+## Conclusión
 
-There's a lot more to ES6 and the upcoming specifications than this. If you want to understand the specification better, [ES6 Katas](http://es6katas.org/) is a good starting point for learning more. Just having a good idea of the basics will take you far.
+Hay mucho más ES6 y más especificaciones que éstas. Si quieres entender la especificación mejor, [ES6 Katas](http://es6katas.org/) es un buen punto en el que comenzar para aprender más. Únicamente teniendo una buena idea de lo básico podrás llegar lejos.
