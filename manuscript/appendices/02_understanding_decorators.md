@@ -1,14 +1,14 @@
-# Understanding Decorators
+# Entendiendo los Decoradores
 
-If you have used languages, such as Java or Python before, you might be familiar with the idea. Decorators are syntactic sugar that allow us to wrap and annotate classes and functions. In their [current proposal](https://github.com/wycats/javascript-decorators) (stage 1) only class and method level wrapping is supported. Functions may become supported later on.
+Si has usado lenguajes de programación antes, como Java o Python, puede que la idea te resulte familiar. Los decoradores son azúcar sintáctico que te permiten envolver y anotar clases y funciones. En su [actual propuesta](https://github.com/wycats/javascript-decorators) (fase 1) sólo se permite la envoltura a nivel de clase y de método. Las funciones puede que sean soportadas en el futuro.
 
-In Babel 6 you can enable this behavior through [babel-plugin-syntax-decorators](https://www.npmjs.com/package/babel-plugin-syntax-decorators) and [babel-plugin-transform-decorators-legacy](https://www.npmjs.com/package/babel-plugin-transform-decorators-legacy) plugins. The former provides syntax level support whereas the latter gives the type of behavior we are going to discuss here.
+Con Babel 6 puedes habilitar este comportamiento mediante los plugins [babel-plugin-syntax-decorators](https://www.npmjs.com/package/babel-plugin-syntax-decorators) y [babel-plugin-transform-decorators-legacy](https://www.npmjs.com/package/babel-plugin-transform-decorators-legacy). El primero dá soporte a nivel de xintaxis mientras que el segundo dá el tipo de comportamiento que vamos a discutir ahora.
 
-The greatest benefit of decorators is that they allow us to wrap behavior into simple, reusable chunks while cutting down the amount of noise. It is definitely possible to code without them. They just make certain tasks neater, as we saw with drag and drop related annotations.
+El mayor beneficio de los decoradores es que nos permiten envolver comportamiento en partes simples y reutilizables a la vez que reducimos la cantidad de ruido. Es totalmente posible programar sin ellos, sólo hacen que algunas de las tareas acaben siendo más agradecidas, como vimos con las anotaciones relacionadas con arrastrar y soltar.
 
-## Implementing a Logging Decorator
+## Implementando un Decorador para Generar Logs
 
-Sometimes, it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's a more controllable way to deal with it. Consider the example below:
+A veces es útil saber qué métodos han sido invocados. Por supuesto que puedes usar `console.log` pero es más divertido implementar `@log`. Es una forma mejor de tanerlo controlado. Observa el siguiente ejemplo:
 
 ```javascript
 class Math {
@@ -32,21 +32,21 @@ function log(target, name, descriptor) {
 
 const math = new Math();
 
-// passed parameters should get logged now
+// los argumentos pasados deberían aparecer en el log
 math.add(2, 4);
 ```
 
-The idea is that our `log` decorator wraps the original function, triggers a `console.log`, and finally, calls it again while passing the original [arguments](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments) to it. Especially if you haven't seen `arguments` or `apply` before, it might seem a little strange.
+La idea es que nuestro decorador `log` envuelva la función origina, lance un `console.log` y, finalmente, haga la invocación con los [argumentos](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments) originales. Puede que te parezca un poco extraño si nunca antes habías visto `arguments` o `apply`.
 
-`apply` can be thought as an another way to invoke a function while passing its context (`this`) and parameters as an array. `arguments` receives function parameters implicitly so it's ideal for this case.
+`apply` puede ser visto como otra forma de invocar una función pasándole su contexto (`this`) y sus parámetros como un array. `arguments` recibe de forma implícita todos los parámetros con los que se ha invocado a la función así que es ideal para este caso.
 
-This logger could be pushed to a separate module. After that, we could use it across our application whenever we want to log some methods. Once implemented decorators become powerful building blocks.
+El logger puede ser movido a un módulo aparte. Tras ello, podemos usarlo en nuestra aplicación en aquellos lugares donde queramos mostrar el log de algunos métodos. Una vez han sido implementados, los decoradores se convierten en una herramienta poderosa.
 
-The decorator receives three parameters:
+El decorador recibe tres parámetros:
 
-* `target` maps to the instance of the class.
-* `name` contains the name of the method being decorated.
-* `descriptor` is the most interesting piece as it allows us to annotate the method and manipulate its behavior. It could look like this:
+* `target` se relaciona con la instancia de la clase.
+* `name` contiene el nombre del método que va a ser ejecutado.
+* `descriptor` es la pieza más interesante ya que nos permite anotar un método y manipular su comportamiento. Puede tener el siguiente aspecto:
 
 ```javascript
 const descriptor = {
@@ -57,11 +57,11 @@ const descriptor = {
 };
 ```
 
-As you saw above, `value` makes it possible to shape the behavior. The rest allows you to modify behavior on method level. For instance, a `@readonly` decorator could limit access. `@memoize` is another interesting example as that allows you to implement easy caching for methods.
+Como puedes ver, `value` hace que sea posible envolver el comportamiento. Lo demás te permite modificar el comportamiento a nivel de método. Por ejemplo, un decorador `@readonly` puede limitar el acceso. `@memoize` es otro ejemplo interesante ya que permite que los métodos impliementen cacheo fácilmente.
 
-## Implementing `@connect`
+## Implementado `@connect`
 
-`@connect` will wrap our component in another component. That, in turn, will deal with the connection logic (`listen/unlisten/setState`). It will maintain the store state internally and then pass it to the child component that we are wrapping. During this process, it will pass the state through props. The implementation below illustrates the idea:
+`@connect` envolverá nuestro componente en otro componente. Se encargará de lidiar con la lógica de conexión (`listen/unlisten/setState`). Mantendrá internamente el estado del almacén y se lo pasará a los componentes hijos que estén siendo envueltos. Durante el proceso, enviará el estado mediante props. La siguiente implementación ilustra la idea:
 
 **app/decorators/connect.js**
 
@@ -95,11 +95,11 @@ export default (store) => {
 };
 ```
 
-Can you see the wrapping idea? Our decorator tracks store state. After that, it passes the state to the component contained through props.
+¿Puedes ver la idea del decorador? Nuestro decorador vigila el estado del almacén. Tras ello, pasa el estado al componente contenido mediante props.
 
-T> `...` is known as a [spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
+T> `...` es conocido como el [operador spread](https://github.com/sebmarkbage/ecmascript-rest-spread). Expande el objeto recibido para separar los pares clave-valor, o propiedades, como en este caso.
 
-You can connect the decorator with `App` like this:
+Puedes conectar el decorador con `App` de este modo:
 
 **app/components/App.jsx**
 
@@ -120,15 +120,15 @@ export default class App extends React.Component {
 }
 ```
 
-Pushing the logic to a decorator allows us to keep our components simple. If we wanted to add more stores to the system and connect them to components, it would be trivial now. Even better, we could connect multiple stores to a single component easily.
+Llevar la lógica a un decorador nos permite mantener nuestros componentes sencillos. Ahora debería ser trivial poder añadir más almacenes y conectarlos a los componentes si quisiéramos. E incluso mejor, podriamos conectar varios almacenes a un único componente fácilmente.
 
-## Decorator Ideas
+## Ideas par Decoradores
 
-We can build new decorators for various functionalities, such as undo, in this manner. They allow us to keep our components tidy and push common logic elsewhere out of sight. Well designed decorators can be used across projects.
+Podemos crear decoradores para varias funcionalidades, como es deshacer, de esta manera. Esto nos permite mantener nuestros componentes limpios y empujar la lógica común a algún lugar fuera de nuestra vista. Los decoradores bien diseñados pueden ser utilizados en varios proyectos.
 
-### Alt's `@connectToStores`
+### El `@connectToStores` de Alt
 
-Alt provides a similar decorator known as `@connectToStores`. It relies on static methods.  Rather than normal methods that are bound to a specific instance, these are bound on class level. This means you can call them through the class itself (i.e., `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
+Alt facilita un decorador similar conocido como `@connectToStores`. Se apoya en métodos estáticos. En lugar de ser métodos normales que están incluidos en una instancia específica, se incluyen a nivel de clase. Esto significa que puedes llamarlos a través de la propia clase (p.e., `App.getStores()`). El siguiente ejemplo muestra cómo podemos integrar `@connectToStores` en nuestra aplicación:
 
 ```javascript
 ...
@@ -146,8 +146,10 @@ export default class App extends React.Component {
 }
 ```
 
-This more verbose approach is roughly equivalent to our implementation. It actually does more as it allows you to connect to multiple stores at once. It also provides more control over the way you can shape store state to props.
+Esta aproximación es muy parecida a nuestra implementación. En realidad hace más ya que te permite conectar con varios almacenes a la misma vez. También te dá más control sobre la forma en la que puedes encajar el almacén de estados con las props.
 
-## Conclusion
+## Conclusión
 
 Even though still a little experimental, decorators provide nice means to push logic where it belongs. Better yet, they provide us a degree of reusability while keeping our components neat and tidy.
+
+Aunque todavía son un tanto experimentales, los decoradores son una buena forma de llevar lógica allá donde perteneca. Mejor todavía, nos dan un grado de reutilizabilidad mientras mantienen nuestros componentes ordenados y limpios.
