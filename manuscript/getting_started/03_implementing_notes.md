@@ -1,6 +1,6 @@
 # Implementando una Aplicación de Notas
 
-Ahora que tenemos un buen entorno de desarrollo podemos hacer algo que funcione. Nuestra meta ahora es acabar teniendo una aplicación primitiva que permita tomar notas. Tendremos las operaciones de manipulación básicas. Haremos que nuestra aplicación crezca desde la nada y nos meteremos en problemas, lo que nos permitirá entender por qué son necesarias arquitecturas como Flux.
+Ahora que tenemos un buen entorno de desarrollo podemos hacer algo que funcione. Nuestra meta en este momento es acabar teniendo una aplicación primitiva que permita tomar notas. Tendremos las operaciones de manipulación básicas. Haremos que nuestra aplicación crezca desde la nada y nos meteremos en problemas, lo que nos permitirá entender por qué son necesarias arquitecturas como Flux.
 
 ## Modelo de Datos Inicial
 
@@ -27,7 +27,7 @@ T> Otra forma interesante de aproximarse a los datos puede ser normalizarlos. En
 
 ## Renderizado de los Datos Iniciales
 
-Ahora que tenemos un modelo de datos inicial, podemos tratar de renderizarlo utilizando React. Vamos a necesitar un componente que retenga los datos, lo llamaremos `Notes` de momento y lo haremos crecer si queremos que tenga más funcionalidad. Crea un fichero con un componente sencillo como el siguiente:
+Ahora que tenemos un modelo de datos inicial, podemos tratar de renderizarlo utilizando React. Vamos a necesitar un componente que retenga los datos, lo llamaremos `Notas` de momento y lo haremos crecer si queremos que tenga más funcionalidad. Crea un fichero con un componente sencillo como el siguiente:
 
 **app/components/Notes.jsx**
 
@@ -55,7 +55,7 @@ export default () => (
 Estamos utilizando algunas características importantes de JSX en el trozo de código anterior. He destacado las partes más difíciles:
 
 * `<ul>{notes.map(note => ...)}</ul>` - `{}` nos permite mexclar sintaxis de JavaScript con JSX. `map` devuelve una lista de elementos `li` para que React los renderice.
-* `<li key={note.id}>{note.task}</li>` - Usamos la propiedad `key` para poder decirte a React qué items han sido cambiandos, modificados o borrados. Es importante que sea único ya que, sino, React no será capaz de saber el orden correcto en el que debe renderizarlos. React mostrará una advertencia si no se establecen. Puedes leer el enlace al artículo [Varios Componentes](https://facebook.github.io/react/docs/lists-and-keys.html#rendering-multiple-components) para obtener más información.
+* `<li key={note.id}>{note.task}</li>` - Usamos la propiedad `key` para poder decirte a React qué items han sido cambiados, modificados o borrados. Es importante que sea único ya que, sino, React no será capaz de saber el orden correcto en el que debe renderizarlos. React mostrará una advertencia si no se indican. Puedes leer el enlace al artículo [Renderizando Varios Componentes](https://facebook.github.io/react/docs/lists-and-keys.html#rendering-multiple-components) para obtener más información.
 
 Necesitamos hacer referencia al componente desde el punto de entrada de nuestra aplicación:
 
@@ -85,7 +85,7 @@ leanpub-end-insert
 
 Si ejecutas la aplicación verás una lista de notas. No es especialmente bonito ni útil todavía pero es un comienzo:
 
-![A list of notes](images/react_03.png)
+![Una lista de notas](images/react_03.png)
 
 T> Necesitamos usar el `import` de React en *Notes.jsx* ya que hay transformaciones que hacer de JSX a JavaScript. Sin él el código resultante fallará.
 
@@ -129,7 +129,7 @@ leanpub-end-insert
 
 Nuestra configuración de desarrollo instalará la dependencia `uuid` automáticamente. Una vez que esto haya ocurrido y que la aplicación se haya recargado, todo debería tener el mismo aspecto. Sin embargo, si pruebas a depurar la aplicación, verás que los ids cambiarán cada vez que refresques la página. Puedes comprobarlo fácilmente o bien insertando la línea `console.log(notes);` o bien usando el comando [debugger;](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Sentencias/debugger) dentro del componente.
 
-El comando `debugger;` es especialmente útil ya que le indica al navegador que debe para la ejecución. De este modo es posible ver la pila de llamaras y examinar las variables que estén disponibles. Es una buena forma de depurar las aplicaciones y suponer qué está ocurriendo si no estás seguro de cómo funciona algo.
+El comando `debugger;` es especialmente útil ya que le indica al navegador que debe parar la ejecución. De este modo es posible ver la pila de llamadas y examinar las variables que estén disponibles. Es una buena forma de depurar las aplicaciones y suponer qué está ocurriendo si no estás seguro de cómo funciona algo.
 
 `console.log` es una alternativa más ligera. Puedes incluso diseñar un sistema de gestión de logs en torno a él y usar ambas técnicas juntas. Echa un vistazo a [MDN](https://developer.mozilla.org/es/docs/Web/API/Console) y a [la documentación de Chrome](https://developers.google.com/web/tools/chrome-devtools/debug/console/console-reference) para ver el API completo.
 
@@ -141,7 +141,7 @@ Aunque de momento podemos mostrar notas de forma individual, todavía nos falta 
 
 ### Definiendo un Borrador para `App`
 
-Para poder añadir nuevas notas necesitaremos tener un botón que nos lo permita en algún sitio. Actualmente nuestro componente `Notes` sólo hace una cosa: mostrar notas. Esto es totalmente correcto. Para hacer espacio a más funcionalidad podemos incluir un concepto conocido como `App` en lo más alto. Este componente orquestará la ejecución de nuestra aplicación. Podemos añadir el botón que queramos allí, podremos gestionar el estado y también podremos añadir notas. Inicialmente `App` puede tener el siguiente aspecto:
+Para poder añadir nuevas notas necesitaremos tener un botón que nos lo permita en algún sitio. Actualmente nuestro componente `Notas` sólo hace una cosa: mostrar notas. Esto es totalmente correcto. Para hacer espacio a más funcionalidad podemos incluir un concepto conocido como `App` en lo más alto. Este componente orquestará la ejecución de nuestra aplicación. Podemos añadir el botón que queramos allí, podremos gestionar el estado y también podremos añadir notas. Inicialmente `App` puede tener el siguiente aspecto:
 
 **app/components/App.jsx**
 
@@ -152,7 +152,7 @@ import Notes from './Notes';
 export default () => <Notes />;
 ```
 
-Todo lo que hace es renderizar `Notes`, así que debe hacer más cosas para conseguir que sea útil. Tenemos que alterar el punto de entrada tal y como sigue para incrustar `App` en nuestra aplicación:
+Todo lo que hace es renderizar `Notas`, así que debe hacer más cosas para conseguir que sea útil. Tenemos que alterar el punto de entrada tal y como sigue para incrustar `App` en nuestra aplicación:
 
 **app/index.jsx**
 
@@ -183,9 +183,9 @@ leanpub-end-insert
 
 Si ejecutas la aplicación ahora verás que tiene exactamente el mismo aspecto que antes, pero ahora tenemos espacio para crecer.
 
-### Añadiendo un Borrador para el Botón *Add*
+### Añadiendo un Borrador para el Botón *Añadir*
 
-Un buen paso para llegar a algo más funcionar es añadir un borrador para el botón *add*. Para conseguirlo, `App` necesita evolucionar:
+Un buen paso para llegar a algo más funcionar es añadir un borrador para el botón *añadir*. Para conseguirlo, `App` necesita evolucionar:
 
 **app/components/App.jsx**
 
@@ -199,20 +199,20 @@ leanpub-end-delete
 leanpub-start-insert
 export default () => (
   <div>
-    <button onClick={() => console.log('add note')}>+</button>
+    <button onClick={() => console.log('añadir nota')}>+</button>
     <Notes />
   </div>
 );
 leanpub-end-insert
 ```
 
-Si pulsas sobre el botón que hemos añadido verás un mensaje con el texto "add note" en la consola del navegador. Todavía necesitamos conectar de alguna forma el botón con nuestros datos. De momento los datos están atrapados dentro del componente `Notes` así que, antes de seguir, necesitamos sacarlos y dejarlos a nivel de `App`.
+Si pulsas sobre el botón que hemos añadido verás un mensaje con el texto "añadir nota" en la consola del navegador. Todavía necesitamos conectar de alguna forma el botón con nuestros datos. De momento los datos están atrapados dentro del componente `Notas` así que, antes de seguir, necesitamos sacarlos y dejarlos a nivel de `App`.
 
 T> Tenemos que envolver nuestra aplicación dentro de un `div` porque todos los componentes de React deben devolver un único elemento.
 
 ### Llevando los Datos a `App`
 
-Para llevar los datos a `App` necesitamos hacer un par de cambios. Lo primero que necesitamos es literalmente moverlos allí y mandar los datos mediante una propiedad (prop en adelante) a `Notes`. Tras esto necesitamos realizar cambios en `Notes` para realizar operaciones en base a la nueva lógica. Una vez hayamos conseguido esto podremos empezar a pensar en añadir notas nuevas.
+Para llevar los datos a `App` necesitamos hacer un par de cambios. Lo primero que necesitamos es moverlos literalmente allí y mandar los datos mediante una propiedad (prop en adelante) a `Notas`. Tras esto necesitamos realizar cambios en `Notas` para realizar operaciones en base a la nueva lógica. Una vez hayamos conseguido esto podremos empezar a pensar en añadir notas nuevas.
 
 En la parte de `App` el cambio es sencillo:
 
@@ -240,7 +240,7 @@ leanpub-end-insert
 
 export default () => (
   <div>
-    <button onClick={() => console.log('add note')}>+</button>
+    <button onClick={() => console.log('añadir nota')}>+</button>
 leanpub-start-delete
     <Notes />
 leanpub-end-delete
@@ -251,7 +251,7 @@ leanpub-end-insert
 );
 ```
 
-Esto no hará mucho hasta que también cambiemos `Notes`:
+Esto no hará mucho hasta que también cambiemos `Notas`:
 
 **app/components/Notes.jsx**
 
@@ -296,7 +296,7 @@ En el momento de escribir esto la definición de componentes basada en funciones
 
 Además de funciones, también puedes crear componentes de React utilizando `React.createClass` o una definición de componentes basada en clases. En este libro utilizaremos componentes basados en funciones tanto como sea posible, y sólo si hay una buena razón por la cual estos componentes no pueden funcionar, entonces utilizaremos definiciones basadas en clases.
 
-Con el objetivo de transformar nuestro `App` en un componente basado en clases, cámbialo como sigue para meter el estado dentro.
+Con el objetivo de transformar nuestra `App` en un componente basado en clases, cámbialo como sigue para meter el estado dentro.
 
 **app/components/App.jsx**
 
@@ -319,7 +319,7 @@ const notes = [
 
 export default () => (
   <div>
-    <button onClick={() => console.log('add note')}>+</button>
+    <button onClick={() => console.log('añadir nota')}>+</button>
     <Notes notes={notes} />
   </div>
 );
@@ -363,11 +363,11 @@ T> Las soluciones de gestión de datos, tales como [MobX](https://mobxjs.github.
 
 T> Estamos pasando `props` a `super` por convención. Si no lo haces, ¡`this.props` no cambiará!. Llamar a `super` provoca que se invoque al mismo método de la clase padre del mismo modo a como se hace en la programación orientada a objetos.
 
-### Implementando la Lógica de Añadir `Note`
+### Implementando la Lógica de Añadir `Nota`
 
 Todos nuestros esfuerzos pronto se verán recompensados. Sólo nos queda un paso, tan sólo necesitamos utilizar el API de React para manipular el estado. React facilita un método conocido como `setState` con este objetivo. En este caso lo invocaremos como sigue: `this.setState({... el nuevo estado viene aquí ...}, () => ...)`.
 
-El callback es opcional. React lo invocará una vez haya establecido el estado y, por lo general, no tienes que preocuparte de ello para nada. React invocará a `render ` una vez que `setState` haya terminado. El API asíncrono te puede parecer un poco extraño al principio pero le permite a React ser capaz de optimizar su rendimiento utilizando técnicas como las actualizaciones en bloque. Todo esto recae en el concepto de DOM Virtual.
+El callback es opcional. React lo invocará una vez haya establecido el estado y, por lo general, no tienes que preocuparte de ello para nada. React invocará a `render` una vez que `setState` haya terminado. El API asíncrono te puede parecer un poco extraño al principio pero le permite a React ser capaz de optimizar su rendimiento utilizando técnicas como las actualizaciones en bloque. Todo esto recae en el concepto de DOM Virtual.
 
 Una forma de invocar a `setState` puede ser dejar toda la lógica relacionada en un método para llamarlo una vez se crea una nueva nota. La definición de componentes basada en clases no permite enlazar métodos personalizados como éste por defecto así que necesitaremos gestionar esta asociación en algún sitio. Podría ser posible hacer esto en el `constructor`, `render()`, o utilizando una sintaxis específica. Voy a optar por la solución de la sintaxis en este libro. Lee el apéndice *Características del Lenguaje* para aprender más.
 
@@ -424,7 +424,7 @@ leanpub-end-insert
 
 Dado que, en este punto, estamos enlazando una instancia, la recarga en caliente no se dará cuenta del cambio. Para probar la nueva funcionalidad tienes que refrescar el navegador y pulsar sobre el botón `+`. Deberías ver algo:
 
-![Notes with a plus](images/react_05.png)
+![Notas con un más](images/react_05.png)
 
 T> Si estuviésemos utilizando un backend podríamos lanzar una consulta y capturar el id de la respuesta. De momento es suficiente con generar una entrada y un id aleatorio.
 
@@ -432,6 +432,6 @@ T> Podríamos utilizar `this.setState({notes: [...this.state.notes, {id: uuid.v4
 
 T> El [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) puede ser una alternativa válida a la hora de inicializar propiedades. En ese caso podríamos utilizar la anotación `@autobind` a nivel de clase o de método. Para aprender más sobre decoradores echa un vistazo al apéndice *Entendiendo los Decoradores*.
 
-## Conclusion
+## Conclusión
 
 De momento tenemos sólo una aplicación primitiva, y hay dos funcionalidades críticas que necesitamos: la edición y el borrado de notas. Es un buen momento de centrarnos en ellas a partir de ahora. Primero comenzaremos con el borrado y, tras ello, con la edición.

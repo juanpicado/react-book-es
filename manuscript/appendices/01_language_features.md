@@ -1,12 +1,12 @@
 # Características del Lenguaje
 
-ES6 (o ES2015) ha sido sin lugar a dudas el mayor cambio en JavaScript en mucho tiempo. Como resultado, muchas funcionalidades nuevas han sido añadidas. El propósito de este apéndie es mostrar las características utilizadas en este libro de forma individual para que sea más fácil de entender cómo funcionan. En lugar de ir a [la especificación completa](http://www.ecma-international.org/ecma-262/6.0/index.html), me centraré únicamente en el subconunto de características usadas en el libro.
+ES6 (o ES2015) ha sido sin lugar a dudas el mayor cambio en JavaScript en mucho tiempo. Como resultado, muchas funcionalidades nuevas han sido añadidas. El propósito de este apéndie es mostrar las características utilizadas en este libro de forma individual para que sea más fácil entender cómo funcionan. En lugar de ir a [la especificación completa](http://www.ecma-international.org/ecma-262/6.0/index.html), me centraré únicamente en el subconunto de características usadas en el libro.
 
 ## Módulos
 
 ES6 introduce una declaración formal de módulos. Anteriormente había que utilizar soluciones ad hoc o cosas como AMD o CommonJS. Las declaraciones de módulos de ES6 son analizables estáticamente, lo cual es útil para no cargar código sin utilizar símplemente analizando la estructura de imports.
 
-### `import` y `export` Sencillo
+### `import` y `export` Sencillos
 
 Para mostrarte un ejemplo de cómo exportar directamente un módulo echa un vistazo al código siguiente:
 
@@ -28,7 +28,7 @@ import persist from './persist';
 ...
 ```
 
-### `import` y `export` Multiple
+### `import` y `export` Múltiple
 
 A menudo puede ser útil utilizar módulos como un espacio de nombres con varias funciones:
 
@@ -184,7 +184,7 @@ Se recomienda que tengas las clases separadas en módulos diferentes.
 
 ## Propiedades de las Clases e Iniciadores de Propiedades
 
-Las clases de ES6 no enlazan sus métodos por defecto. Esto puede suponer un problema a veces, ya que puede que quieras acceder a las propiedades de la instancia. Hay características experimentales conocidas como [las propiedades de las clases y los iniciadores de propiedades]https://github.com/jeffmo/es-class-static-properties-and-fields) que arreglan este problema. Sin ellos podríamos escribir algo como:
+Las clases de ES6 no enlazan sus métodos por defecto. Esto puede suponer un problema a veces, ya que puede que quieras acceder a las propiedades de la instancia. Hay características experimentales conocidas como [las propiedades de las clases y los iniciadores de propiedades](https://github.com/jeffmo/es-class-static-properties-and-fields) que arreglan este problema. Sin ellos podríamos escribir algo como:
 
 ```javascript
 import React from 'react';
@@ -233,7 +233,7 @@ export default class App extends React.Component {
 
     return this.renderNote();
   }
-  // El iniciador de propiedades se necarga del `bind`
+  // El iniciador de propiedades se encarga del `bind`
   renderNote = () => {
     // Dado que renderNote ha sido enlazado, podemos usar `this` como esperamos
     return <div>{this.props.note}</div>;
@@ -281,7 +281,7 @@ function map(cb, values) {
 map((v) => v * 2, [34, 2, 5]); // salen [68, 4, 10]
 ```
 
-La implementación de `map` es más o menos lo mismo. La parte interesante es la forma en la que lo llamamos. En concreto, `(v) => v * 2` es fascinante. En lugar de tener que escribir `function` por todos lados, la sintaxis de la flecha gorda nos da un pequeño y útil atajo. Para ver más ejemplos de uso hecha un vistazo a lo que sigue:
+La implementación de `map` es más o menos lo mismo. La parte interesante es la forma en la que lo llamamos. En concreto, `(v) => v * 2` es fascinante. En lugar de tener que escribir `function` por todos lados, la sintaxis de la flecha gorda nos da un pequeño y útil atajo. Para ver más ejemplos de uso echa un vistazo a lo que sigue:
 
 ```javascript
 // Todas son equivalentes
@@ -353,7 +353,7 @@ export default ({name}) => {
 
 ## Interpolación de Strings
 
-Antiguamente, lidiar con strings era algo doloroso en JavaScript. Por lo general se utilizaba una sintaxis del tipo `'Hello' + name + '!'`. Sobrecargar `+` para alcanzar este propósito quizá no era la mejor manera ya que podia provocar comportamientos extraños. Por ejemplo, `0 + ' world` puede devolver el string `0 world` como resultado.
+Antiguamente, lidiar con strings era algo doloroso en JavaScript. Por lo general se utilizaba una sintaxis del tipo `'Hello' + name + '!'`. Sobrecargar `+` para alcanzar este propósito quizá no era la mejor manera ya que podia provocar comportamientos extraños. Por ejemplo, `0 + ' world'` puede devolver el string `0 world` como resultado.
 
 Aparte de ser más clara, la interpolación de strings de ES6 permite strings multilínea. Esto es algo que la anterior sintaxis no soportaba. Observa los siguientes ejemplos:
 

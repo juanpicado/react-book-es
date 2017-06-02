@@ -1,8 +1,8 @@
-# Implementando `NoteStore` (Almacén de Notas) y `NoteActions` (Acciones sobre las Notas)
+# Implementando `NoteStore` y `NoteActions`
 
-Ahora que hemos movido todo lo relacionado con la gestión de los datos al lugar correcto podemos centrarnos en implementar las partes que faltan - `NoteStore` y `NoteActions`. Ambas encapsularán tanto los datos de la aplicación como la lógica.
+Ahora que hemos movido todo lo relacionado con la gestión de los datos al lugar correcto podemos centrarnos en implementar las partes que faltan - `NoteStore` (Almacén de Notas) y `NoteActions` (Acciones sobre las Notas). Ambas encapsularán tanto los datos de la aplicación como la lógica.
 
-No importa qué gestor de estados acabes usando, siempre encontrarás equivalencias en los demás. En Redux puedes usar acciones que provocarán un cambio de estado mediante un reductor. En MobX puedes modelar un aacción en una clase ES6. La idea es que manipules los datos dentro de la clase y que ésto provoque que MobX refresque los componentes cuando sea necesario.
+No importa qué gestor de estados acabes usando, siempre encontrarás equivalencias en los demás. En Redux puedes usar acciones que provocarán un cambio de estado mediante un reductor. En MobX puedes modelar una acción en una clase ES6. La idea es que manipules los datos dentro de la clase y que ésto provoque que MobX refresque los componentes cuando sea necesario.
 
 La idea aquí es similar: configuraremos acciones que acabarán invocando métodos en el estado que modificarán este estado. Cuando el estado cambia las vistas se actualizan. Para comenzar podemos implementar un `NoteStore` y definir la lógica para manipularlo. Una vez hayamos hecho eso, habremos migrado nuestra aplicación a la arquitectura Flux.
 
@@ -52,7 +52,7 @@ export default alt => {
 leanpub-end-insert
 ```
 
-Podemos ajustar `App` para consumir los datos desde el almacén y así comprobar que lo que hemos hecho funciona. Esto romperá la lógica que tenemos, pero lo arreglaremos en la próxima sección. Cambia `App` como sigue para hacer que `notes` esté disponible:
+Podemos ajustar `App` para consumir los datos desde el almacén y así comprobar que lo que hemos hecho funciona. Esto romperá la lógica que tenemos, pero lo arreglaremos en la próxima sección. Cambia `App` como sigue para hacer que `notas` esté disponible:
 
 **app/components/App.jsx**
 
@@ -136,7 +136,7 @@ T> La documentación oficial de Alt cubre las [acciones asíncronas](http://alt.
 
 ## Configurando `NoteActions`
 
-Alt tiene un pequeño método de utilidades conocido como `alt.generateActions` que puede generar creadores de acciones simples por nosotros. Estos generadores sencillamente enviarán los datos que les pasemos, así que conectaremos estas acciones con los almacenes relevantes. En este caso, estamos hablando del `NoteStore` que definimos anteriormente.
+Alt tiene un pequeño método de utilidades conocido como `alt.generateActions` que puede generar creadores de acciones simples por nosotros. Estos generadores símplemente enviarán los datos que les pasemos, así que conectaremos estas acciones con los almacenes relevantes. En este caso, estamos hablando del `NoteStore` que definimos anteriormente.
 
 Con respecto a la aplicación, es suficiente con que modelemos las operaciones CRUD básicas (Crear, Leer, Actualizar y Borrar). Podemos saltarnos la lectura ya que es implícita, pero es útil tener las demás disponibles como acciones. Configura `NoteActions` usando `alt.generateActions` como sigue:
 
@@ -277,7 +277,7 @@ leanpub-end-insert
 ...
 ```
 
-Si refrescas el navegador y pulsas sobre el botón "add note" deberías ver mensajes como el siguiente en la consola del navegador:
+Si refrescas el navegador y pulsas sobre el botón "añadir nota" deberías ver mensajes como el siguiente en la consola del navegador:
 
 ```bash
 create note Object {id: "62098959-6289-4894-9bf1-82e983356375", task: "New task"}
@@ -484,7 +484,7 @@ T> Nuestra implementación actual es ingenua en el sentido de que no valida par�
 
 ### ¿Para qué sirve?
 
-Integrar un gestor de estados supone mucho esfuero, pero no es en vano. Ten en cuenta las siguiente preguntas:
+Integrar un gestor de estados supone mucho esfuerzo, pero no es en vano. Ten en cuenta las siguiente preguntas:
 
 1. Supón que quieres almacenar las notas en el `localStorage`. ¿Dónde implementarías esta funcionalidad?. Una aproximación puede ser el módulo `setup` del `Proveedor`.
 2. ¿Qué ocurre si tenemos varios componentes que quieran utilizar los datos? Podemos consumirlos usando `connect` y mostrarlos.

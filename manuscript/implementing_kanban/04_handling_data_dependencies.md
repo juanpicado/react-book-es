@@ -1,12 +1,12 @@
 # Gestionado Dependencias de Datos
 
-Hasta ahora hemos desarrollado una aplicación que mantiene las notas en el `localStorage`. Par hacer algo más parecido a Kanban necesitamos modelar el concepto de `Carril`. Un `Carril` es algo que debe ser capaz de almacenar muchas notas y conocer su orden. Una forma de modelar esto es simplemente crear un `Carril` que contenga un array de identificadores de `Nota`.
+Hasta ahora hemos desarrollado una aplicación que mantiene las notas en el `localStorage`. Para hacer algo más parecido a Kanban necesitamos modelar el concepto de `Carril`. Un `Carril` es algo que debe ser capaz de almacenar muchas notas y conocer su orden. Una forma de modelar esto es simplemente crear un `Carril` que contenga un array de identificadores de `Nota`.
 
 Sin embargo, esta relación puede invertirse. Una `Nota` puede tener referencia a un `Carril` utilizando un identificador y almacenando cuál es su posición dentro del `Carril`. En nuestro caso vamos a utilizar el primer enfoque ya que permite reordenar con más facilidad.
 
 ## Definiendo `Carriles`
 
-Como hicimos anteriormente, podemos utilizar la idea de tener dos componentes aquí. Habrá un componente de más alto nivel (en este caso `Carriles`) y otro de más bajo nicel (`Carril`). El componente de más alto nivel se encargará de la ordenación de los carriles. Un `Carril` se renderizará a sí mismo y tendrá las reglas de manipulación básicas.
+Como hicimos anteriormente, podemos utilizar la idea de tener dos componentes aquí. Habrá un componente de más alto nivel (en este caso `Carriles`) y otro de más bajo nivel (`Carril`). El componente de más alto nivel se encargará de la ordenación de los carriles. Un `Carril` se renderizará a sí mismo y tendrá las reglas de manipulación básicas.
 
 Al igual que con `Notas`, vamos a necesitar un conjunto de acciones. De momento es suficiente con crear nuevos carriles así que podemos crear la acción correspondiente como sigue:
 
@@ -18,7 +18,7 @@ import alt from '../libs/alt';
 export default alt.generateActions('create');
 ```
 
-Además vamos a necesitar un `LaneStore` (almacén de carriles) y un método para poder crear. La idea es muy similar al `NoteStore` que teníamos anteriormente. La función `create` añadirá un nuevo carril a la lista de carriles. Tras ello, el cambio se propagará a los listeners (es decir, a `FinalStore` y sus componentes).
+Además vamos a necesitar un `LaneStore` (almacén de carriles) y un método para poder crearlos. La idea es muy similar al `NoteStore` que teníamos anteriormente. La función `create` añadirá un nuevo carril a la lista de carriles. Tras ello, el cambio se propagará a los listeners (es decir, a `FinalStore` y sus componentes).
 
 **app/stores/LaneStore.js**
 
@@ -195,13 +195,13 @@ export default connect(
 
 Si ejecutas la aplicación e intentas añadir notas nuevas verás que algo va mal. Cada nota que añades es compartida por todos los carriles. Si se modifica una nota, los otros carriles se modifican también.
 
-![Duplicate notes](images/kanban_01.png)
+![Duplicar notas](images/kanban_01.png)
 
-El motivo de por qué esto ocurre es sencillo. Nuestro `NoteStore` es un singleton, lo que significa que todos los componentes que estén escuchando `NoteStore` recibirán los mismos datos. Necesitamos resolver este problema de alguna manera.
+El motivo de por qué ocurre esto es sencillo. Nuestro `NoteStore` es un singleton, lo que significa que todos los componentes que estén escuchando `NoteStore` recibirán los mismos datos. Necesitamos resolver este problema de alguna manera.
 
 ## Haciendo que `Carriles` sea el Responsable de `Notas`
 
-Ahora mismo nuestro `Carril` sólo contiene una array de objetos. Cada uno de estos objetos conoce su *id* y su *nombre*. Vamos a necesitar algo más sotisficado.
+Ahora mismo nuestro `Carril` sólo contiene un array de objetos. Cada uno de estos objetos conoce su *id* y su *nombre*. Vamos a necesitar algo más sotisficado.
 
 Cada `Carril` necesita saber qué `Notas` le pertenecen. Si un `Carril` contiene un array de identificadores de `Nota` podrá filtrar y mostrar sólo las `Notas` que le pertenecen. En breve implementaremos un esquema que permita esto.
 
@@ -438,7 +438,6 @@ leanpub-start-insert
 function selectNotesByIds(allNotes, noteIds = []) {
   // `reduce` es un método poderoso que nos permite
   // agrupar datos. Puedes implementar filter` y `map`
-  // fold data. You can implement `filter` and `map`
   // dentro de él. Nosotros lo estamos usando para
   // concatenar notas cuyos id coincidan
   return noteIds.reduce((notes, id) =>
@@ -599,6 +598,6 @@ Tras estos cambios tendremos algo con lo que es un poco más fácil trabajar. Po
 
 ## Conclusión
 
-En este capítulo nos las hemos apañado para resolver el problema de gestión de dependencias de datos. Este problema aparece con frecuencia. Cada gestor de datos tiene su propia manera de lidiar con ello. Las alternativas basadas en Flux y Redux esperan que seas tú quien gestione las referencias. Soluciones como MobX integran la gestión de referencias. La normalización de los datos puede hacer que este tipo de operaciones sean más sencillas.
+En este capítulo nos las hemos apañado para resolver el problema de gestión de dependencias de datos. Este problema aparece con frecuencia. Cada gestor de estados tiene su propia manera de lidiar con ello. Las alternativas basadas en Flux y Redux esperan que seas tú quien gestione las referencias. Soluciones como MobX integran la gestión de referencias. La normalización de los datos puede hacer que este tipo de operaciones sean más sencillas.
 
-En el próximo capítulo nos centraremos en añadir una funcionalidad que no tenemos en la aplicación: la edición de carriles. También haremoss que la aplicación tenga un mejor aspecto. Por suerte mucha de la lógica que necesitamos ya ha sido desarrollada.
+En el próximo capítulo nos centraremos en añadir una funcionalidad que no tenemos en la aplicación: la edición de carriles. También haremos que la aplicación tenga un mejor aspecto. Por suerte mucha de la lógica que necesitamos ya ha sido desarrollada.

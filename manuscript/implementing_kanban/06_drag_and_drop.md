@@ -4,7 +4,7 @@ Nuestra aplicación de Kanban es casi utilizable. Tiene un buen aspecto y cierta
 
 Al terminar este capítulo deberías ser capaz de arrastrar notas entre carriles. Aunque parezca sencillo implica realizar algo de trabajo por nuestra parte ya que tendremos que anotar los componentes de la forma correcta y crear la lógica necesaria.
 
-## Configurando eact DnD
+## Configurando React DnD
 
 Para comenzar necesitaremos conectar React DnD con nuestro proyecto. Vamos a utilizar un backend de arrastrar y soltar basado en el de HTML5. Existen backends específicos para testing y [tacto](https://github.com/yahoo/react-dnd-touch-backend).
 
@@ -114,7 +114,7 @@ begin dragging note Object {className: "note", children: Array[2]}
 
 Ser capaz sólo de mover notas no es suficiente. Necesitamos anotarlas para que puedan ser soltadas. Esto nos permitirá lanzar cierta lógica cuando tratemos de soltar una nota encima de otra.
 
-W> Observa que React DnD no soporta perfectamente recarga en caliente. Puede que necesites refrescar el navegador para ver los mensajes de log que esperas.
+W> Observa que React DnD no soporta recarga en caliente perfectamente. Puede que necesites refrescar el navegador para ver los mensajes de log que esperas.
 
 ## Permitiendo a las Notas que Detecten Notas que Pasan por Encima
 
@@ -207,9 +207,9 @@ Ahora que podemos mover las notas podemos comenzar a definir la lógica. Se nece
 
 Siguiendo la idea anterior podemos pasar el identificador de la `Nota` mediante una propiedad. También necesitaremos crear un esqueleto para la llamada a `onMove` y definir `LaneActions.move` y `LaneStore.move`.
 
-### Aceptando `id` y `onMove` en `Note`
+### Aceptando `id` y `onMove` en `Nota`
 
-Podemos aceptar las propiedades `id` y `onMove` en `Note` como sigue:
+Podemos aceptar las propiedades `id` y `onMove` en `Nota` como sigue:
 
 **app/components/Note.jsx**
 
@@ -384,7 +384,7 @@ leanpub-end-insert
 )
 ```
 
-T> Puede ser una buena idea refactorizar `onMove` y dejarla como propiedad para hacer que el sistema sea más flexible. En nuestra implementaciónm el componente `Notas` está acoplado con `LaneActions`, lo cual no es particularmente útil si quieres poder usarlo en otro contexto.
+T> Puede ser una buena idea refactorizar `onMove` y dejarla como propiedad para hacer que el sistema sea más flexible. En nuestra implementación el componente `Notas` está acoplado con `LaneActions`, lo cual no es particularmente útil si quieres poder usarlo en otro contexto.
 
 También debemos definir un esqueleto en `LaneStore` para ver que lo hemos cableado todo correctamente:
 
@@ -408,7 +408,7 @@ leanpub-end-insert
 
 Deberías ver los mismos mensajes de log de antes.
 
-A continuación vamos a añdir algo de lógica para conseguir que esto funcione. Hay dos casos de los que nos tenemos que preocupar: mover notas dentro de un mismo carril y mover notas entre distintos carriles.
+A continuación vamos a añadir algo de lógica para conseguir que esto funcione. Hay dos casos de los que nos tenemos que preocupar: mover notas dentro de un mismo carril y mover notas entre distintos carriles.
 
 ## Implementando la Lógica de Arrastrar y Soltar Notas
 
@@ -468,7 +468,7 @@ Podría ser mejor si indicásemos la localización de la nota arrastrada de form
 
 ### Indicando Dónde Mover
 
-React DnD tiene una cualidad conocida como monitores de estado. Con ellos podemos usar `monitor.isDragging()` y `monitor.isOver()` para detactar qué `Nota` es la que estamos arrastrando. Podemos configurarlo como sigue:
+React DnD tiene una cualidad conocida como monitores de estado. Con ellos podemos usar `monitor.isDragging()` y `monitor.isOver()` para detectar qué `Nota` es la que estamos arrastrando. Podemos configurarlo como sigue:
 
 **app/components/Note.jsx**
 
@@ -705,9 +705,9 @@ leanpub-end-insert
 
 Este pequeño cambio nos dá el comportamiento que queremos. Si tratas de editar una nota ahora, la caja de texto se comportará como esperas.
 
-Mirando hacia atrás podemos ver que mantener el estado `editing` fuera de `Editable` fue una buena idea. Si no lo hibiésemos hecho así, implementar este cambio habría sido bastante más difícil ya que tendríamos que poder sacar el estado fuera del componente.
+Mirando hacia atrás podemos ver que mantener el estado `editing` fuera de `Editable` fue una buena idea. Si no lo hubiésemos hecho así, implementar este cambio habría sido bastante más difícil ya que tendríamos que poder sacar el estado fuera del componente.
 
-¡Por fin tenemos un tablero Kanba que es útil!. Podemos crear carriles y notas nuevas, y también podemos editarlas y borrarlas. Además podemos movar las notas. ¡Objetivo cumplido!
+¡Por fin tenemos un tablero Kanban que es útil!. Podemos crear carriles y notas nuevas, y también podemos editarlas y borrarlas. Además podemos movar las notas. ¡Objetivo cumplido!
 
 ## Conclusión
 
@@ -715,4 +715,4 @@ En este capítulo has visto cómo implementar la funcionalidad de arrastrar y so
 
 Te animo a que hagas crecer la aplicación. La implementación actual debería servir de punto de entrada para hacer algo más grande. Más allá de la implementación de arrastrar y soltar, puedes tratar de añadir más datos al sistema. También puedes hacer algo con el aspecto gráfico. Una opción puede ser usar varias de las aproximaciones de aplicación de estilos que se discuten en el capítulo *Dando Estilo a React*.
 
-Para conseguir que sea difícil romper la aplicación durante el desarrollo, puedes implementar tests como se indica en *Testing React*. *Tipando con React* discute más modos auń de endurecer tu código. Aprender estas aproximaciones puede merecer la pena. A veces es realmente útil diseñar antes los tests de las aplicaciones, ya que es una aporximación valiosa que te permite documentar lo que vas asumiendo a medida que haces la implementación.
+Para conseguir que sea difícil romper la aplicación durante el desarrollo, puedes implementar tests como se indica en *Probando React*. *Tipando con React* discute más modos aún de endurecer tu código. Aprender estas aproximaciones puede merecer la pena. A veces es realmente útil diseñar antes los tests de las aplicaciones, ya que es una aporximación valiosa que te permite documentar lo que vas asumiendo a medida que haces la implementación.

@@ -1,6 +1,6 @@
 # Resolución de Problemas
 
-He tratado de recopilar algunos problemas comunes aquí. Este capítul crecerá a medida que se vayan encontrando más problemas comunes.
+He tratado de recopilar algunos problemas comunes aquí. Este capítulo crecerá a medida que se vayan encontrando más problemas comunes.
 
 ## `EPEERINVALID`
 
@@ -41,9 +41,7 @@ T> Ten en cuenta que las dependencias se tratan de forma diferente a partir de n
 
 ## Warning: setState(...): Cannot update during an existing state transition
 
-Puede que te salga esta advertencia mientras utilizas React.
-
-You might get this warning while using React. Es fácil que te salga si lanzas `setState()` dentro de métodos como `render()`. A veces puede ocurrir de forma indirecta. Una manera de provocar la advertencia es invocar un método en vez de enlazarlo. Por ejemplo: `<input onKeyPress={this.checkEnter()} />`. Si `this.checkEnter` utiliza `setState()`, este código fallará. En su lugar, deberías usar `<input onKeyPress={this.checkEnter} />`.
+Puede que te salga esta advertencia mientras utilizas React. Es fácil que te salga si lanzas `setState()` dentro de métodos como `render()`. A veces puede ocurrir de forma indirecta. Una manera de provocar la advertencia es invocar un método en vez de enlazarlo. Por ejemplo: `<input onKeyPress={this.checkEnter()} />`. Si `this.checkEnter` utiliza `setState()`, este código fallará. En su lugar, deberías usar `<input onKeyPress={this.checkEnter} />`.
 
 ## Warning: React attempted to reuse markup in a container but the checksum was invalid
 
@@ -61,7 +59,7 @@ ERROR in ./app/components/Demo.jsx
 Module parse failed: .../app/components/Demo.jsx Line 16: Unexpected token <
 ```
 
-Esto significa que hay algo que está impidiéndole a Webpack que interprete el fichero correctamente. Deberías comprobar la configuración del `loader` con cuidado. Asegúrate de que los cargadors correctos se aplican sobre los ficheros correctos. Si estás usando `include` deberías comprobar que el fichero que quieres cargar es alcanzable desde el `include`.
+Esto significa que hay algo que está impidiéndole a Webpack que interprete el fichero correctamente. Deberías comprobar la configuración del `loader` con cuidado. Asegúrate de que los cargadores correctos se aplican sobre los ficheros correctos. Si estás usando `include` deberías comprobar que el fichero que quieres cargar es alcanzable desde el `include`.
 
 ## El Proyecto Falla al Compilar
 

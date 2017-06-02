@@ -1,6 +1,6 @@
 # Editando los Carriles
 
-![Kanban board](images/kanban_05.png)
+![Tablero Kanban](images/kanban_05.png)
 
 Todavia tenemos mucho trabajo por hacer para conseguir que esto sea un Kanban real como el que se muestra ahí arriba. La aplicación todavía carece de algo de lógica y de estilo. Es en eso en lo que nos vamos a centrar ahora.
 
@@ -69,7 +69,7 @@ leanpub-end-insert
 })
 ```
 
-La interfaz deusuario debería tener el mismo aspecto tras este cambio. Todavía necesitamos implementar `LaneActions.update` para hacer que esto funcione.
+La interfaz de usuario debería tener el mismo aspecto tras este cambio. Todavía necesitamos implementar `LaneActions.update` para hacer que esto funcione.
 
 Igual que antes, tenemos que hacer cambios en dos sitios, en la definición de la acción y en `LaneStore`. Aquí tenemos la parte de la acción:
 
@@ -118,7 +118,7 @@ leanpub-end-insert
 
 Tras estos cambios deberías ser capaz de editar los nombres de los carriles. El borrado de carriles es una buena característica con la que seguir.
 
-## Implementando el Borrao de `Carril`
+## Implementando el Borrado de `Carril`
 
 El borrado de carriles en un problema parecido. Necesitamos poner más cosas en la interfaz de usuario, añadir una acción y asociarle lógica.
 
@@ -204,7 +204,7 @@ leanpub-end-insert
 
 Si todo ha ido correctamente ahora deberías ser capaz de borrar carriles enteros.
 
-La implementación actual tiene un problema. Aunque estamos borrando las referencias con los carriles, las notas todavía existen. Esto lo podemos arreglar de dos maneras: y creando una papelera donde ir dejando esta basura y borrarla cada cierto tiempo o podemos borrar las notas junto con el carril. Sin embargo, para el ámbito de esta aplicación vamos a dejarlo como está, es una mejora de lo que tendremos que ser conscientes.
+La implementación actual tiene un problema. Aunque estamos borrando las referencias con los carriles, las notas todavía existen. Esto lo podemos arreglar de dos maneras: creando una papelera donde ir dejando esta basura y borrarla cada cierto tiempo o podemos borrar las notas junto con el carril. Sin embargo, para el ámbito de esta aplicación vamos a dejarlo como está, es una mejora de lo que tendremos que ser conscientes.
 
 ## Dando Estilo al Tablero Kanban
 
@@ -295,12 +295,12 @@ leanpub-end-insert
 ...
 ```
 
-Deberías evr algo como esto:
+Deberías ver algo como esto:
 
-![Styled Kanban](images/kanban_styled.png)
+![Kanban con Estilo](images/kanban_styled.png)
 
-Podemos dejar el CSS en un sólo fichero ya que este es un proyecto pequeño. En caso de que comience a crecer, habrá que considerar el partirlo en varios ficheros. Una forma de hacer esto es extraer el CSS de cada componente y referenciarlo desde él (por ejemplo,  `require('./lane.css')` en `Lane.jsx`). Puedes incluso considerar el utilizar **CSS Modules** para hacer que las CSS funcionen en un ámbito local. Lee el capítulo *Dando Estilo a React* para más información.
+Podemos dejar el CSS en un sólo fichero ya que el nuestro es un proyecto pequeño. En caso de que comience a crecer, habrá que considerar el partirlo en varios ficheros. Una forma de hacer esto es extraer el CSS de cada componente y referenciarlo desde él (por ejemplo,  `require('./lane.css')` en `Lane.jsx`). Puedes incluso considerar el utilizar **Módulos CSS** para hacer que las CSS funcionen en un ámbito local. Lee el capítulo *Dando Estilo a React* para más información.
 
 ## Conclusión
 
-Aunque nuestra aplicación empieza a tener un buen aspecto y tiene una funcionalidad básica todavia carece de una característica vital: aún no podemos mover notas entre carriles. Esto es algo que solucionaremos en el próximo capítulo cuando implementemos el drag and drop.
+Aunque nuestra aplicación empieza a tener un buen aspecto y tiene una funcionalidad básica todavia carece de una característica vital: aún no podemos mover notas entre carriles. Esto es algo que solucionaremos en el próximo capítulo cuando implementemos el drag and drop (arrastrar y soltar).

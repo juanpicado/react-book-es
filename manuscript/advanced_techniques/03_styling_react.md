@@ -10,7 +10,7 @@ La aproximación a la vieja usanza consiste en dejar algunos *ids* y *classes* p
 
 ## Metodologías CSS
 
-¿Qué ocurre cuando tu aplicación comienza a crear y se añaden nuevos conceptos? Los selectores CSS son globales. El problema se vuelve incluso peor si tienes que lidiar con el orden el que se cargan. Si hay varios selectores iguales, la última declaración es la que gana, a menos que haya un `!important` en algún lugar. Se vuelve complejo muy rápidamente.
+¿Qué ocurre cuando tu aplicación comienza a crecer y se añaden nuevos conceptos? Los selectores CSS son globales. El problema se vuelve incluso peor si tienes que lidiar con el orden el que se cargan. Si hay varios selectores iguales, la última declaración es la que gana, a menos que haya un `!important` en algún lugar. Se vuelve complejo muy rápidamente.
 
 Podemos luchar contra este problema haciendo que los selectores sean más específicos, usando reglas de nombrado, etc. Esto simplemente retrasa lo inevitable. Ya que han sido muchas las personas que han combatido contra este problema durante mucho tiempo, algunas metodologías han emergido.
 
@@ -38,7 +38,7 @@ Las metodologías también traen sus propias particularidades (p.e. esquemas de 
 
 ## Procesadores CSS
 
-![CSS Processors](images/css.png)
+![Procesadores CSS](images/css.png)
 
 El CSS plano carece de ciertas funcionalidades que podrían hacer que el mantenimiento fuese más sencillo. Considera algo básico como variables, anidamientos, mixins, operaciones matemáticas o funciones relacionadas con colores. Estaría bien poder olvidar los prefijos específicos para cada navegador. Son pequeñas cosas con las que te encuentras pronto y que hacen que sea molesto generar CSS plano.
 
@@ -48,11 +48,11 @@ Lo interesante aquí es que puede que quieras utilizar varios procesadores de CS
 
 Puedes usar procesadores comunes como [Less](http://lesscss.org/), [Sass](http://sass-lang.com/), [Stylus](https://learnboost.github.io/stylus/), o [PostCSS](http://postcss.org/) con React.
 
-[cssnext](https://cssnext.github.io/) es un plugin de PostCSS que te permite experimentar el futuro ahira. Hay algunas restricciones , pero puede merecer la pena probarlo. La ventaja de PostCSS y cssnext es que estarás programando literalmente en el futuro, A medida que los navegadores mejoren y adopten los estándares no tendrás que preocuparte de hacer ports.
+[cssnext](https://cssnext.github.io/) es un plugin de PostCSS que te permite experimentar el futuro ahora. Hay algunas restricciones , pero puede merecer la pena probarlo. La ventaja de PostCSS y cssnext es que estarás programando literalmente en el futuro, A medida que los navegadores mejoren y adopten los estándares no tendrás que preocuparte de hacer migraciones.
 
 ### Pros y Contras
 
-Comparado con CSS plano, los procesadores dejan muchas cosa encima de la mesa. Lidian con ciertas molestias (p.e. el autoprefixing) a medida que mejoran tu productividad. PostCSS es más granular por definición y te permite utilizar únicamente las características que necesitas. Los procesadores, como Less o Sass, son muy útiles. Ambas aproximaciones pueden ser utilizadas juntas, de tal modo que puedes apoyarte en Sass y aplicar algunos plugins de PostCSS cuando sea necesario.
+Comparado con CSS plano, los procesadores dejan muchas cosa encima de la mesa. Lidian con ciertas molestias (p.e. el autoprefixing) a medida que mejoran tu productividad. PostCSS es más granular por definición y te permite utilizar únicamente las características que necesitas. Los procesadores como Less o Sass son muy útiles. Ambas aproximaciones pueden ser utilizadas juntas, de tal modo que puedes apoyarte en Sass y aplicar algunos plugins de PostCSS cuando sea necesario.
 
 En nuestro projecto podemos aprovecharnos de cssnext incluso si no hemos hecho cambios en nuestro CSS. Gracias al autoprefixing, las esquinas redondeadas de los carriles se verán mejor en navegadores antiguos. Es más, podemos parametrizar estos estilos gracias al uso de parámetros.
 
@@ -62,9 +62,9 @@ Existen algunas alternativas extra con React. ¿Qué ocurre si todo lo que habia
 
 Hay varias aproximaciones para React que nos permiten aplicar estilos a nivel de componente. Puede parecer un sacrilegio, pero React, rebelde como es, nos puede llevar allí.
 
-### Estilos Inline al Rescate
+### Estilos en Línea al Rescate
 
-Irónicamente, la forma en la que las soluciones que utilizan React resuelven el problema de los estilos es a través de estilos inline. Deshacerse de los estilos inline fue una de las principales razones para el uso de múltipls archivos CSS separados, pero ahora han vuelto. Esto significa que, en vez de tener algo como esto:
+Irónicamente, la forma en la que las soluciones que utilizan React resuelven el problema de los estilos es a través de estilos en línea. Deshacerse de los estilos en línea fue una de las principales razones para el uso de múltipls archivos CSS separados, pero ahora han vuelto. Esto significa que, en vez de tener algo como esto:
 
 ```javascript
 render(props, context) {
@@ -89,13 +89,13 @@ render(props, context) {
 }
 ```
 
-Como ocurre con los nombres de los atributos en HTML, usaremos la convención camelcase para las propiedades CSS.
+Como ocurre con los nombres de los atributos en HTML, usaremos la convención camel case para las propiedades CSS.
 
-Ahora que estamos aplicando estilos a nivel de componente, podemos implementar la lógica que modifica estos estilos fácilmente. Una forma clásica de hacer esto ha sido alterar los nombres de las clases basándonos en el aspecto que queremos tener. Ahora podemos ajustar las propiedades que queramos directamente.
+Ahora que estamos aplicando estilos a nivel de componente podemos implementar la lógica que modifica estos estilos fácilmente. Una forma clásica de hacer esto ha sido alterar los nombres de las clases basándonos en el aspecto que queremos tener. Ahora podemos ajustar las propiedades que queramos directamente.
 
 Sin embargo, hemos perdido algo por el camino. Ahora nuestros estilos están fuertemente ligados a nuestro código JavaScript. Va a ser difícil hacer cambios de mucha envergadura sobre nuestra base del código ya que vamos a tener que modificar un montón de componentes para ello.
 
-Podemos tratar de hacer algo par ello inyectando algunos estilos mediante props. Un estilo puede adaptar su propio estilo basado en uno que reciba. Esto se puede mejorar más adelante mediante convenciones que permitan que ciertas partes de la configuración de los estilos lleguen a ciertas partes específicas de los componentes. Es simplemente reinventar los selectores a una pequeña escala.
+Podemos tratar de hacer algo para ello inyectando algunos estilos mediante props. Un estilo puede adaptar su propio estilo basado en uno que reciba. Esto se puede mejorar más adelante mediante convenciones que permitan que ciertas partes de la configuración de los estilos lleguen a ciertas partes específicas de los componentes. Es simplemente reinventar los selectores a una pequeña escala.
 
 ¿Qué hacemos con cosas como los media queries?. Esta inocente aproximación no se encarga de ello. Afortunandamente hay gente que ha desarrollado librerías que solucionan estos problemas por nosotros.
 
@@ -258,9 +258,9 @@ Esta aproximación todavía está en fase inicial. Por ejemplo, no hay soporte p
 
 T> Al igual que con React Style, jsxstyle tieen un cargador de Webpack que puede extraer CSS en un fichero separado.
 
-## CSS Modules
+## Módulos CSS
 
-Como si no hubiera suficientes opciones de estilo para React, hay una más que merece la pena mencionar. [CSS Modules](https://github.com/css-modules/css-modules) parte de la premisa de que los estilos CSS deben ser locales por defecto. Los estilos globales deben ser tratadas como un caso especial. El post [The End of Global CSS](https://medium.com/seek-ui-engineering/the-end-of-global-css-90d2a4a06284) de Mark Dalgleish entra en más detalles sobre esto.
+Como si no hubiera suficientes opciones de estilo para React, hay una más que merece la pena mencionar. [Módulos CSS](https://github.com/css-modules/css-modules) parte de la premisa de que los estilos CSS deben ser locales por defecto. Los estilos globales deben ser tratadas como un caso especial. El post [The End of Global CSS](https://medium.com/seek-ui-engineering/the-end-of-global-css-90d2a4a06284) de Mark Dalgleish entra en más detalles sobre esto.
 
 De forma resumida, si se te hace difícil usar estilos globales, tienes que apañártelas para resolver el mayor problemas de las CSS. Esta aproximación te permite desarrollar CSS como hemos estado haciendo hasta ahora, solo que esta vez el ámbito se reduce a un contexto más seguro y localizado por defecto.
 
@@ -306,11 +306,11 @@ import styles from './style.css';
 <button className=`${styles.primaryButton}`>Confirm</button>
 ```
 
-Como puedes ver, esta aproximación trata de encontrar el equilibrio entre aquello que a la gente le resulta familiar con librerías específicas para React. Es por ello que no me sorprende que esta aproximacíon sea muy popular aunqque todavía sea reciente. Echa un ojo a [la demo de CSS Modules de Webpack](https://css-modules.github.io/webpack-demo/) para ver más ejemplos.
+Como puedes ver, esta aproximación trata de encontrar el equilibrio entre aquello que a la gente le resulta familiar con librerías específicas para React. Es por ello que no me sorprende que esta aproximación sea muy popular aunque todavía sea reciente. Echa un ojo a [la demo de CSS Modules de Webpack](https://css-modules.github.io/webpack-demo/) para ver más ejemplos.
 
-T> Puedes usar procesadores, como Sass, junto con CSS Modules, en caso de que busques tener más funcionalidad.
+T> Puedes usar procesadores, como Sass, junto con Módulos CSS, en caso de que busques tener más funcionalidad.
 
-T> [gajus/react-css-modules](https://github.com/gajus/react-css-modules) hace que sea más sencillo todavía usar CSS Modules con React. Con él, no tendrás que referencia al objeto `styles` nunca más, y no estás obligado a poner nombres usando camelCase.
+T> [gajus/react-css-modules](https://github.com/gajus/react-css-modules) hace que sea más sencillo todavía usar Módulos CSS con React. Con él, no tendrás que referencia al objeto `styles` nunca más, y no estás obligado a poner nombres usando camelCase.
 
 T> Glen Maddern discute este tema con mucho más detalle en si artículo llamado [CSS Modules - Bienvenidos al Futuro](http://glenmaddern.com/articles/css-modules).
 
@@ -320,6 +320,6 @@ Es fácil probar varias aproximaciones de estilos con React. Puedes hacerlo, yen
 
 Las aproximaciones te permiten dejar los estilos a nivel de componente. Esto nos ofrece un contraste interesante con respecto a las aproximaciones convencionales en las que las CSS se mantienen separadas. Lidiar con la lógica específica del componente se vuelve más sencillo. Puede que pierdas algo del poder que te dan las CSS, pero obtendrás algo más sencillo de entender que puede ser más difícil de romper.
 
-Los CSS Modules buscan un equilibrio entre un enfoque convencional y un enfoque específico para React. Incluso aún siendo un recién llegado parece tener mucho potencial. El mayor beneficio parece ser que no perderás mucho durante el proceso. Representa un paso adelante que ha sido comúnmente usado.
+Los Módulos CSS buscan un equilibrio entre un enfoque convencional y un enfoque específico para React. Incluso aún siendo un recién llegado parece tener mucho potencial. El mayor beneficio parece ser que no perderás mucho durante el proceso. Representa un paso adelante que ha sido comúnmente usado.
 
-Todavía no existen buenas prácticas, y todavía estamos tratando de encontrar la mejor manera de aplicar estilos con React. Tendrás que experimentar un poco por ti mismo para hacerte una idea de qué es lo que mejor encaja en tu caso particular.
+Todavía no existen buenas prácticas, y todavía estamos tratando de encontrar la mejor manera de aplicar estilos con React. Tendrás que experimentar un poco por tí mismo para hacerte una idea de qué es lo que mejor encaja en tu caso particular.

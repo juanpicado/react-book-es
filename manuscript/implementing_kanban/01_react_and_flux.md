@@ -1,6 +1,6 @@
 # React y Flux
 
-Puedes llegar bastante lejos guardándolo todo en componentes, lo cual una forma completamente válida de comenzar. El problema comenzará cuando añadas estado a tu aplicación y necesites compartirlo en distintos sitios. Por este motivo han sido varios los gestores de estado que han aparecido. Cada uno de ellos trata de resolver el problema a su manera.
+Puedes llegar bastante lejos guardándolo todo en componentes, lo cual es una forma completamente válida de comenzar. El problema comenzará cuando añadas estado a tu aplicación y necesites compartirlo en distintos sitios. Por este motivo han sido varios los gestores de estado que han aparecido. Cada uno de ellos trata de resolver el problema a su manera.
 
 La [arquitectura Flux de aplicaciones](https://facebook.github.io/flux/docs/overview.html) fué la primera solución al problema. Te permite modelar tu aplicación mediante el uso de **Acciones**, **Almacenes** y **Vistas**. También tiene una parte conocida como **Dispatcher** con la que gestionar acciones y permitirte modelar dependencias entre las distintas llamadas.
 
@@ -21,11 +21,11 @@ Mientras que Redux adopta el concepto de inmutabilidad a través de la idea de l
 
 Tanto Redux como MobX son valiosos a su manera. No hay una solución correcta cuando de la gestión de datos se trata. Estoy seguro de que aparecerán más alternativas a medida que pase el tiempo. Cada solución tiene sus propias ventajas e inconvenientes. Entendiendo las alternativas tendrás una mejor capacidad de seleccionar la solución que mejor encaje con lo que necesites llegado el momento.
 
-## ¿Qué Sistema de Gestión de Datos Debería Utilizar?
+## ¿Qué Sistema de Gestión de Estados Debería Utilizar?
 
-El mapa de gestores de datos está cambiando constantemente. En la actualidad [Redux](http://redux.js.org) es muy popular, pero hay buenas alternativas a la vista. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) muestra una comparativa entre algunos de los más populares.
+El mapa de gestores de estados está cambiando constantemente. En la actualidad [Redux](http://redux.js.org) es muy popular, pero hay buenas alternativas a la vista. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) muestra una comparativa entre algunos de los más populares.
 
-La elección de una librería está condicionada a tus propias preferencias personales. Tienes que tener en cuenta factores como API, funcionalidades, documentación y soporte. Comenzar con una de las alternativas más populares puede ser una buena idea. Podrás hacer elecciones que se ajusten más a lo que quieres a medida que vayas conociendo mejor la arquitectura.
+La elección de una librería está condicionada por tus propias preferencias personales. Tienes que tener en cuenta factores como API, funcionalidades, documentación y soporte. Comenzar con una de las alternativas más populares puede ser una buena idea. Podrás hacer elecciones que se ajusten más a lo que quieres a medida que vayas conociendo mejor la arquitectura.
 
 Para esta aplicación vamos a utilizar una implementación de Flux conocida con el nombre de [Alt](http://alt.js.org/). Su API está bien diseñado y es suficiente para nuestro propósito. Como extra, Alt ha sido diseñado teniendo en mente el renderizado isomórfico (renderiza de igual manera tanto en servidor como en cliente). Si conoces Flux tendrás un buen punto de partida con el que comprender mejor las alternativas.
 
@@ -33,7 +33,7 @@ El libro no cubre todas las soluciones alternativas en detalle todavía, pero di
 
 ## Introducción a Flux
 
-![Unidirectional Flux dataflow](images/flux_linear.png)
+![Flujo de Datos Unidirectional de Flux](images/flux_linear.png)
 
 De momento sólo hemos trabajado con vistas. La arquitectura Flux introduce un par de conceptos nuevos, los cuales son acciones, dispatchers y almacenes. Flux implementa un flujo unidireccional, al contrario que otros frameworks populares como Angular o Ember. Aunque los flujos bidireccionales puedan ser convenientes, éstos tienen un coste. Puede ser difícil saber qué está pasando y por qué.
 
@@ -51,7 +51,7 @@ El almacén detectará que el dispacher ha procesado una acción y se invocará.
 
 Esto completa el flujo de flujo unidireccional, aunque lineal, básico de Flux. Por regla general el proceso unidireccional tiene un flujo cíclico que no necesariamente termina. El siguiente diagrama ilustra un flujo más común. Es la misma idea de nuevo, pero incluye un ciclo de retorno. Para terminar, los componentes se actualizan a través de este proceso de bucle dependiendo de los datos de nuestro almacén.
 
-![Cyclical Flux dataflow](images/flux.png)
+![Flujo de Datos Cíclico de Flux](images/flux.png)
 
 Parece que se dan muchos pasos para conseguir algo tan simple como crear una nueva `Nota`. Esta aproximación, sin embargo, conlleva sus propios beneficios. Es muy fácil de trazar y de depurar puesto que el flujo siempre actúa en una única dirección. Si algo está mal, está en algún lugar del ciclo.
 
@@ -129,7 +129,7 @@ else {
 }
 ```
 
-También necesitaremos los ficheros a los cuales está apuntando el fichero index. La primera parte es sencilla. Aquí necesitamos apuntar a nuestra instancia de Alt, conectarlo con un componente cnmocido como `AltContainer` y renderizar nuestra aplicación con él. Es aquí donde `props.children` entran en juego. Es la misma idea de antes.
+También necesitaremos los ficheros a los cuales está apuntando el fichero index. La primera parte es sencilla. Aquí necesitamos apuntar a nuestra instancia de Alt, conectarlo con un componente conocido como `AltContainer` y renderizar nuestra aplicación con él. Es aquí donde `props.children` entran en juego. Es la misma idea de antes.
 
 `AltContainer` nos permitirá conectar los datos de nuestra aplicación a nivel de componente cuando implementemos `conectar`. Para ello, aquí tienes la implementación a nivel de producción:
 
@@ -256,7 +256,7 @@ export default connect(({lanes}) => ({lanes}), {
 
 En caso de que necesites aplicar varias funciones de alto nivel contra un componente, puedes utilizar una utilidad como `compose` y usarla con `compose(a, b)(App)`. Esto será igual a `a(b(App))` y se puede leer mejor.
 
-En los ejemplos mostrados `compose` es una función que devuelve una función. Por ello lo llamamos función de alto nivel. Al final obtendremos un componente de ella. Este envoltorio nos permite manejar todo lo relacionado con la conexión con los datos.
+En los ejemplos mostrados `compose` es una función que devuelve una función. Por ello lo llamamos Función de Alto Nivel. Al final obtendremos un componente de ella. Este envoltorio nos permite manejar todo lo relacionado con la conexión con los datos.
 
 Podemos utilizar una función de alto nivel para anotar nuestros componentes y darles además otras propiedades especiales. Veremos esta idea cuando implementemos la funcionalidad de arrastrar y soltar. Los decoradores brindan una forma sencilla de incluir estos tipos de anotaciones. El apéndice *Entendiendo los Decoradores* profundiza más en este asunto.
 
@@ -418,7 +418,7 @@ leanpub-end-insert
 
 Refresca el navegador para mostrar el texto. Deberías poder ver ahora el texto que hemos conectado con `App`.
 
-## Usando el dispatcher en Alt
+## Usando el Dispatcher en Alt
 
 Aunque hayamos llegado lejos sin utilizar el dispatcher de Flux, puede ser útil que sepamos algo sobre ello. Alt facilita dos formas de utilizarlo. Si quieres guardar una traza de todo lo que pase por la instancia de `alt` puedes utilizar un trozo de código como `alt.dispatcher.register(console.log.bind(console))`. También puedes lanzar `this.dispatcher.register(...)` en un constructor del almacén. Estos mecanismos te permitirán generar trazas de forma efectiva.
 

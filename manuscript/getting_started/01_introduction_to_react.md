@@ -12,17 +12,17 @@ React es una librería JavaScript que nos obliga a pensar en componentes. Esta f
 
 Han aparecido muchas soluciones ya que la mera **gestión del estado**, en sí, supone un problema complicado. En este libro comenzaremos gestionando el estado nosotros mismos y después nos moveremos a una implementación de Flux conocida como Alt. Hay más implementaciones disponibles para otras alternativas, como Redux, MobX y Cerebral.
 
-React es pragmático en el sentido de que tiene varias salidas de emergencia. Siempre es posible hacer algo a bajo nivel si el modelo de React no encaja contigo. Por ejemplo, hay puntos de enganche que pueden ser utilizados para envolver lógica antigua que dependa del DOM. Esto rompe con la abstracción y ata tu código a un entorno específico, pero a veces es la única cosa que puedes haceer.
+React es pragmático en el sentido de que tiene varias salidas de emergencia. Siempre es posible hacer algo a bajo nivel si el modelo de React no encaja contigo. Por ejemplo, hay puntos de enganche que pueden ser utilizados para envolver lógica antigua que dependa del DOM. Esto rompe con la abstracción y ata tu código a un entorno específico, pero a veces es la única cosa que puedes hacer.
 
 ## DOM Virtual
 
-![Virtual DOM](images/vdom.png)
+![DOM Virtual](images/vdom.png)
 
-Uno de los problemas principales de la programadción es cómo lidiar con el estado. Supón que estás desarrollando una interfaz de usuario y quieres mostrar los mismos datos en varios sitios. ¿Cómo puedes estar seguro de que los datos que estás mostrando son consistentes?
+Uno de los problemas principales de la programación es cómo lidiar con el estado. Supón que estás desarrollando una interfaz de usuario y quieres mostrar los mismos datos en varios sitios. ¿Cómo puedes estar seguro de que los datos que estás mostrando son consistentes?
 
-Tradicionalmente se ha mezclado tanto la gestión del DOM como la gestión del estado. React soluciona este problema de una manera diferente, ya que introduce el concepto de **DOM Virtual** para el público en general.
+Tradicionalmente se han mezclado tanto la gestión del DOM como la gestión del estado. React soluciona este problema de una manera diferente, ya que introduce el concepto de **DOM Virtual** para el público en general.
 
-El DOM Virtual se encuentra por encima del DOM del navegador, o de cualquier otro elemento que deba ser renderizado. Resuelve el problema de cómo manipular el estado de su propia manera. Sea cual sea el cambio que se ha hecho sobre él, se las apaña para encontrar y aplicar los cambios sobre el DOM subyacente. Es capaz de propagar los cambios sobre el árbol virtual tal y como se muestra en la imagen anterior.
+El DOM Virtual se encuentra por encima del DOM del navegador, o de cualquier otro elemento que deba ser renderizado. Resuelve el problema de cómo manipular el estado a su propia manera. Sea cual sea el cambio que se ha hecho sobre él, se las apaña para encontrar y aplicar los cambios sobre el DOM subyacente. Es capaz de propagar los cambios sobre el árbol virtual tal y como se muestra en la imagen anterior.
 
 ### El Rendimiento del DOM Virtual
 
@@ -94,7 +94,7 @@ const Names = () => {
     <div>
       <h2>Names</h2>
 
-      {/* This is a list of names */}
+      {/* Esto es una lista de nombres */}
       <ul className="names">{
         names.map(name =>
           <li className="name">{name}</li>

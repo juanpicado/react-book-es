@@ -8,8 +8,8 @@ Puedes acceder al capítulo completo comprando una copia a través de [Leanpub](
 
 * Técnicas básicas de testing, incluido test unitario, test de aceptación, test basado en propiedades, y test basado en mutaciones.
 * Los tests unitarios nos permiten *determinar* ciertas verdades.
-* Los tests de aceptación nos permiten probar sapectos cualitativos de nuestro sistema.
-* Los tests basados en propiedades (echa un vistazo a [QuickCheck](https://hackage.haskell.org/package/QuickCheck)) es más genérico y nos permite cubir un rango mayor de valores con más facilidad. Esos tests son más difíciles de probar.
+* Los tests de aceptación nos permiten probar aspectos cualitativos de nuestro sistema.
+* Los tests basados en propiedades (echa un vistazo a [QuickCheck](https://hackage.haskell.org/package/QuickCheck)) son más genéricos y nos permiten cubrir un mayor rango de valores con más facilidad. Esos tests son más difíciles de probar.
 * Los tests basados en mutaciones permiten probar los tests. Desafortunadamente, todavía no es una técnica particularmente popular en JavaScript.
 * La [aplicación](https://github.com/cesarandreu/web-app) de Cesar Andreu tiene una buena configuración de test (Mocha/Karma/Istanbul).
 * La cobertura del código nos permiten saber qué partes del código no están siendo probadas. Sin embargo, esto no nos da ninguna medida de la calidad de nuestros tests.

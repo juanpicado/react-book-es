@@ -72,7 +72,7 @@ En caso de que recibas un error asegúrate de que no tengas ningún otro proceso
 
 Si todo ha ido bien deberás ver algo como esto en el navegador:
 
-![Hello world](images/hello_01.png)
+![Salida del típico 'Hello world'](images/hello_01.png)
 
 Puedes probar a modificar el código fuente para ver cómo funciona la recarga en caliente.
 
@@ -80,7 +80,7 @@ Hablaré del esqueleto con más detalle más adelante para que sepas cómo funci
 
 T> Las técnicas utilizadas en el esqueleto están cubiertas con más detalle en [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/).
 
-## `scripts` de npm presentes en el Esqueleto
+## `scripts` de npm Presentes en el Esqueleto
 
 Nuestro esqueleto es capaz de generar una aplicación que puede ser desplegada en producción. Hay una meta relacionada con el proceso de despliegue con la que podrás mostrar tu proyecto a otras personas mediante [GitHub Pages](https://pages.github.com/). A continuación tienes una lista con todos los `scripts`:
 
@@ -88,7 +88,7 @@ Nuestro esqueleto es capaz de generar una aplicación que puede ser desplegada e
 * `npm run build` - Produce una compilación lista para producción en `build/`. Puedes abrir el fichero *index.html* en el navegador para ver el resultado.
 * `npm run deploy` - Despliega el contenido de `build/` en la rama *gh-pages* de tu proyecto y lo sube a GitHub. Podrás acceder al proyecto a través de la URL `<usuario>.github.io/<proyecto>`. Para que funcione correctamente deberás configurar la variable `publicPath` del fichero *webpack.config.js* para que encaje con el nombre de tu proyecto en GitHub.
 * `npm run stats` - Genera estadísticas (*stats.json*) sobre el proyecto. Puedes [analizar los resultados](http://survivejs.com/webpack/building-with-webpack/analyzing-build-statistics/) más adelante.
-* `npm run test` (o `npm test`) - Ejecuta los tests del proyecto. El capítulo *Testing React* entra más adelante en este asunto. De hecho, una buena manera de aprender mejor cómo funciona React es escribir tests que prueben tus componentes.
+* `npm run test` (o `npm test`) - Ejecuta los tests del proyecto. El capítulo *Probando React* entra más adelante en este asunto. De hecho, una buena manera de aprender mejor cómo funciona React es escribir tests que prueben tus componentes.
 * `npm run test:tdd` - Ejecuta los tests del proyecto en modo TDD, lo que significa que se quedará a la espera de cambios en los ficheros y lanzará los tests cuando se detecten cambios, lo que te permititá ir más deprisa ya que te evitará tener que lanzar los tests manualmente.
 * `npm run test:lint` - Ejecuta [ESLint](http://eslint.org/) contra el código. ESLint es capaz de capturar pequeños problemas. Puedes configurar tu entorno de desarrollo para que lo utilice y te permitirá capturar errores potenciales a medida que los cometas.
 
@@ -110,11 +110,11 @@ Babel da soporte a algunas [características experimentales](https://babeljs.io/
 
 Yo tendría mucho cuidado con las características de la **etapa 0**. El problema es que acabará rompiendo código que habrá que reescribir en caso de ésta cambie o sea borrada. Quizá en pequeños problemas experimentales merezca la pena correr el riesgo.
 
-Además del ES2015 estándar y de JSX, vamos a utilizar algunas características extra en este proyecto. Las he listado a continuación. Echa un vistazo al apéndice *Características del Lenguaje* para saber más sobre ellas.
+Aparte de ES2015 estándar y de JSX, vamos a utilizar algunas características extra en este proyecto. Las he listado a continuación. Echa un vistazo al apéndice *Características del Lenguaje* para saber más sobre ellas.
 
 * [Inicializadores de propiedades](https://github.com/jeffmo/es-class-static-properties-and-fields) - Ejemplo: `addNote = (e) => {`. Esto relaciona al método `addNote` automáticamente a una instancia. Esta característica tendrá más sentido a medida que la vayamos utilizando.
 * [Decoradores](https://github.com/wycats/javascript-decorators) - Ejemplo: `@DragDropContext(HTML5Backend)`. Estas anotaciones nos permitirán incluir funcionalidad a clases y a sus métodos.
-* [rest/spread de Objetos](https://github.com/sebmarkbage/ecmascript-rest-spread) - Ejemplo: `const {a, b, ...props} = this.props`. Esta sintaxis nos permite recuperar fácilmente propiedades específicas de un objeto.
+* [rest/spread de Objetos](https://github.com/sebmarkbage/ecmascript-rest-spread) - Ejemplo: `const {a, b, ...props} = this.props`. Esta sintáxis nos permite recuperar fácilmente propiedades específicas de un objeto.
 
 He creado un [preset](https://github.com/survivejs/babel-preset-survivejs-kanban) para que sea más sencillo configurar estas características. Contiene los plugins [babel-plugin-transform-object-assign](https://www.npmjs.com/package/babel-plugin-transform-object-assign) y [babel-plugin-array-includes](https://www.npmjs.com/package/babel-plugin-array-includes). El primero nos permite usar `Object.assign` mientras que el último incluye `Array.includes` sin que tengamos que preocuparnos de compatibilidades con entornos antiguos.
 

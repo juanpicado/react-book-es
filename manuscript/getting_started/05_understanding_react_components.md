@@ -4,7 +4,7 @@ Hasta donde hemos visto, los componentes de React son muy sencillos: Tienen un `
 
 ## Métodos del Ciclo de Vida
 
-![Lifecycle methods](images/lifecycle.png)
+![Métodos del ciclo de vida](images/lifecycle.png)
 
 En la imagen superior puedes ver que cada componente de React tiene tres fases durante su ciclo de vida. Puede estar **montándose**, **montado** o **desmontado**. Cada una de esas tres fases tiene una serie de métodos relacionados.
 
@@ -16,7 +16,7 @@ Durante la fase de montaje puedes acceder a los siguientes:
 Una vez que un componente ha sido montado y está en funcionamiento puedes manipularlo con los siguientes métodos:
 
 * `componentWillReceiveProps(object nextProps)` se ejecuta cuando el componente recibe propiedades nuevas. Puedes usarlo, por ejemplo, para modificar el estado de tu componente según estas propiedades que has recibido.
-* `shouldComponentUpdate(object nextProps, object nextState)` te permite optimizar el renderizado, ya que devuelve `false` si detecta que no hay ningún cambio que aplicar tras comprobar las propiedades y en estado. Es aquí donde [Immutable.js](https://facebook.github.io/immutable-js/) y otras librerías similares te serán muy útiles a la hora de comprobar equidades. [La documentación oficial](https://facebook.github.io/react/docs/optimizing-performance.html#shouldcomponentupdate-in-action) entra en más detalles.
+* `shouldComponentUpdate(object nextProps, object nextState)` te permite optimizar el renderizado, ya que devuelve `false` si detecta que no hay ningún cambio que aplicar tras comprobar las propiedades y el estado. Es aquí donde [Immutable.js](https://facebook.github.io/immutable-js/) y otras librerías similares te serán muy útiles a la hora de comprobar equidades. [La documentación oficial](https://facebook.github.io/react/docs/optimizing-performance.html#shouldcomponentupdate-in-action) entra en más detalles.
 * `componentWillUpdate(object nextProps, object nextState)` se ejecuta tras `shouldComponentUpdate` y antes de `render()`. No es posible utilizar `setState` aquí pero puedes, por ejemplo, cambiar propiedades de los estilos.
 * `componentDidUpdate(object nextProps, object nextState)` se ejecuta tras el renderizado. En este punto puedes modificar el DOM. Puede ser útil para hacer que otro código funcione con React.
 
@@ -103,8 +103,8 @@ Puedes obligarte a utilizar una convención utilizando un linter (un analizador 
 
 Si configuras un sistema de integración contínua podrás realizar pruebas contra muchas plataformas y detectar errores de regresión pronto. Esto es especialmente importante si estás utilizando rangos de versiones no muy definidos, ya que a veces la gestioń de dependencias pueden acarrear problemas y es bueno detectarlos.
 
-## Conclusion
+## Conclusión
 
 No sólo la definición de componentes de React es muy sencilla, sino que además es pragmática. Las partes más avanzadas pueden llevar tiempo hasta que se llegan a dominar, pero es bueno saber que están allí.
 
-En el próximo capítulo continuaremos con la implementación que permitirña a los usuarios editar sus notas individualmente.
+En el próximo capítulo continuaremos con la implementación que permitirá a los usuarios editar sus notas individualmente.

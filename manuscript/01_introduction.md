@@ -2,23 +2,23 @@
 
 El desarrollo del frontend se mueve muy deprisa. Una buena señal de ello es el ritmo en el que están surgiendo nuevas tecnologías. [React](https://facebook.github.io/react/) es uno de los recién llegados. Incluso cuando la tecnología en sí es sencilla, hay mucho movimiento en torno a ella.
 
-El objetivo de este libro es ayudarte a comenzar con React y darte perspectiva del ecosistema que hay en torno a él para que sepas por dónde mirar.
+El objetivo de este libro es ayudarte a comenzar con React y darte una perspectiva del ecosistema que hay en torno a él para que sepas por dónde mirar.
 
 Nuestro desarrollo va a utilizar Webpack. Hay [un libro aparte](http://survivejs.com/webpack/introduction/) que bucea en él, pero no espero que conozcas Webpack para poder utiliza este libro.
 
 ## ¿Qué es React?
 
-React de Facebook, una librería JavaScript, es un componente basado en la abstración de las vistas. Un componente puede ser un formulario de entrada, un botón, o cualquier otra cosa del interfaz de usuario. Esto proporciona un contraste interesante con respecto a enfoques anteriores ya que, por diseño, React no está vinculado al árbol DOM. Puedes utilizarlo por ejemplo para desarrollar aplicaciones móviles.
+React es una librería JavaScript, creada por Facebook, que basa su funcionamiento en la abstración de las vistas mediante el uso de componentes. Un componente puede ser un formulario de entrada, un botón, o cualquier otra cosa del interfaz de usuario. Esto nos proporciona un interesante contraste con respecto a enfoques anteriores ya que, por diseño, React no está vinculado al árbol DOM. Puedes utilizarlo por ejemplo para desarrollar aplicaciones móviles.
 
 ### React es sólo una Parte del Todo
 
-Tendrás que complementarlo con otras librerías que te den aquello que te falte, ya que React se centra únicamente en la vista. Esto brinda un contraste interesante con respecto a utilizar frameworks que traen mucho más de serie. Ambos enfoques tienen sus méritos. En este libro nos centraremos en el uso de librerías.
+Para usarlo tendrás que complementarlo con otras librerías que te den aquello que te falte, ya que React se centra únicamente en la vista. Esto brinda un contraste con respecto a utilizar frameworks que traen mucho más de serie. Ambos enfoques tienen sus méritos. En este libro nos centraremos en el uso de librerías.
 
 Las ideas presentadas por React han tenido su influencia el desarrollo de frameworks, aunque más importante es que nos ha ayudado a entender cómo de bien encaja el pensar en componentes en el desarrollo de aplicaciones web.
 
 ## ¿Qué Vas a Aprender?
 
-![Kanban application](images/kanban_05.png)
+![Aplicación Kanban](images/kanban_05.png)
 
 Este libro te enseña a crear una aplicación de tipo [Kanban](https://en.wikipedia.org/wiki/Kanban). Más allá de esto, debatiremos acerca de aspectos de desarrollo web más teóricos. Completar el proyecto te dará una buena idea de cómo implementar algo por tí mismo. Durante el proceso aprenderás por qué ciertas librerías son útiles y serás capaz de justificar mejor la elección de tus tecnologías.
 
@@ -34,7 +34,7 @@ Los apéndices del final sirven para darte cosas en las que pensar y explicar co
 
 ## ¿Qué es Kanban?
 
-![Kanban by Dennis Hamilton (CC BY)](images/kanban_intro.jpg)
+![Kanban por Dennis Hamilton (CC BY)](images/kanban_intro.jpg)
 
 Kanban, desarrollado originalmente por Toyota, te permite seguir el estado de las tareas. Puede ser modelado en conceptos como `Carriles` y `Notas`. Las `Notas` se mueven entre `Carriles` que representan etapas que van de izquierda a derecha hasta que se completan. Las `Notas` pueden contener información sobre ellas mismas, su prioridad y toda aquello que sea necesario.
 
@@ -42,13 +42,13 @@ Este sistema puede ser extendido de varias formas. Una manera sencilla consiste 
 
 ### ¿Dónde Podemos Usar Kanban?
 
-Este sistema puede utilizarse en varios escenario, incluyendo el desarrollo del software y la gestión eficaz del tiempo. Puedes utilizarlo para hacer un seguimiento sobre tus proyectos personales o tus metas en la vida, por ejemplo. Aunque sea una herramienta muy sencilla es muy poderosa y puedes encontrarle un uso en muchos escenarios.
+Este sistema puede utilizarse en varios escenarios, incluyendo el desarrollo del software y la gestión eficaz del tiempo. Puedes utilizarlo para hacer un seguimiento sobre tus proyectos personales o tus metas en la vida, por ejemplo. Aunque sea una herramienta muy sencilla es muy poderosa y puedes encontrarle un uso práctico en muchos escenarios.
 
 ### ¿Cómo Construir un Kanban?
 
 La forma más sencilla de construir un Kanban es conseguir un paquete de Post-its y encontrar una pared. Tras esto, la divides en columnas. Estos `Carriles` pueden ser las siguientes etapas: Por Hacer, Haciendo, Hecho. Todas las `Notas`, inicialmente, irán en Por Hacer. A medida que trabajes en ellas las irás moviendo a Haciendo y, finalmente, a Hecho una vez se hayan terminado. Esta es la forma más sencilla de comenzar.
 
-Pero este es símplemente un ejemplo de cómo configurar los carriles, ya que éstos pueden configurarle para encajar con el proceso que quieras seguir. Por ejemplo, puedes incluir pasos que requieran aprobación. Si estás modelando un proceso de desarrollo de software puedes tener, por ejemplo, carriles separados para la realizacion de pruebas y el despliegue.
+Pero este es símplemente un ejemplo de cómo configurar los carriles, ya que éstos pueden definirse para encajar con el proceso que quieras seguir. Por ejemplo, puedes incluir pasos que requieran aprobación. Si estás modelando un proceso de desarrollo de software puedes tener, por ejemplo, carriles separados para la realizacion de pruebas y el despliegue.
 
 ### Implementaciones de Kanban Disponibles
 
@@ -70,7 +70,7 @@ Este libro no cubre todo lo que necesitas saber para desarrollar aplicaciones fr
 
 Dado que el libro se basa en varias características nuevas del lenguaje, he reunido las más importantes en un apéndice aparte llamado *Características del Lenguaje* que te ofrece un rápido resumen a todas ellas. Es un buen lugar que revisar si quieres entender algunas de estas características por separado o no estás seguro de algo.
 
-## Versionado del libro
+## Versionado del Libro
 
 Se ha definido un esquema de versionado severo dado que este libro recibe mucho mantenimiento y mejoras debido al ritmo de innovación. Mantengo las notas de cada liberación en el [blog del libro](http://survivejs.com/blog/) para indicar qué ha cambiado entre cada versión. Otra cosa beneficiosa es examinar el repositorio de GitHub, recomiendo utilizar la comparación de GitHub con este fin, por ejemplo:
 
@@ -86,7 +86,7 @@ La versión actual del libro es la **2.5.7**.
 
 El contenido del libro y el código fuente están disponibles en el [repositorio del libro de GitHub](https://github.com/survivejs/react). Por favor, sé consciente de que la rama por defecto es `dev` y que esto facilita que sea posible contribuir. Puedes utilizar el selector de etiquetas de GitHub para encontrar el fuente que encaje con la versión del libro que estás leyendo, tal y como se muestra a continuación:
 
-![GitHub tag selector](images/github.png)
+![selector de etiquetas de GitHub](images/github.png)
 
 El repositorio del libro contiene el código de cada capítulo. Esto significa que puedes comenzar desde cualquier punto sin tener que escribirlo todo por tí mismo. Si no estás seguro de algo, siempre puedes usarlo como referencia.
 

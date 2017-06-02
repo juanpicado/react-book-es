@@ -1,6 +1,6 @@
 # Borrado de `Notas`
 
-Una forma sencilla de permitir el borrado de notas consiste en mostrar un botón con una "x" en cada `Nota`. Cuando este botón sea pulsado, simplemente deberemos borrar la nota en cuestión de la estructura de datos. Tal y como hicimos antes podemos comenzar añadiendo borradores, este puede ser un buen lugar en el que separar el concepto de `Nota` del componente `Notas`.
+Una forma sencilla de permitir el borrado de notas consiste en mostrar un botón con una "x" en cada `Nota`. Cuando este botón sea pulsado, simplemente deberemos borrar la nota en cuestión de la estructura de datos. Tal y como hicimos antes podemos comenzar añadiendo borradores, éste puede ser un buen lugar en el que separar el concepto de `Nota` del componente `Notas`.
 
 A menudo trabajarás de esta forma con React. Generarás componentes de los que más adelante te darás cuenta que están compuestos por otros componentes que pueden ser extraidos. Este proceso de separación es fácil, y a veces puede incluso incrementar el rendimiento de tu aplicación puesto que la estás optimizando al renderizar partes más pequeñas.
 
@@ -74,15 +74,15 @@ leanpub-end-insert
 
 Deberias ver una pequeña "x" después de cada nota:
 
-![Notes with delete controls](images/react_06.png)
+![Notas con controles de borrado](images/react_06.png)
 
 Todavía no harán nada, arreglarlo es el siguiente paso.
 
 ## Comunicar el Borrado a `App`
 
-Ahora que tenemos los controles que necesitamos podemos comenzar a pensar en cómo conectarlos con los datos de `App`. Para poder borrar una `Nota` necesitamos conocer su id. Tras ello podremos implementar la lógica que se encarga de borrarlas en `App`. Para que te hagas una idea, queremos encontranos en una situación como la siguiente:
+Ahora que tenemos los controles que necesitamos podemos comenzar a pensar en cómo conectarlos con los datos de `App`. Para poder borrar una `Nota` necesitamos conocer su id. Tras ello podremos implementar la lógica que se encarga de borrarlas en `App`. Para que te hagas una idea, queremos encontrarnos en una situación como la siguiente:
 
-![`onDelete` flow](images/bind.png)
+![flujo de `onDelete`](images/bind.png)
 
 T> La `e` representa un evento DOM al que deberias acostumbrarte. Podemos hacer cosas como parar la propagación de eventos con él. Esto se volverá más útil a medida que queramos tener más control sobre el comportamiento de la aplicación.
 
@@ -168,4 +168,4 @@ Deberías poder borrar notas una vez hayas refrescado el navegador. Anticipándo
 
 Trabajar con React a menudo es esto: identificar los componentes y flujos en base a tus necesidades. Aquí hemos necesitado modelar una `Nota` y hemos diseñado un flujo que nos permite tener el control sobre ella en el lugar correcto.
 
-Todavía nos falta implementar una funcionalidad con la que terminar la primera parte del Kanban. La edición es la funcionalidad más difícil de todas. Una forma de implementarla es mediante un *editor inline*. Implementar un componente adecuado ahora nos ayudará a ahorrar tiempo cuando tengamos que editar algo más. Antes de continuar con la implementación vamos a echar un vistazo más en detalle a los componentes de React para entender mejor qué tipo de funcionalidad nos pueden dar.
+Todavía nos falta implementar una funcionalidad con la que terminar la primera parte del Kanban. La edición es la funcionalidad más difícil de todas. Una forma de implementarla es mediante un *editor en línea*. Implementar un componente adecuado ahora nos ayudará a ahorrar tiempo cuando tengamos que editar algo más. Antes de continuar con la implementación vamos a echar un vistazo más en detalle a los componentes de React para entender mejor qué tipo de funcionalidad nos pueden dar.

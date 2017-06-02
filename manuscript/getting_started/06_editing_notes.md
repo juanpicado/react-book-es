@@ -8,7 +8,7 @@ Una forma de conseguirlo es mediante la implementación de algo llamado **edici�
 
 ## Implementación de `Editable`
 
-Vamos a contener este comportamiento dentro de un componente conocido como `Editable` con el fin de mantener la aplicación limpia. El componente nos dará un API como el siguiente:
+Vamos a mantener este comportamiento dentro de un componente conocido como `Editable` con el fin de mantener la aplicación limpia. El componente nos dará un API como el siguiente:
 
 ```javascript
 <Editable
@@ -166,7 +166,7 @@ leanpub-end-insert
 
 Si todo fue bien deberias ver algo como sigue:
 
-![Connected `Editable`](images/react_06.png)
+![`Editable` conectado](images/react_06.png)
 
 ## Haciendo un Seguimiento del Estado `editing` de `Nota`
 
@@ -237,16 +237,16 @@ leanpub-end-insert
 
 Si tratas de editar una `Nota` ahora verás algo como lo siguiente:
 
-![Tracking `editing` state](images/react_07.png)
+![Seguimiento del estado `editing`](images/react_07.png)
 
-Si pulsas en `Note` dos veces para confirmar la edición verás un error llamado `Uncaught Invariant Violation` en la consola del navegador. Este ocurre porque todavía no hemos terminado de gestionar `task` correctamente. Esto es algo que deberemos arreglar a continuación.
+Si pulsas en `Nota` dos veces para confirmar la edición verás un error llamado `Uncaught Invariant Violation` en la consola del navegador. Este ocurre porque todavía no hemos terminado de gestionar `task` correctamente. Esto es algo que deberemos arreglar a continuación.
 
 
 T> Si usamos una estructura de datos normalizada (por ejemplo, `{<id>: {id: <id>, task: <str>}}`), es posible implementar las operaciones con `Object.assign` y evitar la mutación.
 
 T> Para tener el código más limpio puedes extraer un método que contenga la lógica compartida por `activateNoteEdit` y por `editNote`.
 
-## Implmentación de `Edit`
+## Implementación de `Edit`
 
 Nos falta algo que haga que esto funcione. Incluso aunque ahora podemos gestionar el estado de `editing` de cada `Nota`, todavía no podemos editarlas. Para ello necesitamos expandir `Edit` y hacer que muestre una caja de texto.
 
@@ -311,7 +311,7 @@ leanpub-end-insert
 
 Si refrescas y editas una nota deberías ver lo siguiente:
 
-![Editing a `Note`](images/react_08.png)
+![Editando una `Nota`](images/react_08.png)
 
 ## Sobre los Componentes y el Espacio de Nombres
 
@@ -350,6 +350,6 @@ Puedes utilizar una aproximación similar para definir otros componentes más ge
 
 ## Conclusión
 
-Nos ha llevado algunos pasos, pero ya podemos editar notas. Lo mejor de todo es que `Editable` debería ser útil en cualquier lugar donde necesitemos editar alguna propiedad. Podríamos haber extraído la lógica más adelante si hubiésemos visto duplicación, pero esta también es una forma de hacerlo.
+Nos ha llevado algunos pasos, pero ya podemos editar notas. Lo mejor de todo es que `Editable` debería ser útil en cualquier lugar donde necesitemos editar alguna propiedad. Podríamos haber extraído la lógica más adelante si hubiésemos visto duplicidad, pero ésta también es una forma de hacerlo.
 
 Aunque la aplicación hace lo que se espera de ella todavía es bastante fea. Haremos algo al respecto en el próximo capítulo a medida que le vayamos añadiendo estilos básicos.

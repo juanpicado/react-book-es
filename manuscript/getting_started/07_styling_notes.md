@@ -1,6 +1,6 @@
 # Dando Estilo a la Aplicación de Notas
 
-Estéticamente hablando, nuestra aplicación se encuentra en un estado bastante precario. Algo tendremos que hacer, ya que las aplicaciónes más divertidas de utilizar son aquellas que son visualmente más atractivas. En nuestro caso vamos a utilizar un estilo Old Skool.
+Estéticamente hablando, nuestra aplicación se encuentra en un estado bastante precario. Algo tendremos que hacer, ya que las aplicaciónes más divertidas de utilizar son aquellas que son visualmente más atractivas. En nuestro caso vamos a utilizar un estilo a la vieja usanza.
 
 Para ello esparciremos algunas clases CSS y aplicaremos estilo en base a los selectores. El capítulo *Dando estilo a React* discute otras aproximaciones con mayor detalle.
 
@@ -57,7 +57,7 @@ leanpub-start-insert
 leanpub-end-insert
 ```
 
-Una forma más general de gestionar esto es mediante el usocomponente `Botón` al cual se le da estilo. Esto nos permitirá tener botones con estilo en toda la aplicación.
+Una forma más general de gestionar esto podría ser crear un nuevo componente `Botón` y darle estilo. Esto nos permitirá tener botones con estilo en toda la aplicación.
 
 ## Aplicando estilos sobre `Notas`
 
@@ -244,11 +244,11 @@ leanpub-end-insert
 
 Si todo ha ido bien tu aplicación debería tener el siguiente aspecto:
 
-![Styled Notes Application](images/style_01.png)
+![La aplicación de Notas con estilo](images/style_01.png)
 
 ## Conclusión
 
-Esta no es más que una forma de aplicar estilos sobre una aplicación de React. Delegar en clases como hemos hecho hasta ahora puede acarrear problemas a medida que la aplicación crezca. Este es el motivo por el cual hay alternativas con las que poder aplicar estilos a la vez que se resuelve este problema en particular. El capítulo *Dando estilo a React* muestra muchas de esas técnicas.
+Esta no es más que una forma de aplicar estilos sobre una aplicación de React. Delegar en clases como hemos hecho hasta ahora puede acarrear problemas a medida que la aplicación crezca. Éste es el motivo por el cual hay alternativas con las que poder aplicar estilos a la vez que se resuelve este problema en particular. El capítulo *Dando estilo a React* muestra muchas de esas técnicas.
 
 Puede ser una buena idea probar un par de alternativas con el objetivo de encontrar alguna con la que te encuentes cómodo. Particularmente creo que los **Módulos CSS** prometen ser capaces de resolver el problema fundamental de CSS - el problema de que el ámbito de todo es global. Esta técnica te permite aplicar estilos para cada componente de forma local.
 
