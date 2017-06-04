@@ -1,5 +1,5 @@
 {
-  "name": "survivejs-react",
+  "name": "survivejs-react-es",
   "private": true,
   "version": "2.5.7",
   "description": "SurviveJS - React",
@@ -17,11 +17,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/survivejs/react.git"
+    "url": "https://github.com/survivejs-translations/react-book-es.git"
   },
-  "homepage": "https://survivejs.com",
+  "homepage": "https://es.survivejs.com",
   "bugs": {
-    "url": "https://github.com/survivejs/react/issues"
+    "url": "https://github.com/survivejs-translations/react-book-es/issues"
   },
   "keywords": [
     "javascript",
